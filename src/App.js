@@ -13,13 +13,13 @@ function AppRouter() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/nominate/">Nominate</Link>
+              <Link to="/otherpage/">Other Page</Link>
             </li>
           </ul>
         </nav>
 
         <Route path="/" exact component={Home} />
-        <Route path="/nominate/" component={Nominate} />
+        <Route path="/otherpage/" component={Nominate} />
       </div>
     </Router>
   );
