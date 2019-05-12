@@ -10,9 +10,6 @@
 # testing
 /client/src/coverage
 
-# production
-/server/build
-
 # misc
 .DS_Store
 .env.local
