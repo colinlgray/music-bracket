@@ -1,10 +1,17 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
 
-export function Nominate() {
+function Nominate() {
   return (
-    <div style={{ padding: "16px" }}>
-      <h2>Other Page</h2>
-      <div>Calm down there is nothing here yet</div>
-    </div>
+    <>
+      <Typography component="h3" variant="h3" color="inherit" gutterBottom>
+        Other Page
+      </Typography>
+      <Typography variant="h5" color="inherit" paragraph>
+        Calm down. There is nothing here yet. I said I'm getting it together,
+        not that it is actually together.
+      </Typography>
+    </>
   );
 }
+export default Nominate;

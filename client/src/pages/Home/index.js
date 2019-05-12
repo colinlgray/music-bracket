@@ -1,13 +1,17 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
 
-export function Home() {
+function Home() {
   return (
-    <div style={{ padding: "16px" }}>
-      <h2>Welcome</h2>
-      <div>
+    <>
+      <Typography component="h3" variant="h3" color="inherit" gutterBottom>
+        Welcome
+      </Typography>
+      <Typography variant="h5" color="inherit" paragraph>
         What's that? Sorry I couldn't hear you over the sound of me getting my
         life together.
-      </div>
-    </div>
+      </Typography>
+    </>
   );
 }
+export default Home;
