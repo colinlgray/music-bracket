@@ -9,7 +9,7 @@ function Home() {
       </Typography>
       <Typography variant="h5" color="inherit" paragraph>
         What's that? Sorry I couldn't hear you over the sound of me getting my
-        life together.
+        life together
       </Typography>
     </>
   );

@@ -9,7 +9,7 @@ function Nominate() {
       </Typography>
       <Typography variant="h5" color="inherit" paragraph>
         Calm down. There is nothing here yet. I said I'm getting it together,
-        not that it is actually together.
+        not that it is actually together
       </Typography>
     </>
   );
