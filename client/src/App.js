@@ -101,6 +101,9 @@ const styles = theme => ({
     "&:hover": {
       cursor: "pointer"
     }
+  },
+  notifications: {
+    display: "none"
   }
 });
 
@@ -159,7 +162,7 @@ class App extends React.Component {
                 <Badge
                   badgeContent={0}
                   color="secondary"
-                  style={{ display: "none" }}
+                  className={classes.notifications}
                 >
                   <NotificationsIcon />
                 </Badge>
