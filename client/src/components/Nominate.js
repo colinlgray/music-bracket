@@ -5,11 +5,10 @@ function Nominate() {
   return (
     <>
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-        Other Page
+        Nominate
       </Typography>
-      <Typography variant="h5" color="inherit" paragraph>
-        Calm down. There is nothing here yet. I said I'm getting it together,
-        not that it is actually together
+      <Typography component="p">
+        Please nominate a song for the song of the summer:
       </Typography>
     </>
   );

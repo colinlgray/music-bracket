@@ -1,82 +1,203 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import Nominate from "./pages/Nominate";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import "./App.module.css";
+import Drawer from "@material-ui/core/Drawer";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import { mainListItems } from "./components/ListItems";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Nominate from "./components/Nominate";
+import Nominations from "./components/Nominations";
 
-const sections = [
-  { name: "Home", path: "/" },
-  { name: "Other Page", path: "otherpage" }
-];
+const drawerWidth = 240;
 
 const styles = theme => ({
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      width: 1100,
-      marginLeft: "auto",
-      marginRight: "auto"
+  root: {
+    display: "flex"
+  },
+  toolbar: {
+    paddingRight: 24 // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36
+  },
+  menuButtonHidden: {
+    display: "none"
+  },
+  title: {
+    flexGrow: 1
+  },
+  drawerPaper: {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerPaperClose: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing.unit * 9
     }
   },
-  toolbarMain: {
-    borderBottom: `1px solid ${theme.palette.grey[300]}`
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    height: "100vh",
+    overflow: "auto"
   },
-  toolbarTitle: {
-    flex: 1
+  bodyText: {
+    marginBottom: "24px"
   },
-  toolbarSecondary: {
-    justifyContent: "space-between"
+  tableContainer: {
+    height: 320
   },
-  mainFeaturedPost: {
-    backgroundColor: theme.palette.grey[800],
-    color: theme.palette.common.white,
-    marginBottom: theme.spacing.unit * 4
+  h5: {
+    marginBottom: theme.spacing.unit * 2
   },
-  mainContent: {
-    padding: `${theme.spacing.unit * 6}px`,
-    [theme.breakpoints.up("md")]: {
-      paddingRight: 0
+  navList: {
+    "&:hover": {
+      cursor: "pointer"
     }
   }
 });
 
-function AppRouter(props) {
-  const { classes } = props;
-  return (
-    <Router>
-      <CssBaseline />
-      <div className={classes.layout}>
-        <Toolbar variant="dense" className={classes.toolbarSecondary}>
-          {sections.map(section => (
-            <Typography color="inherit" noWrap key={section.name}>
-              <Link to={section.path}>{section.name}</Link>
-            </Typography>
-          ))}
-        </Toolbar>
+class App extends React.Component {
+  state = {
+    open: true
+  };
 
-        <main>
-          <Paper className={classes.mainFeaturedPost}>
-            <Grid container>
-              <Grid item md={6}>
-                <div className={classes.mainContent}>
-                  <Route path="/" exact component={Home} />
-                  <Route path="/otherpage/" component={Nominate} />
-                </div>
-              </Grid>
-            </Grid>
-          </Paper>
-        </main>
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <Router>
+          <CssBaseline />
+          <AppBar
+            position="absolute"
+            className={classNames(
+              classes.appBar,
+              this.state.open && classes.appBarShift
+            )}
+          >
+            <Toolbar
+              disableGutters={!this.state.open}
+              className={classes.toolbar}
+            >
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(
+                  classes.menuButton,
+                  this.state.open && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                Song of the Summer: 2019
+              </Typography>
+              <IconButton color="inherit">
+                <Badge
+                  badgeContent={0}
+                  color="secondary"
+                  style={{ display: "none" }}
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classNames(
+                classes.drawerPaper,
+                !this.state.open && classes.drawerPaperClose
+              )
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={this.handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <List className={classes.navList}>{mainListItems}</List>
+          </Drawer>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Route path="/" exact component={Home} />
+            <Route path="/nominate/" component={Nominate} />
+            <Route path="/nominations/" component={Nominations} />
+          </main>
+        </Router>
       </div>
-    </Router>
-  );
+    );
+  }
 }
 
-export default withStyles(styles)(AppRouter);
+App.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(App);
