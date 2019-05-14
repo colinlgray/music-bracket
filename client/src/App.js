@@ -109,7 +109,7 @@ const styles = theme => ({
 
 class App extends React.Component {
   state = {
-    open: true,
+    open: false,
     nominees: ["1. Old Town Road remix ft. Billy Ray Cyrus", "2. Old Town Road"]
   };
 

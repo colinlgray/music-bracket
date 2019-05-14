@@ -8,7 +8,7 @@ function Nominations(props) {
   return (
     <>
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-        Current top songs:
+        Current top songs
       </Typography>
       <Typography variant="h6">
         <List>

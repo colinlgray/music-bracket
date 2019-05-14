@@ -2,20 +2,43 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { grey, green } from "@material-ui/core/colors";
 
-export default class Nominate extends React.Component {
+const buttonTheme = createMuiTheme({
+  palette: { primary: grey, secondary: green },
+  typography: { useNextVariants: true }
+});
+
+class Nominate extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   state = {
-    name: ""
+    name: "",
+    submitted: false
   };
-  handleChange = key => event => {
-    this.setState({ [key]: event.target.value });
+  componentDidMount() {
+    this.setState({ submitted: false, name: "" });
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+  handleChange = key => e => {
+    this.setState({ [key]: e.target.value });
+  };
+  handleKeyPress = e => {
+    if (e && e.keyCode === 13) {
+      this.handleSubmit();
+    }
   };
   handleSubmit = () => {
-    this.props.addNominee(this.state.name);
+    if (this.state.name && !this.state.submitted) {
+      this.props.addNominee(this.state.name);
+      this.setState({ submitted: true });
+    }
   };
   render() {
     return (
@@ -31,17 +54,22 @@ export default class Nominate extends React.Component {
             onChange={this.handleChange("name")}
             margin="normal"
             fullWidth
+            inputRef={el => (this.inputField = el)}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleSubmit}
-            style={{ float: "right", marginTop: "16px" }}
-          >
-            Submit
-          </Button>
+          <MuiThemeProvider theme={buttonTheme}>
+            <Button
+              variant="contained"
+              color={this.state.submitted ? "secondary" : "primary"}
+              onClick={this.handleSubmit}
+              style={{ float: "right", marginTop: "16px" }}
+            >
+              {this.state.submitted ? "Done" : "Submit"}
+            </Button>
+          </MuiThemeProvider>
         </Typography>
       </>
     );
   }
 }
+
+export default Nominate;
