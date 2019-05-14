@@ -8,11 +8,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems } from "./components/ListItems";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -43,14 +40,6 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
   menuButton: {
     marginLeft: 12,
     marginRight: 36
@@ -59,7 +48,8 @@ const styles = theme => ({
     display: "none"
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    paddingLeft: theme.spacing.unit * 2
   },
   drawerPaper: {
     position: "relative",
@@ -68,7 +58,8 @@ const styles = theme => ({
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
-    })
+    }),
+    marginTop: theme.spacing.unit * 8
   },
   drawerPaperClose: {
     overflowX: "hidden",
@@ -109,16 +100,7 @@ const styles = theme => ({
 
 class App extends React.Component {
   state = {
-    open: false,
     nominees: ["1. Old Town Road remix ft. Billy Ray Cyrus", "2. Old Town Road"]
-  };
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
   };
 
   render() {
@@ -130,26 +112,9 @@ class App extends React.Component {
           <CssBaseline />
           <AppBar
             position="absolute"
-            className={classNames(
-              classes.appBar,
-              this.state.open && classes.appBarShift
-            )}
+            className={classNames(classes.appBar, classes.appBarShift)}
           >
-            <Toolbar
-              disableGutters={!this.state.open}
-              className={classes.toolbar}
-            >
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(
-                  classes.menuButton,
-                  this.state.open && classes.menuButtonHidden
-                )}
-              >
-                <MenuIcon />
-              </IconButton>
+            <Toolbar disableGutters className={classes.toolbar}>
               <Typography
                 component="h1"
                 variant="h6"
@@ -173,19 +138,9 @@ class App extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classNames(
-                classes.drawerPaper,
-                !this.state.open && classes.drawerPaperClose
-              )
+              paper: classNames(classes.drawerPaper, classes.drawerPaperClose)
             }}
-            open={this.state.open}
           >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-            <Divider />
             <List className={classes.navList}>{mainListItems}</List>
           </Drawer>
           <main className={classes.content}>
