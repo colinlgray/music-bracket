@@ -109,7 +109,8 @@ const styles = theme => ({
 
 class App extends React.Component {
   state = {
-    open: true
+    open: true,
+    nominees: ["Old Town Road", "Old Town Road remix ft. Billy Ray Cyrus"]
   };
 
   handleDrawerOpen = () => {
@@ -190,8 +191,23 @@ class App extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Route path="/" exact component={Home} />
-            <Route path="/nominate/" component={Nominate} />
-            <Route path="/nominations/" component={Nominations} />
+            <Route
+              path="/nominate/"
+              render={props => (
+                <Nominate
+                  {...props}
+                  addNominee={name => {
+                    this.state.nominees.push(name);
+                  }}
+                />
+              )}
+            />
+            <Route
+              path="/nominations/"
+              render={props => (
+                <Nominations {...props} nominees={this.state.nominees} />
+              )}
+            />
           </main>
         </Router>
       </div>

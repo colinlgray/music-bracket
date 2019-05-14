@@ -26,7 +26,11 @@ class ListItemLink extends React.Component {
 export const mainListItems = (
   <div>
     <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
-    <ListItemLink to="/nominate" primary="Nominate" icon={<RateReviewIcon />} />
+    <ListItemLink
+      to="/nominate"
+      primary="Nominate a song"
+      icon={<RateReviewIcon />}
+    />
     <ListItemLink
       to="/nominations"
       primary="Current Nominations"
