@@ -110,7 +110,7 @@ const styles = theme => ({
 class App extends React.Component {
   state = {
     open: true,
-    nominees: ["Old Town Road", "Old Town Road remix ft. Billy Ray Cyrus"]
+    nominees: ["1. Old Town Road remix ft. Billy Ray Cyrus", "2. Old Town Road"]
   };
 
   handleDrawerOpen = () => {
@@ -197,7 +197,9 @@ class App extends React.Component {
                 <Nominate
                   {...props}
                   addNominee={name => {
-                    this.state.nominees.push(name);
+                    this.state.nominees.push(
+                      `${this.state.nominees.length + 8}. ${name}`
+                    );
                   }}
                 />
               )}

@@ -14,7 +14,7 @@ function Nominations(props) {
         <List>
           {props.nominees.map(val => {
             return (
-              <ListItem>
+              <ListItem key={val}>
                 <ListItemText primary={val} />
               </ListItem>
             );

@@ -7,9 +7,9 @@ function Home() {
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
         Welcome
       </Typography>
-      <Typography variant="p">
-        To the left is the menu where you can see the current nominees or if
-        your song isn't there you can nominate it!
+      <Typography component="p">
+        To the left is the menu where you can nominate your favorite song, then
+        see the list of everyone's favorite songs so far
       </Typography>
     </>
   );

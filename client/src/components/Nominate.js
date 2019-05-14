@@ -23,7 +23,7 @@ export default class Nominate extends React.Component {
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
           Nominate a song
         </Typography>
-        <Typography>
+        <Typography component="div">
           <TextField
             id="standard-name"
             label="Song Name"
