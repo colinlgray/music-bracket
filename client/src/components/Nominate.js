@@ -1,13 +1,19 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { grey, green } from "@material-ui/core/colors";
+import { withStyles } from "@material-ui/core/styles";
+import SearchIcon from "@material-ui/icons/Search";
+import Grid from "@material-ui/core/Grid";
 
-const buttonTheme = createMuiTheme({
-  palette: { primary: grey, secondary: green },
-  typography: { useNextVariants: true }
+const styles = theme => ({
+  textInput: {
+    width: theme.spacing.unit * 24,
+    marginRight: theme.spacing.unit * 4
+  },
+  button: {
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class Nominate extends React.Component {
@@ -17,7 +23,9 @@ class Nominate extends React.Component {
   }
   state = {
     name: "",
-    submitted: false
+    artist: "",
+    submitted: false,
+    searchResults: []
   };
   componentDidMount() {
     this.setState({ submitted: false, name: "" });
@@ -41,35 +49,49 @@ class Nominate extends React.Component {
     }
   };
   render() {
+    const { classes } = this.props;
     return (
       <>
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-          Nominate a song
+          Nominate
         </Typography>
-        <Typography component="div">
-          <TextField
-            id="standard-name"
-            label="Song Name"
-            value={this.state.name}
-            onChange={this.handleChange("name")}
-            margin="normal"
-            fullWidth
-            inputRef={el => (this.inputField = el)}
-          />
-          <MuiThemeProvider theme={buttonTheme}>
-            <Button
-              variant="contained"
-              color={this.state.submitted ? "secondary" : "primary"}
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-end"
+        >
+          <Grid item>
+            <TextField
+              className={classes.textInput}
+              label="Song Name"
+              value={this.state.name}
+              onChange={this.handleChange("name")}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              className={classes.textInput}
+              label="Artist"
+              value={this.state.artist}
+              onChange={this.handleChange("artist")}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item>
+            <IconButton
+              color="primary"
+              aria-label="Search"
               onClick={this.handleSubmit}
-              style={{ float: "right", marginTop: "16px" }}
             >
-              {this.state.submitted ? "Done" : "Submit"}
-            </Button>
-          </MuiThemeProvider>
-        </Typography>
+              <SearchIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
       </>
     );
   }
 }
 
-export default Nominate;
+export default withStyles(styles)(Nominate);
