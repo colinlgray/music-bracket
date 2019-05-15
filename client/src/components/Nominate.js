@@ -44,7 +44,7 @@ class Nominate extends React.Component {
     return (
       <>
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-          Nominate
+          Nominate a song
         </Typography>
         <Typography component="div">
           <TextField
