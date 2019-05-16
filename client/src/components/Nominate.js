@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
+import SearchResults from "./SearchResults";
 
 const styles = theme => ({
   textInput: {
@@ -11,22 +12,25 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 4
   },
   button: {
-    marginTop: theme.spacing.unit * 2
+    margin: theme.spacing.unit * 2
   },
   searchResults: {
-    marginTop: theme.spacing.unit * 2
+    margin: theme.spacing.unit * 2
+  },
+  loadingIcon: {
+    margin: theme.spacing.unit * 2
   }
 });
 
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.waitForSubmit = debounce(this.handleSubmit, 500);
+    this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
   state = {
     query: "",
     url: "",
+    loading: false,
     searchResults: []
   };
   componentDidMount() {
@@ -37,23 +41,23 @@ class Nominate extends React.Component {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
   handleChange = key => e => {
-    this.waitForSubmit();
-    this.setState({ [key]: e.target.value });
+    this.setState(
+      { [key]: e.target.value, loading: true },
+      this.debouncedLookupSongs
+    );
   };
   handleKeyPress = e => {
     if (e && e.keyCode === 13) {
       this.handleSubmit();
     }
   };
-  handleSubmit = () => {
-    if (this.state.query) {
-      // this.props.addNominee(this.state.name);
-      this.setState({
-        url: `https://api.spotify.com/v1/search?q=${encodeURI(
-          this.state.query
-        )}`
+  lookupSongs = () => {
+    fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
+      .then(res => res.text())
+      .then(text => {
+        console.log("text", text);
+        this.setState({ loading: false });
       });
-    }
   };
   render() {
     const { classes } = this.props;
@@ -78,7 +82,10 @@ class Nominate extends React.Component {
             />
           </Grid>
           <Grid item className={classes.searchResults}>
-            <Typography component="div">{this.state.url}</Typography>
+            <SearchResults
+              loading={this.state.loading}
+              items={this.state.searchResults}
+            />
           </Grid>
         </Grid>
       </>
