@@ -1,10 +1,9 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
+import { debounce } from "lodash";
 
 const styles = theme => ({
   textInput: {
@@ -13,6 +12,9 @@ const styles = theme => ({
   },
   button: {
     marginTop: theme.spacing.unit * 2
+  },
+  searchResults: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -20,21 +22,22 @@ class Nominate extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.waitForSubmit = debounce(this.handleSubmit, 500);
   }
   state = {
-    name: "",
-    artist: "",
-    submitted: false,
+    query: "",
+    url: "",
     searchResults: []
   };
   componentDidMount() {
-    this.setState({ submitted: false, name: "" });
+    this.setState({ name: "" });
     document.addEventListener("keydown", this.handleKeyPress);
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
   handleChange = key => e => {
+    this.waitForSubmit();
     this.setState({ [key]: e.target.value });
   };
   handleKeyPress = e => {
@@ -43,9 +46,13 @@ class Nominate extends React.Component {
     }
   };
   handleSubmit = () => {
-    if (this.state.name && !this.state.submitted) {
-      this.props.addNominee(this.state.name);
-      this.setState({ submitted: true });
+    if (this.state.query) {
+      // this.props.addNominee(this.state.name);
+      this.setState({
+        url: `https://api.spotify.com/v1/search?q=${encodeURI(
+          this.state.query
+        )}`
+      });
     }
   };
   render() {
@@ -61,32 +68,17 @@ class Nominate extends React.Component {
           justify="flex-start"
           alignItems="flex-end"
         >
-          <Grid item>
+          <Grid item xs={12}>
             <TextField
               className={classes.textInput}
-              label="Song Name"
-              value={this.state.name}
-              onChange={this.handleChange("name")}
+              label="Search"
+              value={this.state.query}
+              onChange={this.handleChange("query")}
               margin="normal"
             />
           </Grid>
-          <Grid item>
-            <TextField
-              className={classes.textInput}
-              label="Artist"
-              value={this.state.artist}
-              onChange={this.handleChange("artist")}
-              margin="normal"
-            />
-          </Grid>
-          <Grid item>
-            <IconButton
-              color="primary"
-              aria-label="Search"
-              onClick={this.handleSubmit}
-            >
-              <SearchIcon />
-            </IconButton>
+          <Grid item className={classes.searchResults}>
+            <Typography component="div">{this.state.url}</Typography>
           </Grid>
         </Grid>
       </>
