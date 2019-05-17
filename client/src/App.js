@@ -10,10 +10,8 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems } from "./components/ListItems";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -101,9 +99,6 @@ const styles = theme => ({
     "&:hover": {
       cursor: "pointer"
     }
-  },
-  notifications: {
-    display: "none"
   }
 });
 
@@ -159,15 +154,6 @@ class App extends React.Component {
               >
                 Song of the Summer: 2019
               </Typography>
-              <IconButton color="inherit">
-                <Badge
-                  badgeContent={0}
-                  color="secondary"
-                  className={classes.notifications}
-                >
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
             </Toolbar>
           </AppBar>
           <Drawer
