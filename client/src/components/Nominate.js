@@ -25,6 +25,7 @@ const styles = theme => ({
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
+    this.baseApiUrl = process.env.API_BASE_URL || "http://localhost:8080/api";
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
   state = {
@@ -52,7 +53,10 @@ class Nominate extends React.Component {
     }
   };
   lookupSongs = () => {
-    fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
+    fetch(`${this.baseApiUrl}/songs?q=${encodeURI(this.state.query)}`, {
+      mode: "no-cors",
+      url: this.baseApiUrl
+    })
       .then(res => res.text())
       .then(text => {
         console.log("text", text);
