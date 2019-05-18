@@ -59,7 +59,6 @@ class Nominate extends React.Component {
     })
       .then(res => res.text())
       .then(text => {
-        console.log("text", text);
         this.setState({ loading: false });
       });
   };

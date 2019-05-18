@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon server/src/index.js",
-    "test": "jest ./server/test --watch"
+    "test": "jest ./server/test --watch --verbose false"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
