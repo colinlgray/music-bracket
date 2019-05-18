@@ -25,7 +25,7 @@ const styles = theme => ({
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
-    this.baseApiUrl = process.env.API_BASE_URL || "http://localhost:8080/api";
+    this.baseApiUrl = process.env.API_BASE_URL || "http://localhost:3000/api";
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
   state = {
@@ -57,9 +57,13 @@ class Nominate extends React.Component {
       mode: "no-cors",
       url: this.baseApiUrl
     })
-      .then(res => res.text())
-      .then(text => {
-        this.setState({ loading: false });
+      .then(res => res.json())
+      .then(response => {
+        this.setState({
+          loading: false,
+          searchResults: response.items,
+          totalResults: response.total
+        });
       });
   };
   render() {

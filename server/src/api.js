@@ -1,5 +1,5 @@
-import request from "request";
-import { map, pick } from "lodash";
+const request = require("request");
+const { map, pick } = require("lodash");
 
 const client_id = process.env.MUSIC_BRACKET_CLIENT_ID;
 const client_secret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
@@ -8,7 +8,8 @@ const authOptions = {
   url: "https://accounts.spotify.com/api/token",
   headers: {
     Authorization:
-      "Basic " + new Buffer(client_id + ":" + client_secret).toString("base64")
+      "Basic " +
+      new Buffer.from(client_id + ":" + client_secret).toString("base64")
   },
   form: {
     grant_type: "client_credentials"
@@ -16,7 +17,7 @@ const authOptions = {
   json: true
 };
 
-export const makeRequest = params => {
+const makeRequest = params => {
   return new Promise((resolve, reject) => {
     const { url, token } = params;
     const options = {
@@ -36,7 +37,7 @@ export const makeRequest = params => {
   });
 };
 
-export const getApiToken = () => {
+const getApiToken = () => {
   return new Promise((resolve, reject) => {
     request.post(authOptions, (error, response, body) => {
       if (error) {
@@ -50,7 +51,7 @@ export const getApiToken = () => {
   });
 };
 
-export const getSongs = ({ query, offset = 0 }) => {
+const getSongs = ({ query, offset = 0 }) => {
   return getApiToken().then(token => {
     if (!query) {
       return [];
@@ -76,4 +77,10 @@ export const getSongs = ({ query, offset = 0 }) => {
       };
     });
   });
+};
+
+module.exports = {
+  getSongs,
+  getApiToken,
+  makeRequest
 };
