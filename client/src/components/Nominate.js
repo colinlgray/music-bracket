@@ -25,7 +25,7 @@ const styles = theme => ({
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
-    this.baseApiUrl = process.env.API_BASE_URL || "http://localhost:3000/api";
+    this.baseApiUrl = process.env.API_BASE_URL;
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
   state = {
