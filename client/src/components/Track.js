@@ -5,7 +5,7 @@ function Track({ track }) {
     <iframe
       title={track.id}
       src={`https://open.spotify.com/embed/track/${track.id}`}
-      frameborder="0"
+      frameBorder="0"
       allowtransparency="true"
       allow="encrypted-media"
       width={300}

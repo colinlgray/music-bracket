@@ -1,31 +1,89 @@
 const moment = require("moment");
-const SpotifyWebApi = require("spotify-web-api-node");
+const request = require("request");
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.MUSIC_BRACKET_CLIENT_ID,
-  clientSecret: process.env.MUSIC_BRACKET_CLIENT_SECRET
-});
+const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
+const clientSecret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
 
-const SEARCH_LIMIT = 10;
 let tokenExpireTime = null;
+let authToken = null;
 
-const refreshTokenIfNeeded = () => {
-  if (!tokenExpireTime || tokenExpireTime.isAfter(moment())) {
-    return spotifyApi.clientCredentialsGrant().then(data => {
-      tokenExpireTime = moment().add(data.body.expires_in, "seconds");
-      spotifyApi.setAccessToken(data.body.access_token);
-    });
-  }
-  return Promise.resolve();
+const authOptions = {
+  url: "https://accounts.spotify.com/api/token",
+  headers: {
+    Authorization:
+      "Basic " +
+      new Buffer.from(clientId + ":" + clientSecret).toString("base64")
+  },
+  form: {
+    grant_type: "client_credentials"
+  },
+  json: true
 };
 
-const getSongs = ({ query, offset = 0 }) => {
-  return refreshTokenIfNeeded()
-    .then(() => spotifyApi.searchTracks(query, { limit: SEARCH_LIMIT, offset }))
-    .then(spotifyResponse => spotifyResponse.body.tracks);
+const makeRequest = params => {
+  return new Promise((resolve, reject) => {
+    const { url, token } = params;
+    const options = {
+      headers: {
+        Authorization: "Bearer " + token
+      },
+      json: true,
+      url
+    };
+    request.get(options, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(body);
+      }
+    });
+  });
+};
+const getAndRefreshTokenIfNeeded = () => {
+  if (!tokenExpireTime || tokenExpireTime.isAfter(moment())) {
+    return getApiToken().then(body => {
+      tokenExpireTime = moment().add(body.expires_in, "seconds");
+      authToken = body.access_token;
+      return authToken;
+    });
+  }
+  return authToken;
+};
+
+const getApiToken = () => {
+  return new Promise((resolve, reject) => {
+    request.post(authOptions, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else if (response.statusCode >= 400) {
+        reject(new Error(response.statusMessage));
+      } else {
+        resolve(body);
+      }
+    });
+  });
+};
+
+const getResource = type => ({ query, offset = 0, limit = 10 }) => {
+  return getAndRefreshTokenIfNeeded().then(token => {
+    if (!query) {
+      return [{ total: 0, items: [], offset }];
+    }
+    return makeRequest({
+      url: `https://api.spotify.com/v1/search?q=${encodeURI(
+        query
+      )}&type=${type}&market=US&limit=${limit}&offset=${offset}`,
+      token
+    }).then(spotifyResponse => {
+      return {
+        total: spotifyResponse.tracks.total,
+        items: spotifyResponse.tracks.items,
+        offset
+      };
+    });
+  });
 };
 
 module.exports = {
-  getSongs,
-  refreshTokenIfNeeded
+  getResource
 };

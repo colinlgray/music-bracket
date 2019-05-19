@@ -58,9 +58,12 @@ class Nominate extends React.Component {
     }
   };
   lookupSongs = () => {
-    console.log(this.state.query, this.state.query.length);
     if (!this.state.query.trim().length) {
-      return Promise.resolve([]);
+      return this.setState({
+        loading: false,
+        searchResults: [],
+        totalResults: 0
+      });
     }
     fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
       .then(res => res.json())
