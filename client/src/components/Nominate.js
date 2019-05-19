@@ -25,8 +25,6 @@ const styles = theme => ({
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
-    this.baseApiUrl =
-      process.env.REACT_APP_API_BASE_URL || "http://colinlgray.com/api";
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
   state = {
@@ -50,14 +48,11 @@ class Nominate extends React.Component {
   };
   handleKeyPress = e => {
     if (e && e.keyCode === 13) {
-      this.handleSubmit();
+      // this.handleSubmit();
     }
   };
   lookupSongs = () => {
-    fetch(`${this.baseApiUrl}/songs?q=${encodeURI(this.state.query)}`, {
-      mode: "no-cors",
-      url: this.baseApiUrl
-    })
+    fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
       .then(res => res.json())
       .then(response => {
         this.setState({
@@ -65,6 +60,10 @@ class Nominate extends React.Component {
           searchResults: response.items,
           totalResults: response.total
         });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({ searchError: err });
       });
   };
   render() {
