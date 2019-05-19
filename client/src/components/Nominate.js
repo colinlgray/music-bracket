@@ -22,6 +22,8 @@ const styles = theme => ({
   }
 });
 
+const searchLimit = 10;
+
 class Nominate extends React.Component {
   constructor(props) {
     super(props);
@@ -65,7 +67,11 @@ class Nominate extends React.Component {
         totalResults: 0
       });
     }
-    fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
+    fetch(
+      `/api/songs?query=${encodeURI(
+        this.state.query
+      )}&limit=${searchLimit}&offset${this.state.offset}`
+    )
       .then(res => res.json())
       .then(response => {
         this.setState({

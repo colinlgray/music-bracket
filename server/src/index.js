@@ -9,7 +9,7 @@ const getSongs = getResource("track");
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 app.get("/api/songs", (req, res) =>
-  getSongs({ query: req.query })
+  getSongs(req.query)
     .then(songs => {
       res.send(songs);
     })
