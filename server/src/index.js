@@ -2,14 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
-const { getResource } = require("./api");
+const { searchForType } = require("./api");
 
-const getSongs = getResource("track");
+const searchSongs = searchForType("track");
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 app.get("/api/songs", (req, res) =>
-  getSongs(req.query)
+  searchSongs(req.query)
     .then(songs => {
       res.send(songs);
     })

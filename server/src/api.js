@@ -64,7 +64,7 @@ const getApiToken = () => {
   });
 };
 
-const getResource = type => ({ query, offset = 0, limit = 10 }) => {
+const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   return getAndRefreshTokenIfNeeded().then(token => {
     if (!query) {
       return [{ total: 0, items: [], offset }];
@@ -84,6 +84,15 @@ const getResource = type => ({ query, offset = 0, limit = 10 }) => {
   });
 };
 
+const getType = type => ({ id }) => {
+  return new Promise((resolve, reject) => {
+    console.log("id", id);
+    console.log("type", type);
+    reject(new Error("Not implemented"));
+  });
+};
+
 module.exports = {
-  getResource
+  searchForType,
+  getType
 };
