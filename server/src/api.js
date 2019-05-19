@@ -1,5 +1,3 @@
-const request = require("request");
-const { map, pick } = require("lodash");
 const moment = require("moment");
 const SpotifyWebApi = require("spotify-web-api-node");
 
@@ -8,6 +6,7 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.MUSIC_BRACKET_CLIENT_SECRET
 });
 
+const SEARCH_LIMIT = 10;
 let tokenExpireTime = null;
 
 const refreshTokenIfNeeded = () => {
@@ -22,7 +21,7 @@ const refreshTokenIfNeeded = () => {
 
 const getSongs = ({ query, offset = 0 }) => {
   return refreshTokenIfNeeded()
-    .then(() => spotifyApi.searchTracks(query))
+    .then(() => spotifyApi.searchTracks(query, { limit: SEARCH_LIMIT, offset }))
     .then(spotifyResponse => spotifyResponse.body.tracks);
 };
 

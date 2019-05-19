@@ -2,9 +2,9 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import { withStyles } from "@material-ui/core/styles";
 import InfoMessage from "./InfoMessage";
+import Track from "./Track";
 
 const styles = theme => ({
   loadingIcon: {
@@ -48,7 +48,7 @@ class SearchResults extends React.Component {
         {items.map(i => {
           return (
             <ListItem key={i.id}>
-              <ListItemText primary={i.name} />
+              <Track track={i} />
             </ListItem>
           );
         })}

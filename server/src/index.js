@@ -13,6 +13,7 @@ app.get("/api/songs", (req, res) => {
       res.send(songs);
     })
     .catch(err => {
+      console.error("Err in /api/songs", err);
       res.sendStatus(500);
     });
 });
