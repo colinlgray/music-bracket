@@ -10,7 +10,9 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
-    "request": "^2.88.0"
+    "moment": "^2.24.0",
+    "request": "^2.88.0",
+    "spotify-web-api-node": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

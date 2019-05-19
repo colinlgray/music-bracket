@@ -1,21 +1,14 @@
 const request = require("request");
 const { map, pick } = require("lodash");
+const moment = require("moment");
+const SpotifyWebApi = require("spotify-web-api-node");
 
-const client_id = process.env.MUSIC_BRACKET_CLIENT_ID;
-const client_secret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.MUSIC_BRACKET_CLIENT_ID,
+  clientSecret: process.env.MUSIC_BRACKET_CLIENT_SECRET
+});
 
-const authOptions = {
-  url: "https://accounts.spotify.com/api/token",
-  headers: {
-    Authorization:
-      "Basic " +
-      new Buffer.from(client_id + ":" + client_secret).toString("base64")
-  },
-  form: {
-    grant_type: "client_credentials"
-  },
-  json: true
-};
+let tokenExpireTime = null;
 
 const makeRequest = params => {
   return new Promise((resolve, reject) => {
@@ -51,30 +44,19 @@ const getApiToken = () => {
   });
 };
 
+const refreshTokenIfNeeded = () => {
+  if (!tokenExpireTime || tokenExpireTime.isAfter(moment())) {
+    return spotifyApi.clientCredentialsGrant().then(data => {
+      spotifyApi.setAccessToken(data.body["access_token"]);
+    });
+  }
+  return Promise.resolve();
+};
+
 const getSongs = ({ query, offset = 0 }) => {
-  return getApiToken().then(token => {
-    if (!query) {
-      return [];
-    }
-    return makeRequest({
-      url: `https://api.spotify.com/v1/search?q=${encodeURI(
-        query
-      )}&type=track&market=US&limit=50&offset=${offset}`,
-      token
-    }).then(spotifyResponse => {
-      return {
-        total: spotifyResponse.tracks.total,
-        items: map(spotifyResponse.tracks.items, item => {
-          return pick(item, [
-            "id",
-            "name",
-            "popularity",
-            "duration_ms",
-            "uri",
-            "artists"
-          ]);
-        })
-      };
+  return refreshTokenIfNeeded().then(() => {
+    return spotifyApi.searchTracks(query).then(spotifyResponse => {
+      return spotifyResponse.body.tracks;
     });
   });
 };
