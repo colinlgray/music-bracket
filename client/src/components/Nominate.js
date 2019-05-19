@@ -31,7 +31,8 @@ class Nominate extends React.Component {
     query: "",
     url: "",
     loading: false,
-    searchResults: []
+    searchResults: [],
+    searchError: null
   };
   componentDidMount() {
     this.setState({ name: "" });
@@ -42,7 +43,12 @@ class Nominate extends React.Component {
   }
   handleChange = key => e => {
     this.setState(
-      { [key]: e.target.value, loading: true },
+      {
+        [key]: e.target.value,
+        loading: true,
+        searchError: null,
+        hasHiddenSearchError: false
+      },
       this.debouncedLookupSongs
     );
   };
@@ -52,6 +58,10 @@ class Nominate extends React.Component {
     }
   };
   lookupSongs = () => {
+    console.log(this.state.query, this.state.query.length);
+    if (!this.state.query.trim().length) {
+      return Promise.resolve([]);
+    }
     fetch(`/api/songs?q=${encodeURI(this.state.query)}`)
       .then(res => res.json())
       .then(response => {
@@ -62,8 +72,7 @@ class Nominate extends React.Component {
         });
       })
       .catch(err => {
-        console.error(err);
-        this.setState({ searchError: err });
+        this.setState({ loading: false, searchError: err });
       });
   };
   render() {
@@ -92,6 +101,11 @@ class Nominate extends React.Component {
             <SearchResults
               loading={this.state.loading}
               items={this.state.searchResults}
+              error={this.state.searchError}
+              hasHiddenError={this.state.hasHiddenSearchError}
+              onClose={() => {
+                this.setState({ hasHiddenSearchError: true });
+              }}
             />
           </Grid>
         </Grid>

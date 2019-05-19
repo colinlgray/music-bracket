@@ -1,16 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const cors = require("cors");
 const app = express();
 const api = require("./api");
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 app.get("/api/songs", (req, res) => {
-  api.getSongs({ query: req.query }).then(songs => {
-    res.send(songs);
-  });
+  return api
+    .getSongs({ query: req.query.q })
+    .then(songs => {
+      res.send(songs);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
 });
 
 app.get("/*", (req, res) => {
