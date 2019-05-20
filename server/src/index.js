@@ -1,9 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const app = express();
 const { searchForType } = require("./api");
+const db = require("../models");
 
+const app = express();
 const searchSongs = searchForType("track");
 
 app.use(bodyParser.json());
@@ -23,4 +24,6 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
 });
 
-app.listen(process.env.PORT || 8080);
+db.sequelize.sync().then(() => {
+  app.listen(process.env.PORT || 8080);
+});

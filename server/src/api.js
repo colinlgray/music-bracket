@@ -1,5 +1,6 @@
 const moment = require("moment");
 const request = require("request");
+const db = require("../models");
 
 const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
 const clientSecret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
@@ -84,15 +85,9 @@ const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   });
 };
 
-const getType = type => ({ id }) => {
-  return new Promise((resolve, reject) => {
-    console.log("id", id);
-    console.log("type", type);
-    reject(new Error("Not implemented"));
-  });
-};
+const getResource = type => ({ id }) => db[type].findByPk(id);
 
 module.exports = {
   searchForType,
-  getType
+  getResource
 };
