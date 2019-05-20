@@ -1,6 +1,6 @@
 const moment = require("moment");
 const request = require("request");
-const db = require("../models");
+const db = require("../../database/models");
 
 const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
 const clientSecret = process.env.MUSIC_BRACKET_CLIENT_SECRET;

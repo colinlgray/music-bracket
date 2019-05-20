@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const { searchForType } = require("./api");
-const db = require("../models");
+const db = require("../../database/models");
 
 const app = express();
 const searchSongs = searchForType("track");
