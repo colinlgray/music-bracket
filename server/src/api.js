@@ -1,5 +1,6 @@
 const moment = require("moment");
 const request = require("request");
+var pluralize = require("pluralize");
 const db = require("../../database/models");
 
 const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
@@ -85,9 +86,14 @@ const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   });
 };
 
-const getResource = type => ({ id }) => db[type].findByPk(id);
+const makeGetterById = type => ({ id }) =>
+  db[pluralize.singular(type)].findByPk(id);
 
+const makeGetterAll = type => () => {
+  return db[pluralize.singular(type)].findAll();
+};
 module.exports = {
   searchForType,
-  getResource
+  makeGetterAll,
+  makeGetterById
 };

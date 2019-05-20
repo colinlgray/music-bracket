@@ -11,6 +11,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
+    "pluralize": "^7.0.0",
     "request": "^2.88.0",
     "sequelize": "^5.8.6",
     "sequelize-cli": "^5.4.0"

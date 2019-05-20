@@ -1,10 +1,10 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
 import SearchResults from "./SearchResults";
+import { SEARCH_LIMIT } from "../constants";
 
 const styles = theme => ({
   textInput: {
@@ -22,9 +22,7 @@ const styles = theme => ({
   }
 });
 
-const searchLimit = 10;
-
-class Nominate extends React.Component {
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
@@ -34,7 +32,8 @@ class Nominate extends React.Component {
     url: "",
     loading: false,
     searchResults: [],
-    searchError: null
+    searchError: null,
+    offset: 0
   };
   componentDidMount() {
     this.setState({ name: "" });
@@ -56,7 +55,12 @@ class Nominate extends React.Component {
   };
   handleKeyPress = e => {
     if (e && e.keyCode === 13) {
-      // this.handleSubmit();
+      this.setState(
+        {
+          loading: true
+        },
+        this.lookupSongs
+      );
     }
   };
   lookupSongs = () => {
@@ -68,9 +72,9 @@ class Nominate extends React.Component {
       });
     }
     fetch(
-      `/api/songs?query=${encodeURI(
+      `/api/tracks/search?query=${encodeURI(
         this.state.query
-      )}&limit=${searchLimit}&offset${this.state.offset}`
+      )}&limit=${SEARCH_LIMIT}&offset${this.state.offset}`
     )
       .then(res => res.json())
       .then(response => {
@@ -87,40 +91,35 @@ class Nominate extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <>
-        <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-          Nominate
-        </Typography>
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-end"
-        >
-          <Grid item xs={12}>
-            <TextField
-              className={classes.textInput}
-              label="Search"
-              value={this.state.query}
-              onChange={this.handleChange("query")}
-              margin="normal"
-            />
-          </Grid>
-          <Grid item className={classes.searchResults}>
-            <SearchResults
-              loading={this.state.loading}
-              items={this.state.searchResults}
-              error={this.state.searchError}
-              hasHiddenError={this.state.hasHiddenSearchError}
-              onClose={() => {
-                this.setState({ hasHiddenSearchError: true });
-              }}
-            />
-          </Grid>
+      <Grid
+        container
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-end"
+      >
+        <Grid item xs={12}>
+          <TextField
+            className={classes.textInput}
+            label="Search"
+            value={this.state.query}
+            onChange={this.handleChange("query")}
+            margin="normal"
+          />
         </Grid>
-      </>
+        <Grid item className={classes.searchResults}>
+          <SearchResults
+            loading={this.state.loading}
+            items={this.state.searchResults}
+            error={this.state.searchError}
+            hasHiddenError={this.state.hasHiddenSearchError}
+            onClose={() => {
+              this.setState({ hasHiddenSearchError: true });
+            }}
+          />
+        </Grid>
+      </Grid>
     );
   }
 }
 
-export default withStyles(styles)(Nominate);
+export default withStyles(styles)(Search);

@@ -27,8 +27,8 @@ export const mainListItems = (
   <div>
     <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
     <ListItemLink
-      to="/nominate"
-      primary="Nominate a song"
+      to="/build"
+      primary="Build a bracket"
       icon={<RateReviewIcon />}
     />
     <ListItemLink
