@@ -4,15 +4,22 @@ module.exports = (sequelize, DataTypes) => {
     "artist",
     {
       href: DataTypes.STRING,
-      id: { type: DataTypes.STRING, primaryKey: true, autoIncrement: false },
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        autoIncrement: false
+      },
       name: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING
+      uri: DataTypes.STRING,
+      spotifyId: DataTypes.STRING
     },
     {}
   );
   Artist.associate = function(models) {
-    // associations can be defined here
+    // Artist.belongsTo(Models.Track);
   };
   return Artist;
 };
