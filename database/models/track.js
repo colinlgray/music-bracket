@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     "Track",
     {
       id: {
-        type: Sequelize.UUID,
+        type: DataTypes.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         autoIncrement: false
       },

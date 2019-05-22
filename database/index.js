@@ -1,7 +1,7 @@
 const db = require("../database/models");
 
 const startDb = () => {
-  db.sequelize.sync();
+  return db.sequelize.sync();
 };
 
 module.exports = {

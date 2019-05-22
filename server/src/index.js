@@ -51,6 +51,6 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
 });
 
-db.sequelize.sync().then(() => {
+startDb().then(() => {
   app.listen(process.env.PORT || 8080);
 });

@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
-import { SEARCH_LIMIT } from "../constants";
 
 class Build extends React.Component {
   state = { tracks: [], offset: 0 };

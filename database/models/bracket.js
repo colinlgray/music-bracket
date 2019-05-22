@@ -1,9 +1,8 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Artist = sequelize.define(
-    "artist",
+  const Bracket = sequelize.define(
+    "Bracket",
     {
-      href: DataTypes.STRING,
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -12,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false
       },
       name: DataTypes.STRING,
-      type: DataTypes.STRING,
-      uri: DataTypes.STRING,
-      spotifyId: DataTypes.STRING
+      description: DataTypes.STRING,
+      creator: DataTypes.STRING
     },
     {}
   );
-  Artist.associate = function(models) {
-    // Artist.belongsTo(Models.Track);
+  Bracket.associate = function(models) {
+    // associations can be defined here
+    Bracket.hasMany(models.Track);
   };
-  return Artist;
+  return Bracket;
 };
