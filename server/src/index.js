@@ -25,7 +25,7 @@ const getResourceById = routes.map(key => makeGetterById(key));
 const getResourcesAll = routes.map(key => makeGetterAll(key));
 
 routes.map(key => {
-  app.get(`/${key}/:id`, (req, res) => {
+  app.get(`/${key}/:id?`, (req, res) => {
     getResourceById[routes.indexOf(key)]().then(model => {
       res.send(model);
     });

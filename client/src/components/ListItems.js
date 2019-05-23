@@ -6,6 +6,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import { Link } from "react-router-dom";
+import uuid from "uuid/v4";
 
 class ListItemLink extends React.Component {
   renderLink = itemProps => <Link to={this.props.to} {...itemProps} />;
@@ -27,7 +28,7 @@ export const mainListItems = (
   <div>
     <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
     <ListItemLink
-      to="/build"
+      to="/build/new"
       primary="Build a bracket"
       icon={<RateReviewIcon />}
     />

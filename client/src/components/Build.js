@@ -3,12 +3,25 @@ import Typography from "@material-ui/core/Typography";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
+import uuid from "uuid/v4";
 
 class Build extends React.Component {
   state = { tracks: [], offset: 0 };
   componentWillMount() {
-    console.log("test");
+    console.log(this.props.history.id);
+    this.fetchBracket(this.props.history.id).then(bracket => {
+      if (!bracket) {
+        this.props.history.replace(`/build/${uuid()}`);
+      } else {
+        console.log("has a bracket", bracket);
+      }
+    });
+    console.log(this.props.history.location.pathname);
+    console.log("did mount", uuid());
     this.requestTracks();
+  }
+  fetchBracket() {
+    return Promise.resolve(null);
   }
   requestTracks() {
     fetch(`/api/artists`)
