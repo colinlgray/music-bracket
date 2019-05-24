@@ -9,7 +9,7 @@ class Build extends React.Component {
   state = { tracks: [], offset: 0 };
   componentWillMount() {
     console.log(this.props.history.id);
-    this.fetchBracket(this.props.history.id).then(bracket => {
+    this.fetchBracket().then(bracket => {
       if (!bracket) {
         this.props.history.replace(`/build/${uuid()}`);
       } else {
@@ -18,13 +18,9 @@ class Build extends React.Component {
     });
     console.log(this.props.history.location.pathname);
     console.log("did mount", uuid());
-    this.requestTracks();
   }
   fetchBracket() {
-    return Promise.resolve(null);
-  }
-  requestTracks() {
-    fetch(`/api/artists`)
+    return fetch(`/api/brackets/${this.props.history.id}`)
       .then(res => res.json())
       .then(response => {
         console.log("resp", response);
