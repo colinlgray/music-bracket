@@ -1,5 +1,5 @@
 {
-  "name": "music bracket maker client",
+  "name": "music-bracket-maker-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
