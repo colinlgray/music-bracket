@@ -5,7 +5,7 @@ function Home() {
   return (
     <>
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-        Welcome to a website
+        Welcome
       </Typography>
       <Typography component="div" style={{ paddingTop: "24px" }}>
         To the left is the menu where you can nominate your favorite song, then
