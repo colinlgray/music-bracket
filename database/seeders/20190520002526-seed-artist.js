@@ -17,7 +17,7 @@ module.exports = {
       Example:
 
     */
-    return queryInterface.bulkInsert("artists", [artistProps], {});
+    return queryInterface.bulkInsert("Artists", [artistProps], {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -27,6 +27,6 @@ module.exports = {
 
       Example:
     */
-    return queryInterface.bulkDelete("artists", artistProps, {});
+    return queryInterface.bulkDelete("Artists", artistProps, {});
   }
 };

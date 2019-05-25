@@ -1,0 +1,6 @@
+{
+    "workbench.settings.useSplitJSON": true,
+    "files.exclude": {
+        "**/node_modules": true
+    }
+}

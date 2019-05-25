@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
   const Artist = sequelize.define(
-    "artist",
+    "Artist",
     {
       href: DataTypes.STRING,
       id: {
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Artist.associate = function(models) {
-    // Artist.belongsTo(Models.Track);
+    Artist.belongsTo(models.Track);
   };
   return Artist;
 };

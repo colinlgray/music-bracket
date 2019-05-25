@@ -1,7 +1,8 @@
-import { searchForType, makeGetterAll, makeGetterById } from "../src/api";
+import { searchForType } from "../src/api";
+import { makeGetterAll, makeGetterById } from "../src/dbApi";
 const searchTracks = searchForType("track");
-const getArtistById = makeGetterById("artists");
-const getAllArtists = makeGetterAll("artists");
+const getArtistById = makeGetterById("Artists");
+const getAllArtists = makeGetterAll("Artists");
 
 test("gets json from spotify for a song query", done => {
   searchTracks({ query: "old town road", limit: 10, offset: 1 }).then(

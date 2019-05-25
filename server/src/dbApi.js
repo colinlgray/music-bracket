@@ -1,11 +1,14 @@
 var pluralize = require("pluralize");
-const db = require("../../database/models");
+const { db } = require("../../database");
 
 const makeGetterById = type => ({ id }) =>
   db[pluralize.singular(type)].findByPk(id);
 
 const makeGetterAll = type => () => {
-  return db[pluralize.singular(type)].findAll();
+  return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
+  console.log(type);
+  console.log(db);
+  return;
 };
 
 const makeCreator = type => params => {

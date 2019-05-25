@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Image.associate = function(models) {
-    // Image.belongsTo(models.Track);
+    Image.belongsTo(models.Track);
   };
   return Image;
 };

@@ -38,7 +38,6 @@ routes.map(key => {
 
   router.post(`/${key}`, (req, res) => {
     const newId = uuid();
-    db.models;
     createResource[routes.indexOf(key)]().then(model => {
       res.status(201);
       res.json({ id: newId });
@@ -53,7 +52,7 @@ routes.map(key => {
   });
 });
 
-router.get("/*", (req, res) => {
+router.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
 });
 
