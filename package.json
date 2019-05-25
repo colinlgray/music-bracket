@@ -1,5 +1,5 @@
 {
-  "name": "myapp",
+  "name": "Music Bracket Maker Server",
   "version": "0.0.1",
   "private": true,
   "scripts": {
