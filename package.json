@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon server/src/index.js",
     "test": "jest ./server/test --watch --verbose false",
-    "heroku-postbuild": "cd client && npm install && npm install --only=prod --no-shrinkwrap && npm run build"
+    "build": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "express": "^4.16.4",
