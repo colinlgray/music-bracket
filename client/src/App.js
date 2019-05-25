@@ -17,7 +17,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Build from "./components/Build";
 import Nominations from "./components/Nominations";
-import uuid from "uuid/v4";
 
 const drawerWidth = 240;
 
@@ -178,12 +177,6 @@ class App extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Route path="/" exact component={Home} />
-            <Route
-              path="/build/new"
-              render={props => {
-                props.history.push(`/build/${uuid()}`);
-              }}
-            />
 
             <Route
               path="/build/:id?"

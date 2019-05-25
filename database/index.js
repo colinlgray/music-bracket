@@ -5,5 +5,6 @@ const startDb = () => {
 };
 
 module.exports = {
-  startDb
+  startDb,
+  db
 };

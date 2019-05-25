@@ -3,35 +3,45 @@ import Typography from "@material-ui/core/Typography";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
-import uuid from "uuid/v4";
+import { makeRequest } from "../utils";
 
 class Build extends React.Component {
-  state = { tracks: [], offset: 0 };
+  state = { tracks: [], error: null };
   componentWillMount() {
-    console.log(this.props.history.id);
-    this.fetchBracket().then(bracket => {
-      if (!bracket) {
-        this.props.history.replace(`/build/${uuid()}`);
-      } else {
-        console.log("has a bracket", bracket);
-      }
-    });
-    console.log(this.props.history.location.pathname);
-    console.log("did mount", uuid());
+    this.fetchOrCreateBracket()
+      .then(bracket => {
+        console.log("bracket", bracket);
+        // this.setState({ tracks: bracket.tracks });
+      })
+      .catch(error => {
+        console.error(error);
+        this.setState({ error });
+      });
   }
-  fetchBracket() {
-    return fetch(`/api/brackets/${this.props.history.id}`)
-      .then(res => res.json())
+  fetchOrCreateBracket() {
+    console.log("fetchOrCreateBracket", this.props.match.params.id);
+    if (!this.props.match.params.id) {
+      return this.newBracket();
+    }
+    return makeRequest(`/api/brackets/${this.props.match.params.id}`)
       .then(response => {
-        console.log("resp", response);
         this.setState({
-          loading: false,
-          tracks: response.items
+          loading: false
         });
+        return response;
       })
       .catch(error => {
         this.setState({ loading: false, error });
       });
+  }
+  newBracket() {
+    return makeRequest("/api/brackets", {
+      method: "POST"
+    }).then(respJson => {
+      this.props.history.replace(`/build/${respJson.id}`);
+      console.log("respJson", respJson);
+      return respJson;
+    });
   }
   render() {
     return (
