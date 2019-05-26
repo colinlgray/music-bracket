@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
+import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
@@ -12,12 +12,14 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems } from "./components/ListItems";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Nominations from "./components/Nominations";
 import BracketBuilder from "./components/BracketBuilder";
-
+import ListItemLink from "./components/ListItemLink";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import BarChartIcon from "@material-ui/icons/BarChart";
+import RateReviewIcon from "@material-ui/icons/RateReview";
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -74,15 +76,15 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    width: theme.spacing.unit * 7,
+    width: theme.spacing(7),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9
+      width: theme.spacing(9)
     }
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     height: "100vh",
     overflow: "auto"
   },
@@ -93,7 +95,7 @@ const styles = theme => ({
     height: 320
   },
   h5: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   },
   navList: {
     "&:hover": {
@@ -125,7 +127,7 @@ class App extends React.Component {
           <CssBaseline />
           <AppBar
             position="absolute"
-            className={classNames(
+            className={clsx(
               classes.appBar,
               this.state.open && classes.appBarShift
             )}
@@ -138,7 +140,7 @@ class App extends React.Component {
                 color="inherit"
                 aria-label="Open drawer"
                 onClick={this.handleDrawerOpen}
-                className={classNames(
+                className={clsx(
                   classes.menuButton,
                   this.state.open && classes.menuButtonHidden
                 )}
@@ -159,7 +161,7 @@ class App extends React.Component {
           <Drawer
             variant="permanent"
             classes={{
-              paper: classNames(
+              paper: clsx(
                 classes.drawerPaper,
                 !this.state.open && classes.drawerPaperClose
               )
@@ -172,8 +174,21 @@ class App extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List className={classes.navList}>{mainListItems}</List>
+            <List className={classes.navList}>
+              <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
+              <ListItemLink
+                to="/build"
+                primary="Build a bracket"
+                icon={<RateReviewIcon />}
+              />
+              <ListItemLink
+                to="/nominations"
+                primary="Current Nominations"
+                icon={<BarChartIcon />}
+              />
+            </List>
           </Drawer>
+
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Route path="/" exact component={Home} />

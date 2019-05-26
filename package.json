@@ -5,9 +5,11 @@
   "scripts": {
     "start": "nodemon server/src/index.js",
     "test": "jest ./server/test --watch --verbose false",
-    "heroku-postbuild": "cd client && npm install --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && npm install --no-shrinkwrap && npm run build",
+    "dev": "concurrently \"yarn start\" \"cd client && yarn start\""
   },
   "dependencies": {
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",

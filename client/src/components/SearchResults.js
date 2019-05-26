@@ -8,10 +8,10 @@ import Track from "./Track";
 
 const styles = theme => ({
   loadingIcon: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   errorMessage: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     verticalAlign: "middle",
     display: "flex",
     alignItems: "center"

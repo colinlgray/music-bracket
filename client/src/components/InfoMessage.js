@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classnames";
+import clsx from "clsx";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
@@ -36,7 +36,7 @@ const styles = theme => ({
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   message: {
     display: "flex",
@@ -61,11 +61,11 @@ function InfoMessage(props) {
   const Icon = variantIcon[variant];
   return (
     <SnackbarContent
-      className={classNames(classes[variant], className)}
+      className={clsx(classes[variant], className)}
       aria-describedby="client-snackbar"
       message={
         <span id="client-snackbar" className={classes.message}>
-          <Icon className={classNames(classes.icon, classes.iconVariant)} />
+          <Icon className={clsx(classes.icon, classes.iconVariant)} />
           {message}
         </span>
       }

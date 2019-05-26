@@ -8,17 +8,17 @@ import { SEARCH_LIMIT } from "../constants";
 
 const styles = theme => ({
   textInput: {
-    width: theme.spacing.unit * 24,
-    marginRight: theme.spacing.unit * 4
+    width: theme.spacing(24),
+    marginRight: theme.spacing(4)
   },
   button: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   searchResults: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   },
   loadingIcon: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   }
 });
 
