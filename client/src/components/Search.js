@@ -85,6 +85,7 @@ class Search extends React.Component {
         });
       })
       .catch(err => {
+        console.error(err);
         this.setState({ loading: false, searchError: err });
       });
   };

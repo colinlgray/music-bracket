@@ -52,11 +52,11 @@ routes.map(key => {
   });
 });
 
+app.use("/api", router);
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
 });
-
-app.use("/api", router);
 
 startDb().then(() => {
   app.listen(process.env.PORT || 8080);
