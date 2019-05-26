@@ -1,6 +1,7 @@
 {
     "workbench.settings.useSplitJSON": true,
     "files.exclude": {
-        "**/node_modules": true
+        "**/node_modules": true,
+        "client\\scripts\\(build|start).js": true
     }
 }

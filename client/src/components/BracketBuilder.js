@@ -11,7 +11,7 @@ class BracketBuilder extends React.Component {
   componentWillMount() {
     this.fetchOrCreateBracket()
       .then(bracket => {
-        this.setState({ tracks: bracket.tracks });
+        this.setState({ tracks: bracket.tracks || [] });
       })
       .catch(error => {
         console.error(error);
@@ -60,8 +60,9 @@ class BracketBuilder extends React.Component {
           <Grid item xs={6}>
             <Search />
           </Grid>
-          <Grid item xs={6} />
-          <SelectedTracks tracks={this.state.tracks} />
+          <Grid item xs={6}>
+            <SelectedTracks tracks={this.state.tracks} />
+          </Grid>
         </Grid>
       </>
     );

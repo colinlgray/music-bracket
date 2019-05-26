@@ -1,8 +1,11 @@
-var pluralize = require("pluralize");
+const pluralize = require("pluralize");
+const { map, identity } = require("lodash");
 const { db } = require("../../database");
 
 const makeGetterById = type => id => {
-  return db[pluralize.singular(type)].findByPk(id);
+  return db[pluralize.singular(type)].findByPk(id, {
+    include: map(db.Bracket.associations, identity)
+  });
 };
 const makeGetterAll = type => () => {
   return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
