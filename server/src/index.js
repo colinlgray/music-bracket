@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const { searchForType } = require("./api");
+const { searchForType } = require("./spotifyApi");
 const { makeGetterById, makeGetterAll, makeCreator } = require("./dbApi");
-const { startDb, db } = require("../../database");
+const { startDb } = require("../../database");
 const uuid = require("uuid/v4");
 
 const router = express.Router();
@@ -32,22 +32,26 @@ router.get("/tracks/search", (req, res) =>
 routes.map(key => {
   router.get(`/${key}/:id`, (req, res) => {
     getResourceById[routes.indexOf(key)](req.params.id).then(model => {
-      res.send(model);
+      if (model) {
+        res.send(model);
+      } else {
+        res.sendStatus(404);
+      }
     });
   });
 
   router.post(`/${key}`, (req, res) => {
-    const newId = uuid();
-    createResource[routes.indexOf(key)]().then(model => {
+    const id = uuid();
+    createResource[routes.indexOf(key)]({ id, ...req.body }).then(model => {
       res.status(201);
-      res.json({ id: newId });
+      res.json(model);
       res.end();
     });
   });
 
   router.get(`/${key}`, (req, res) => {
-    getResourcesAll[routes.indexOf(key)]().then(model => {
-      res.send(model);
+    getResourcesAll[routes.indexOf(key)]().then(models => {
+      res.send(models);
     });
   });
 });

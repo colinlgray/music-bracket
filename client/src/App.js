@@ -15,8 +15,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { mainListItems } from "./components/ListItems";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
-import Build from "./components/Build";
 import Nominations from "./components/Nominations";
+import BracketBuilder from "./components/BracketBuilder";
 
 const drawerWidth = 240;
 
@@ -181,7 +181,7 @@ class App extends React.Component {
             <Route
               path="/build/:id?"
               render={props => (
-                <Build
+                <BracketBuilder
                   {...props}
                   addNominee={name => {
                     this.state.nominees.push(
