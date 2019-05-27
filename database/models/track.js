@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       href: DataTypes.STRING,
       popularity: DataTypes.INTEGER,
       preview_url: DataTypes.STRING,
+      spotifyId: DataTypes.STRING,
       type: DataTypes.STRING,
       uri: DataTypes.STRING,
       index: DataTypes.INTEGER
@@ -24,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
   Track.associate = function(models) {
     // associations can be defined here
     Track.hasMany(models.Image);
-    Track.hasMany(models.Artist);
   };
   return Track;
 };

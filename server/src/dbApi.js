@@ -9,6 +9,7 @@ const makeGetterById = type => id => {
 };
 const makeGetterAll = type => () => {
   return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
+  return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
 };
 
 const makeCreator = type => params => {

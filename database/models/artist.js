@@ -13,13 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING,
-      spotifyId: DataTypes.STRING
+      uri: DataTypes.STRING
     },
     {}
   );
-  Artist.associate = function(models) {
-    Artist.belongsTo(models.Track);
-  };
+  Artist.associate = function(models) {};
   return Artist;
 };
