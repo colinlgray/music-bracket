@@ -32,6 +32,7 @@ class Search extends React.Component {
     url: "",
     loading: false,
     searchResults: [],
+    // searchResults: tracks,
     searchError: null,
     offset: 0
   };
@@ -90,15 +91,10 @@ class Search extends React.Component {
       });
   };
   render() {
-    const { classes } = this.props;
+    const { classes, onAddTrack } = this.props;
     return (
-      <Grid
-        container
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-end"
-      >
-        <Grid item xs={12}>
+      <Grid container direction="column">
+        <Grid item xs={1}>
           <TextField
             className={classes.textInput}
             label="Search"
@@ -113,6 +109,7 @@ class Search extends React.Component {
             items={this.state.searchResults}
             error={this.state.searchError}
             hasHiddenError={this.state.hasHiddenSearchError}
+            onAddTrack={track => onAddTrack(track)}
             onClose={() => {
               this.setState({ hasHiddenSearchError: true });
             }}

@@ -1,6 +1,8 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import AddIcon from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
 import ListItem from "@material-ui/core/ListItem";
 import { withStyles } from "@material-ui/core/styles";
 import InfoMessage from "./InfoMessage";
@@ -29,7 +31,8 @@ class SearchResults extends React.Component {
       items = [],
       classes,
       hasHiddenError,
-      onClose
+      onClose,
+      onAddTrack
     } = this.props;
     if (loading) {
       return <CircularProgress className={classes.loadingIcon} />;
@@ -45,10 +48,17 @@ class SearchResults extends React.Component {
     }
     return (
       <Typography component="div">
-        {items.map(i => {
+        {items.map((t, idx) => {
           return (
-            <ListItem key={i.id}>
-              <Track track={i} />
+            <ListItem key={t.id}>
+              <Track
+                track={t}
+                primaryIcon={<AddIcon />}
+                secondaryIcon={<CheckIcon />}
+                onClickCta={() => {
+                  onAddTrack(t);
+                }}
+              />
             </ListItem>
           );
         })}

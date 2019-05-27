@@ -1,5 +1,5 @@
 import React from "react";
-
+import { without } from "lodash";
 import Typography from "@material-ui/core/Typography";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
@@ -51,17 +51,21 @@ class BracketBuilder extends React.Component {
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
           Select Tracks
         </Typography>
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-end"
-        >
+        <Grid container direction="row">
           <Grid item xs={6}>
-            <Search />
+            <Search
+              onAddTrack={track => {
+                this.setState({ tracks: this.state.tracks.concat(track) });
+              }}
+            />
           </Grid>
           <Grid item xs={6}>
-            <SelectedTracks tracks={this.state.tracks} />
+            <SelectedTracks
+              tracks={this.state.tracks}
+              onRemoveTrack={track =>
+                this.setState({ tracks: without(this.state.track, track) })
+              }
+            />
           </Grid>
         </Grid>
       </>
