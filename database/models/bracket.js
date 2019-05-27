@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Bracket.associate = function(models) {
     // associations can be defined here
-    Bracket.hasMany(models.Track);
+    Bracket.hasMany(models.Competitor);
   };
   return Bracket;
 };

@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Artist.associate = function(models) {};
+  Artist.associate = function(models) {
+    Artist.belongsToMany(models.Track, { through: "ArtistTracks" });
+  };
   return Artist;
 };

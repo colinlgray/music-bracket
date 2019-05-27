@@ -24,9 +24,6 @@ module.exports = {
       popularity: {
         type: Sequelize.INTEGER
       },
-      index: {
-        type: Sequelize.INTEGER
-      },
       preview_url: {
         type: Sequelize.STRING
       },

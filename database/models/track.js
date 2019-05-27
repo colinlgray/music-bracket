@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       preview_url: DataTypes.STRING,
       spotifyId: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING,
-      index: DataTypes.INTEGER
+      uri: DataTypes.STRING
     },
     {}
   );
   Track.associate = function(models) {
     // associations can be defined here
-    Track.hasMany(models.Image);
+    Track.hasMany(models.Competitor);
+    Track.belongsToMany(models.Artist, { through: "ArtistTracks" });
   };
   return Track;
 };

@@ -4,7 +4,7 @@ const { db } = require("../../database");
 
 const makeGetterById = type => id => {
   return db[pluralize.singular(type)].findByPk(id, {
-    include: map(db.Bracket.associations, identity)
+    include: map(db[pluralize.singular(type)].associations, identity)
   });
 };
 const makeGetterAll = type => () => {

@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Images", {
+    return queryInterface.createTable("Competitors", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -9,17 +9,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: false
       },
-      spotifyId: {
-        type: Sequelize.STRING
-      },
-      width: {
+      index: {
         type: Sequelize.INTEGER
       },
-      height: {
+      roundsWon: {
         type: Sequelize.INTEGER
-      },
-      url: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +26,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Images");
+    return queryInterface.dropTable("Competitors");
   }
 };
