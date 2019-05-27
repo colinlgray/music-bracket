@@ -63,7 +63,7 @@ class BracketBuilder extends React.Component {
             <SelectedTracks
               tracks={this.state.tracks}
               onRemoveTrack={track =>
-                this.setState({ tracks: without(this.state.track, track) })
+                this.setState({ tracks: without(this.state.tracks, track) })
               }
             />
           </Grid>
