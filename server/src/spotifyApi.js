@@ -47,7 +47,7 @@ const getAndRefreshTokenIfNeeded = () => {
       return authToken;
     });
   }
-  return authToken;
+  return Promise.resolve(authToken);
 };
 
 const getApiToken = () => {

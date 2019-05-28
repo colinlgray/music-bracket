@@ -1,12 +1,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
+import { WithStyles } from "@material-ui/core";
+import { withStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
 import SearchResults from "./SearchResults";
 import { SEARCH_LIMIT } from "../constants";
+import Track from "../models/Track";
 
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   textInput: {
     width: theme.spacing(24),
     marginRight: theme.spacing(4)
@@ -22,8 +24,25 @@ const styles = theme => ({
   }
 });
 
-class Search extends React.Component {
-  constructor(props) {
+interface Props extends WithStyles<typeof styles> {
+  onAddTrack: (track: any) => void;
+}
+
+interface State {
+  query: string;
+  url: string;
+  loading: boolean;
+  searchResults: Array<Track>;
+  searchError: any;
+  offset: number;
+  hasHiddenSearchError: boolean;
+  totalResults: number;
+}
+
+class Search extends React.Component<Props, State> {
+  debouncedLookupSongs: () => void;
+
+  constructor(props: Props) {
     super(props);
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
   }
@@ -32,29 +51,29 @@ class Search extends React.Component {
     url: "",
     loading: false,
     searchResults: [],
-    // searchResults: tracks,
     searchError: null,
-    offset: 0
+    offset: 0,
+    hasHiddenSearchError: false,
+    totalResults: 0
   };
   componentDidMount() {
-    this.setState({ name: "" });
     document.addEventListener("keydown", this.handleKeyPress);
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
-  handleChange = key => e => {
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState(
       {
-        [key]: e.target.value,
+        query: e.target.value,
         loading: true,
         searchError: null,
         hasHiddenSearchError: false
       },
       this.debouncedLookupSongs
     );
-  };
-  handleKeyPress = e => {
+  }
+  handleKeyPress = (e: KeyboardEvent) => {
     if (e && e.keyCode === 13) {
       this.setState(
         {
@@ -66,7 +85,7 @@ class Search extends React.Component {
   };
   lookupSongs = () => {
     if (!this.state.query.trim().length) {
-      return this.setState({
+      this.setState({
         loading: false,
         searchResults: [],
         totalResults: 0
@@ -81,7 +100,9 @@ class Search extends React.Component {
       .then(response => {
         this.setState({
           loading: false,
-          searchResults: response.items,
+          searchResults: response.items.map(
+            (serverResponse: any) => new Track(serverResponse)
+          ),
           totalResults: response.total
         });
       })
@@ -99,7 +120,9 @@ class Search extends React.Component {
             className={classes.textInput}
             label="Search"
             value={this.state.query}
-            onChange={this.handleChange("query")}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              this.handleChange(e);
+            }}
             margin="normal"
           />
         </Grid>
@@ -109,7 +132,7 @@ class Search extends React.Component {
             items={this.state.searchResults}
             error={this.state.searchError}
             hasHiddenError={this.state.hasHiddenSearchError}
-            onAddTrack={track => onAddTrack(track)}
+            onAddTrack={(track: Track) => onAddTrack(track)}
             onClose={() => {
               this.setState({ hasHiddenSearchError: true });
             }}
