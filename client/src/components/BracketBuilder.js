@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
-import { makeRequest } from "../utils";
+import { get, post } from "../utils";
 
 class BracketBuilder extends React.Component {
   state = { tracks: [], error: null };
@@ -22,28 +22,24 @@ class BracketBuilder extends React.Component {
     if (!this.props.match.params.id) {
       return this.newBracket();
     }
-    return makeRequest(`/api/brackets/${this.props.match.params.id}`)
-      .then(response => {
-        if (!response) {
+    return get(`/api/brackets/${this.props.match.params.id}`)
+      .then(({ parsedBody }) => {
+        if (!parsedBody) {
           return this.newBracket();
         }
         this.setState({
           loading: false
         });
-        return response;
+        return parsedBody;
       })
       .finally(() => {
         this.setState({ loading: false });
       });
   }
-  newBracket() {
-    return makeRequest("/api/brackets", {
-      method: "POST",
-      body: {}
-    }).then(respJson => {
-      this.props.history.replace(`/build/${respJson.id}`);
-      return respJson;
-    });
+  async newBracket() {
+    const { parsedBody } = await post("/api/brackets", {});
+    this.props.history.replace(`/build/${parsedBody.id}`);
+    return parsedBody;
   }
   render() {
     return (
