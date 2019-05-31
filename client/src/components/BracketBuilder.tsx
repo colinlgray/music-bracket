@@ -1,12 +1,19 @@
 import React from "react";
 import { without } from "lodash";
 import Typography from "@material-ui/core/Typography";
+import { RouteComponentProps } from "react-router-dom";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
 import { get, post } from "../utils";
+import Track from "../models/Track";
 
-class BracketBuilder extends React.Component {
+type RouteParams = { id: string };
+type Props = { addNominee: (name: string) => void };
+
+class BracketBuilder extends React.Component<
+  RouteComponentProps<RouteParams> & Props
+> {
   state = { tracks: [], error: null };
   componentWillMount() {
     this.fetchOrCreateBracket()
@@ -58,7 +65,7 @@ class BracketBuilder extends React.Component {
           <Grid item xs={6}>
             <SelectedTracks
               tracks={this.state.tracks}
-              onRemoveTrack={track =>
+              onRemoveTrack={(track: Track) =>
                 this.setState({ tracks: without(this.state.tracks, track) })
               }
             />

@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Nominations from "./components/Nominations";
 import BracketBuilder from "./components/BracketBuilder";
+import BracketCompetition from "./components/BracketCompetition";
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
@@ -192,6 +193,10 @@ function App() {
                 }}
               />
             )}
+          />
+          <Route
+            path="/bracket/:id?"
+            render={props => <BracketCompetition {...props} />}
           />
           <Route
             path="/nominations/"
