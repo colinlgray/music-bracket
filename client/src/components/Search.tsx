@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
 import SearchResults from "./SearchResults";
 import { SEARCH_LIMIT } from "../constants";
+import Competitor from "../models/Competitor";
 import Track from "../models/Track";
 
 const styles = (theme: Theme) => ({
@@ -25,7 +26,7 @@ const styles = (theme: Theme) => ({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  onAddTrack: (track: any) => void;
+  onAddCompetitor: (competitor: any) => void;
 }
 
 interface State {
@@ -112,7 +113,7 @@ class Search extends React.Component<Props, State> {
       });
   };
   render() {
-    const { classes, onAddTrack } = this.props;
+    const { classes, onAddCompetitor } = this.props;
     return (
       <Grid container direction="column">
         <Grid item xs={1}>
@@ -132,7 +133,7 @@ class Search extends React.Component<Props, State> {
             items={this.state.searchResults}
             error={this.state.searchError}
             hasHiddenError={this.state.hasHiddenSearchError}
-            onAddTrack={(track: Track) => onAddTrack(track)}
+            onAddCompetitor={(track: Track) => onAddCompetitor(track)}
             onClose={() => {
               this.setState({ hasHiddenSearchError: true });
             }}

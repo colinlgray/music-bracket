@@ -32,7 +32,7 @@ class SearchResults extends React.Component {
       classes,
       hasHiddenError,
       onClose,
-      onAddTrack
+      onAddCompetitor
     } = this.props;
     if (loading) {
       return <CircularProgress className={classes.loadingIcon} />;
@@ -56,7 +56,7 @@ class SearchResults extends React.Component {
                 primaryIcon={<AddIcon />}
                 secondaryIcon={<CheckIcon />}
                 onClickCta={() => {
-                  onAddTrack(t);
+                  onAddCompetitor(t);
                 }}
               />
             </ListItem>

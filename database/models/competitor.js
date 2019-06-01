@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         autoIncrement: false
+      },
+      index: {
+        type: DataTypes.INTEGER
+      },
+      roundsWon: {
+        type: DataTypes.INTEGER
       }
     },
     {}

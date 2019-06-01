@@ -1,53 +1,57 @@
 import React from "react";
-import { without } from "lodash";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps } from "react-router-dom";
 import Search from "./Search";
 import Grid from "@material-ui/core/Grid";
 import SelectedTracks from "./SelectedTracks";
 import { get, post } from "../utils";
-import Track from "../models/Track";
+import Competitor from "../models/Competitor";
+import { Bracket } from "../models/Bracket";
 
 type RouteParams = { id: string };
 type Props = { addNominee: (name: string) => void };
+type State = { bracket: Bracket | null; loading: boolean; error: Error | null };
 
 class BracketBuilder extends React.Component<
-  RouteComponentProps<RouteParams> & Props
+  RouteComponentProps<RouteParams> & Props,
+  State
 > {
-  state = { tracks: [], error: null };
+  state: State = { bracket: null, error: null, loading: false };
   componentWillMount() {
     this.fetchOrCreateBracket()
       .then(bracket => {
-        this.setState({ tracks: bracket.tracks || [] });
+        this.setState({ bracket });
       })
       .catch(error => {
         console.error(error);
         this.setState({ error });
       });
   }
-  fetchOrCreateBracket() {
-    if (!this.props.match.params.id) {
-      return this.newBracket();
+  componentWillUnmount() {}
+
+  async fetchOrCreateBracket() {
+    try {
+      if (!this.props.match.params.id) {
+        return this.newBracket();
+      }
+      this.setState({ loading: true });
+      const { parsedBody } = await get(
+        `/api/brackets/${this.props.match.params.id}`
+      );
+      console.log(parsedBody);
+      return new Bracket(parsedBody);
+    } catch (error) {
+      this.setState({ loading: false });
+      throw error;
     }
-    return get(`/api/brackets/${this.props.match.params.id}`)
-      .then(({ parsedBody }) => {
-        if (!parsedBody) {
-          return this.newBracket();
-        }
-        this.setState({
-          loading: false
-        });
-        return parsedBody;
-      })
-      .finally(() => {
-        this.setState({ loading: false });
-      });
   }
+
   async newBracket() {
     const { parsedBody } = await post("/api/brackets", {});
     this.props.history.replace(`/build/${parsedBody.id}`);
-    return parsedBody;
+    return new Bracket(parsedBody);
   }
+
   render() {
     return (
       <>
@@ -57,17 +61,20 @@ class BracketBuilder extends React.Component<
         <Grid container direction="row">
           <Grid item xs={6}>
             <Search
-              onAddTrack={track => {
-                this.setState({ tracks: this.state.tracks.concat(track) });
+              onAddCompetitor={c => {
+                if (this.state.bracket != null) {
+                  this.state.bracket.addCompetitor(c);
+                }
               }}
             />
           </Grid>
           <Grid item xs={6}>
             <SelectedTracks
-              tracks={this.state.tracks}
-              onRemoveTrack={(track: Track) =>
-                this.setState({ tracks: without(this.state.tracks, track) })
-              }
+              onRemoveCompetitor={(competitor: Competitor) => {
+                if (this.state.bracket) {
+                  this.state.bracket.removeCompetitor(competitor);
+                }
+              }}
             />
           </Grid>
         </Grid>
