@@ -14,7 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.STRING,
       creator: DataTypes.STRING
     },
-    {}
+    {
+      name: {
+        singular: "bracket",
+        plural: "brackets"
+      }
+    }
   );
   Bracket.associate = function(models) {
     Bracket.hasMany(models.Competitor);

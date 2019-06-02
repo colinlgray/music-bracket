@@ -1,6 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { Competitor } from "./Competitor";
 import { without } from "lodash";
+import { get, post, staticDecorator } from "../utils";
 
 export interface BracketProperties {
   [key: string]: any;
@@ -11,16 +12,19 @@ export interface BracketProperties {
   competitors: Array<Competitor>;
 }
 
-export class Bracket extends BaseModel {
+const defaultProps = {
+  competitors: []
+};
+
+@staticDecorator<BaseModel>()
+export class Bracket {
   [key: string]: any;
   constructor(props: BracketProperties) {
-    super();
-    for (let key in props) {
-      this[key] = props[key];
-    }
+    Object.assign(this, defaultProps, props);
   }
 
   addCompetitor(c: Competitor) {
+    console.log("addCompetitor", c);
     this.competitors = this.competitors.concat(c);
   }
 
@@ -28,19 +32,22 @@ export class Bracket extends BaseModel {
     this.competitors = without(this.competitors, c);
   }
 
-async fetchOrCreate(id?: string) {
-  if (!id) {
-    return this.create();
+  static async fetchOrCreate(id?: string) {
+    if (!id) {
+      return this.create();
+    }
+    const { parsedBody } = await get(`/api/brackets/${id}`);
+    return new Bracket(parsedBody);
   }
-  const { parsedBody } = await get(`/api/brackets/${id}`);
-  return new Bracket(parsedBody);
-}
 
-export async function createBracket() {
-  const { parsedBody } = await post("/api/brackets", {});
-  return new Bracket(parsedBody);
-}
+  static async create() {
+    const { parsedBody } = await post("/api/brackets", {});
+    return new Bracket(parsedBody);
+  }
 
+  static async save() {
+    throw new Error("not implemented");
+  }
 }
 
 export default Bracket;

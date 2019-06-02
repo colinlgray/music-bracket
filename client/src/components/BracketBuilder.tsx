@@ -12,6 +12,7 @@ type Props = { model: Bracket };
 export default function BracketBuilder(
   props: RouteComponentProps<RouteParams> & Props
 ) {
+  console.log("tlkjh;ladsf");
   const bracket = props.model;
   return (
     <>
@@ -22,6 +23,7 @@ export default function BracketBuilder(
         <Grid item xs={6}>
           <Search
             onAddCompetitor={(t: Track) => {
+              console.log("?", t);
               bracket.addCompetitor(new Competitor(t));
             }}
           />

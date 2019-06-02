@@ -15,7 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       uri: DataTypes.STRING
     },
-    {}
+    {
+      name: {
+        singular: "artist",
+        plural: "artists"
+      }
+    }
   );
   Artist.associate = function(models) {
     Artist.belongsToMany(models.Track, { through: "ArtistTracks" });

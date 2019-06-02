@@ -1,25 +1,32 @@
 import * as React from "react";
-import { Subtract } from "utility-types";
-import { BaseModel } from "../models";
-import { RouteComponentProps } from "react-router-dom";
 
 export default class ModelLoader extends React.Component {
   constructor() {
     super();
     this.state = {
-      model: null
+      model: null,
+      error: null
     };
   }
   componentDidMount() {
-    console.log("something", this.props.match.params.id);
-    this.props.model.fetchOrCreate(this.props.match.params.id);
+    this.props.model
+      .fetchOrCreate(this.props.match.params.id)
+      .then(model => {
+        this.setState({ model });
+      })
+      .catch(error => this.setState({ error }));
   }
   render() {
     if (this.state.model) {
       const { Component, ...remaining } = this.props;
       return <Component {...remaining} model={this.state.model} />;
-    } else {
-      return "not ready";
+    } else if (this.state.error) {
+      const ErrorComponent = this.props;
+      if (ErrorComponent) {
+        return <ErrorComponent error={this.state.error} />;
+      }
+      return "sorry something has gone wrong";
     }
+    return "not ready";
   }
 }

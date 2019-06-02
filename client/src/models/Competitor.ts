@@ -1,5 +1,6 @@
 import { Track } from "./Track";
 import { BaseModel } from "./BaseModel";
+import { get, post } from "../utils";
 
 export interface CompetitorProperties {
   [key: string]: any;
@@ -11,10 +12,9 @@ export function isTrack(props: Track | CompetitorProperties): props is Track {
   return (<Track>props).save !== undefined;
 }
 
-export class Competitor extends BaseModel {
+export class Competitor implements BaseModel {
   [key: string]: any;
   constructor(props: Track | CompetitorProperties) {
-    super();
     if (isTrack(props)) {
       this.track = props;
     } else {
@@ -24,8 +24,21 @@ export class Competitor extends BaseModel {
     }
   }
 
-  save(): void {
-    console.log("Would save the model here");
+  async fetchOrCreate(id?: string) {
+    if (!id) {
+      return this.create();
+    }
+    const { parsedBody } = await get(`/api/competitors/${id}`);
+    return new Competitor(parsedBody);
+  }
+
+  async create() {
+    const { parsedBody } = await post("/api/competitors", {});
+    return new Competitor(parsedBody);
+  }
+
+  async save() {
+    throw new Error("not implemented");
   }
 }
 

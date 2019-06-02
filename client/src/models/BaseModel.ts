@@ -1,8 +1,5 @@
-export class BaseModel {
-  save(): void {
-    console.log("Would save the model here");
-  }
-  fetchOrCreate(id) {}
+export interface BaseModel {
+  save(): void;
+  fetchOrCreate(id?: string): PromiseLike<any>;
+  create(): PromiseLike<any>;
 }
-
-export default BaseModel;

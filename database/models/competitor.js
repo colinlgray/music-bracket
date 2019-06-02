@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       }
     },
-    {}
+    {
+      name: {
+        singular: "competitor",
+        plural: "competitors"
+      }
+    }
   );
   Competitor.associate = function(models) {
     // associations can be defined here

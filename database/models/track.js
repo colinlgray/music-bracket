@@ -19,7 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       uri: DataTypes.STRING
     },
-    {}
+    {
+      name: {
+        singular: "track",
+        plural: "tracks"
+      }
+    }
   );
   Track.associate = function(models) {
     // associations can be defined here
