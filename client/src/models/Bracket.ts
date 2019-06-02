@@ -1,3 +1,4 @@
+import { BaseModel } from "./BaseModel";
 import { Competitor } from "./Competitor";
 import { without } from "lodash";
 
@@ -7,27 +8,24 @@ export interface BracketProperties {
   name: string;
   description: string;
   creator: string;
-  Competitors: Array<Competitor>;
+  competitors: Array<Competitor>;
 }
 
-export class Bracket {
+export class Bracket extends BaseModel {
   [key: string]: any;
   constructor(props: BracketProperties) {
+    super();
     for (let key in props) {
       this[key] = props[key];
     }
   }
 
-  save(): void {
-    console.log("Would save the model here");
-  }
-
   addCompetitor(c: Competitor) {
-    this.Competitors = this.Competitors.concat(c);
+    this.competitors = this.competitors.concat(c);
   }
 
   removeCompetitor(c: Competitor) {
-    this.Competitors = without(this.Competitors, c);
+    this.competitors = without(this.competitors, c);
   }
 }
 

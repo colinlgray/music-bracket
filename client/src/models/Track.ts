@@ -1,3 +1,4 @@
+import { BaseModel } from "./BaseModel";
 export interface TrackProperties {
   [key: string]: any;
   duration: number;
@@ -11,9 +12,10 @@ export interface TrackProperties {
   id: string;
 }
 
-export class Track {
+export class Track extends BaseModel {
   [key: string]: any;
   constructor(props: TrackProperties) {
+    super();
     for (let key in props) {
       this[key] = props[key];
     }

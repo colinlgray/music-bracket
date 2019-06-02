@@ -26,7 +26,7 @@ const styles = (theme: Theme) => ({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  onAddCompetitor: (competitor: any) => void;
+  onAddCompetitor: (selectedItem: Track) => void;
 }
 
 interface State {
