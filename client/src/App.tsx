@@ -20,7 +20,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import RateReviewIcon from "@material-ui/icons/RateReview";
 import ModelLoader from "./components/ModelLoader";
-import { fetchOrCreateBracket, Bracket } from "./models";
+import { Bracket } from "./models";
 import useStyles from "./app.css";
 const drawerWidth = 240;
 
@@ -104,7 +104,14 @@ function App() {
           <Route
             path="/build/:id?"
             render={props => {
-              return <ModelLoader Component={BracketBuilder} {...props} />;
+              return (
+                <ModelLoader
+                  {...props}
+                  Component={BracketBuilder}
+                  model={Bracket}
+                  new
+                />
+              );
             }}
           />
           <Route

@@ -10,6 +10,10 @@ export default class ModelLoader extends React.Component {
       model: null
     };
   }
+  componentDidMount() {
+    console.log("something", this.props.match.params.id);
+    this.props.model.fetchOrCreate(this.props.match.params.id);
+  }
   render() {
     if (this.state.model) {
       const { Component, ...remaining } = this.props;

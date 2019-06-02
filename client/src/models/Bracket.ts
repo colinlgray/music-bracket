@@ -27,6 +27,20 @@ export class Bracket extends BaseModel {
   removeCompetitor(c: Competitor) {
     this.competitors = without(this.competitors, c);
   }
+
+async fetchOrCreate(id?: string) {
+  if (!id) {
+    return this.create();
+  }
+  const { parsedBody } = await get(`/api/brackets/${id}`);
+  return new Bracket(parsedBody);
+}
+
+export async function createBracket() {
+  const { parsedBody } = await post("/api/brackets", {});
+  return new Bracket(parsedBody);
+}
+
 }
 
 export default Bracket;
