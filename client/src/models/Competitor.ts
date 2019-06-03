@@ -9,7 +9,7 @@ export interface CompetitorProperties {
 }
 
 export function isTrack(props: Track | CompetitorProperties): props is Track {
-  return (<Track>props).save !== undefined;
+  return (props as Track).save !== undefined;
 }
 
 export class Competitor implements BaseModel {

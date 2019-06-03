@@ -3,7 +3,11 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useState } from "react";
+import AddIcon from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
+import { Track } from "../models";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -24,23 +28,46 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Track({ track, onClickCta, primaryIcon, secondaryIcon }) {
+type Props = {
+  track: Track;
+  onClickCta: () => any;
+  viewState: string;
+};
+
+function CtaIcon(props: { viewState: string; clicked: boolean }) {
+  switch (props.viewState) {
+    case "selected":
+      return <DeleteIcon />;
+    case "search":
+      return props.clicked ? <CheckIcon /> : <AddIcon />;
+    default:
+      return null;
+  }
+}
+
+function CompetitorDisplay({ track, viewState, onClickCta }: Props) {
   const classes = useStyles();
   const artists = track.artists || [];
   const [ctaClicked, setCtaClicked] = useState(false);
 
-  const artistNames = artists.reduce((memo, val, idx, arr) => {
-    if (idx !== 0) {
-      memo = `${memo} `;
-    }
-    memo += val.name;
-    if (idx !== arr.length - 1) {
-      memo = `${memo},`;
-    }
-    return memo;
-  }, "");
-
-  let icon = ctaClicked ? secondaryIcon : primaryIcon;
+  const artistNames = artists.reduce(
+    (
+      memo: string,
+      val: { name: string },
+      idx: number,
+      arr: Array<{ name: string }>
+    ) => {
+      if (idx !== 0) {
+        memo = `${memo} `;
+      }
+      memo += val.name;
+      if (idx !== arr.length - 1) {
+        memo = `${memo},`;
+      }
+      return memo;
+    },
+    ""
+  );
 
   return (
     <Card className={classes.card}>
@@ -59,7 +86,7 @@ function Track({ track, onClickCta, primaryIcon, secondaryIcon }) {
               }
             }}
           >
-            {icon}
+            <CtaIcon viewState={viewState} clicked={ctaClicked} />
           </IconButton>
         }
         title={track.name}
@@ -70,7 +97,6 @@ function Track({ track, onClickCta, primaryIcon, secondaryIcon }) {
           title={track.id}
           src={`https://open.spotify.com/embed/track/${track.id}`}
           frameBorder="0"
-          allowtransparency="true"
           allow="encrypted-media"
           className={classes.player}
           width={300}
@@ -80,4 +106,4 @@ function Track({ track, onClickCta, primaryIcon, secondaryIcon }) {
     </Card>
   );
 }
-export default Track;
+export default CompetitorDisplay;

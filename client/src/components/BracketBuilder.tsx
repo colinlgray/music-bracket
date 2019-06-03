@@ -12,8 +12,8 @@ type Props = { model: Bracket };
 export default function BracketBuilder(
   props: RouteComponentProps<RouteParams> & Props
 ) {
-  console.log("tlkjh;ladsf");
   const bracket = props.model;
+
   return (
     <>
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
@@ -23,18 +23,12 @@ export default function BracketBuilder(
         <Grid item xs={6}>
           <Search
             onAddCompetitor={(t: Track) => {
-              console.log("?", t);
               bracket.addCompetitor(new Competitor(t));
             }}
           />
         </Grid>
         <Grid item xs={6}>
-          <SelectedTracks
-            competitors={bracket.competitors}
-            onRemoveCompetitor={(competitor: Competitor) => {
-              bracket.removeCompetitor(competitor);
-            }}
-          />
+          <SelectedTracks competitors={bracket.competitors} />
         </Grid>
       </Grid>
     </>

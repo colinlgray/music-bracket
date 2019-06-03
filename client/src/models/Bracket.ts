@@ -24,7 +24,6 @@ export class Bracket {
   }
 
   addCompetitor(c: Competitor) {
-    console.log("addCompetitor", c);
     this.competitors = this.competitors.concat(c);
   }
 

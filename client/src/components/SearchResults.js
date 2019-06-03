@@ -1,12 +1,10 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import AddIcon from "@material-ui/icons/Add";
-import CheckIcon from "@material-ui/icons/Check";
 import ListItem from "@material-ui/core/ListItem";
 import { withStyles } from "@material-ui/core/styles";
 import InfoMessage from "./InfoMessage";
-import Track from "./Track";
+import CompetitorDisplay from "./CompetitorDisplay";
 
 const styles = theme => ({
   loadingIcon: {
@@ -51,10 +49,9 @@ class SearchResults extends React.Component {
         {items.map((t, idx) => {
           return (
             <ListItem key={t.id}>
-              <Track
+              <CompetitorDisplay
                 track={t}
-                primaryIcon={<AddIcon />}
-                secondaryIcon={<CheckIcon />}
+                viewState="search"
                 onClickCta={() => {
                   onAddCompetitor(t);
                 }}

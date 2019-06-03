@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
 import SearchResults from "./SearchResults";
 import { SEARCH_LIMIT } from "../constants";
-import Competitor from "../models/Competitor";
 import Track from "../models/Track";
 
 const styles = (theme: Theme) => ({

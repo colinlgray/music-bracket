@@ -22,7 +22,6 @@ import RateReviewIcon from "@material-ui/icons/RateReview";
 import ModelLoader from "./components/ModelLoader";
 import { Bracket } from "./models";
 import useStyles from "./app.css";
-const drawerWidth = 240;
 
 function App() {
   const [open, setOpen] = useState(false);
