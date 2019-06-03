@@ -11,10 +11,12 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Nominations from "./components/Nominations";
-import BracketBuilder from "./components/BracketBuilder";
-import BracketCompetition from "./components/BracketCompetition";
+import {
+  BracketCompetition,
+  BracketBuilder,
+  Nominations,
+  Home
+} from "./containers";
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";

@@ -1,9 +1,8 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps } from "react-router-dom";
-import Search from "./Search";
+import { Search, TrackList } from "../components";
 import Grid from "@material-ui/core/Grid";
-import SelectedTracks from "./SelectedTracks";
 import { Track, Bracket, Competitor } from "../models";
 
 type RouteParams = { id: string };
@@ -28,7 +27,7 @@ export default function BracketBuilder(
           />
         </Grid>
         <Grid item xs={6}>
-          <SelectedTracks competitors={bracket.competitors} />
+          <TrackList competitors={bracket.competitors} />
         </Grid>
       </Grid>
     </>

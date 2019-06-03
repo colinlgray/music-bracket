@@ -11,7 +11,7 @@ type Props = {
   competitors: Array<Competitor>;
 };
 
-export function SelectedTracks(props: Props) {
+export function TrackList(props: Props) {
   const { competitors } = props;
   return (
     <Grid container direction="column">
@@ -34,4 +34,4 @@ export function SelectedTracks(props: Props) {
   );
 }
 
-export default withStyles(styles)(SelectedTracks);
+export default withStyles(styles)(TrackList);
