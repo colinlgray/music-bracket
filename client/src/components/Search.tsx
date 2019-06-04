@@ -2,11 +2,10 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { WithStyles } from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import { debounce } from "lodash";
-import SearchResults from "./SearchResults";
 import { SEARCH_LIMIT } from "../constants";
 import Track from "../models/Track";
+import Grid from "@material-ui/core/Grid";
 
 const styles = (theme: Theme) => ({
   textInput: {
@@ -24,8 +23,13 @@ const styles = (theme: Theme) => ({
   }
 });
 
+export interface SearchResults {
+  items: Array<any>;
+  total: number;
+}
+
 interface Props extends WithStyles<typeof styles> {
-  onAddCompetitor: (selectedItem: Track) => void;
+  onChange?: (response: SearchResults) => any;
 }
 
 interface State {
@@ -105,6 +109,9 @@ class Search extends React.Component<Props, State> {
           ),
           totalResults: response.total
         });
+        if (this.props.onChange) {
+          this.props.onChange(response);
+        }
       })
       .catch(err => {
         console.error(err);
@@ -112,32 +119,18 @@ class Search extends React.Component<Props, State> {
       });
   };
   render() {
-    const { classes, onAddCompetitor } = this.props;
+    const { classes } = this.props;
     return (
-      <Grid container direction="column">
-        <Grid item xs={1}>
-          <TextField
-            className={classes.textInput}
-            label="Search"
-            value={this.state.query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              this.handleChange(e);
-            }}
-            margin="normal"
-          />
-        </Grid>
-        <Grid item className={classes.searchResults}>
-          <SearchResults
-            loading={this.state.loading}
-            items={this.state.searchResults}
-            error={this.state.searchError}
-            hasHiddenError={this.state.hasHiddenSearchError}
-            onAddCompetitor={(track: Track) => onAddCompetitor(track)}
-            onClose={() => {
-              this.setState({ hasHiddenSearchError: true });
-            }}
-          />
-        </Grid>
+      <Grid container>
+        <TextField
+          className={classes.textInput}
+          label="Search"
+          value={this.state.query}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            this.handleChange(e);
+          }}
+          margin="normal"
+        />
       </Grid>
     );
   }
