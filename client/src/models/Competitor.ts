@@ -1,6 +1,7 @@
 import { Track } from "./Track";
 import { BaseModel } from "./BaseModel";
 import { get, post } from "../utils";
+import uuid from "uuid/v4";
 
 export interface CompetitorProperties {
   [key: string]: any;
@@ -15,6 +16,7 @@ export function isTrack(props: Track | CompetitorProperties): props is Track {
 export class Competitor implements BaseModel {
   [key: string]: any;
   constructor(props: Track | CompetitorProperties) {
+    this.id = uuid();
     if (isTrack(props)) {
       this.track = props;
     } else {

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps } from "react-router-dom";
-import { Search, SearchResults, TrackList } from "../components";
+import { Search, SearchResults, CompetitorSelection } from "../components";
 import Grid from "@material-ui/core/Grid";
 import { Track, Bracket, Competitor } from "../models";
 import { map } from "lodash";
+import uuid from "uuid/v4";
 
 type RouteParams = { id: string };
 type Props = { model: Bracket };
@@ -25,21 +26,15 @@ export default function BracketBuilder(
           <Search
             onChange={(searchResults: SearchResults) => {
               setTracks(
-                map(searchResults.items, r => {
-                  // TODO PLEASE CHANGE THIS
-                  const t = new Track(r);
-                  return new Competitor(t);
+                map(searchResults.items, result => {
+                  return new Competitor({ track: result, id: uuid() });
                 })
               );
               return null;
             }}
           />
         </Grid>
-        <Grid item xs={6} />
-        <TrackList competitors={tracks} />
-        <Grid item xs={6}>
-          <TrackList competitors={bracket.competitors} />
-        </Grid>
+        <CompetitorSelection competitors={tracks} />
       </Grid>
     </>
   );
