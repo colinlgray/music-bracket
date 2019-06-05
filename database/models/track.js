@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Track.hasMany(models.Competitor);
     Track.belongsToMany(models.Artist, { through: "ArtistTracks" });
+    Track.belongsToMany(models.Image, { through: "TrackImages" });
   };
   return Track;
 };
