@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
-import { Track } from "../models";
+import { Competitor } from "../models";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -29,11 +29,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type Props = {
-  track: Track;
+  competitor: Competitor;
   onClickCta: () => any;
   viewState: string;
+  innerRef?: React.RefObject<any>;
+  isDragging?: boolean;
 };
-
 function CtaIcon(props: { viewState: string; clicked: boolean }) {
   switch (props.viewState) {
     case "selected":
@@ -45,9 +46,17 @@ function CtaIcon(props: { viewState: string; clicked: boolean }) {
   }
 }
 
-function CompetitorDisplay({ track, viewState, onClickCta }: Props) {
+function CompetitorDisplay(props: Props) {
+  const {
+    competitor,
+    viewState,
+    onClickCta,
+    innerRef,
+    isDragging,
+    ...remaining
+  } = props;
   const classes = useStyles();
-  const artists = track.artists || [];
+  const artists = competitor.track.artists || [];
   const [ctaClicked, setCtaClicked] = useState(false);
 
   const artistNames = artists.reduce(
@@ -68,9 +77,8 @@ function CompetitorDisplay({ track, viewState, onClickCta }: Props) {
     },
     ""
   );
-
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} ref={innerRef} {...remaining}>
       <CardHeader
         classes={{
           content: classes.headerContent,
@@ -89,13 +97,13 @@ function CompetitorDisplay({ track, viewState, onClickCta }: Props) {
             <CtaIcon viewState={viewState} clicked={ctaClicked} />
           </IconButton>
         }
-        title={track.name}
+        title={competitor.track.name}
         subheader={artistNames}
       />
       <CardContent>
         <iframe
-          title={track.id}
-          src={`https://open.spotify.com/embed/track/${track.id}`}
+          title={competitor.track.id}
+          src={`https://open.spotify.com/embed/track/${competitor.track.id}`}
           frameBorder="0"
           allow="encrypted-media"
           className={classes.player}

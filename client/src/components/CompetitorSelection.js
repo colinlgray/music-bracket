@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import CompetitorDisplay from "./CompetitorDisplay";
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`
-  }));
-
-// a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -35,44 +27,23 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result;
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250
+  minWidth: 440
 });
 
 export class CompetitorSelection extends Component {
   state = {
-    items: getItems(10),
-    selected: getItems(5, 10)
+    items: [],
+    selected: []
   };
 
-  /**
-   * A semi-generic way to handle multiple lists. Matches
-   * the IDs of the droppable container to the names of the
-   * source arrays stored in the state.
-   */
-  id2List = {
+  idToList = {
     droppable: "items",
     droppable2: "selected"
   };
 
-  getList = id => this.state[this.id2List[id]];
+  getList = id => this.state[this.idToList[id]];
 
   onDragEnd = result => {
     const { source, destination } = result;
@@ -111,8 +82,11 @@ export class CompetitorSelection extends Component {
     }
   };
 
-  // Normally you would want to split things out into separate components.
-  // But in this example everything is just done in one place for simplicity
+  componentWillReceiveProps(props) {
+    // Do something more complex here
+    this.setState({ items: props.competitors });
+  }
+
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -125,17 +99,17 @@ export class CompetitorSelection extends Component {
               {this.state.items.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
+                    <CompetitorDisplay
+                      competitor={item}
+                      viewState={"not-selected"}
+                      isDragging={snapshot.isDragging}
+                      innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
+                      onClickCta={() => {
+                        console.log("onClick");
+                      }}
+                    />
                   )}
                 </Draggable>
               ))}
@@ -152,17 +126,17 @@ export class CompetitorSelection extends Component {
               {this.state.selected.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
+                    <CompetitorDisplay
+                      competitor={item}
+                      viewState={"not-selected"}
+                      isDragging={snapshot.isDragging}
+                      innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
+                      onClickCta={() => {
+                        console.log("onClick");
+                      }}
+                    />
                   )}
                 </Draggable>
               ))}

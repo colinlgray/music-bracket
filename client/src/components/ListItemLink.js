@@ -6,8 +6,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
 
 export default class ListItemLink extends React.Component {
-  renderLink = itemProps => <Link to={this.props.to} {...itemProps} />;
-
   renderLink = React.forwardRef((itemProps, ref) => (
     <Link to={this.props.to} {...itemProps} ref={ref} />
   ));
