@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: false
       },
       url: DataTypes.STRING,
-      width: DataTypes.NUMBER,
-      height: DataTypes.NUMBER
+      width: DataTypes.INTEGER,
+      height: DataTypes.INTEGER
     },
     {
       name: {
