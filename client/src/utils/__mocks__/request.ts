@@ -13,6 +13,5 @@ export const put = async <T>(
     body: JSON.stringify(body)
   }
 ): Promise<IHttpResponse<T>> => {
-  console.log("mock was called");
   return Promise.resolve(new Response());
 };

@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING
+      uri: DataTypes.STRING,
+      spotifyId: DataTypes.STRING
     },
     {
       name: {

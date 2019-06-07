@@ -1,4 +1,5 @@
 import { BaseModel } from "./BaseModel";
+import { Artist, ArtistProperties } from "./Artist";
 import { get, post } from "../utils/request";
 import { omit } from "lodash";
 
@@ -13,14 +14,16 @@ export interface TrackProperties {
   type: string;
   uri: string;
   id: string;
+  artists: Array<Artist | ArtistProperties>;
 }
 
 export class Track implements BaseModel {
   [key: string]: any;
   constructor(props: TrackProperties) {
-    for (let key in omit(props, "id")) {
+    for (let key in omit(props, ["id", "artists", "album"])) {
       this[key] = props[key];
     }
+    this.artists = props.artists.map(a => new Artist(<ArtistProperties>a));
     this.spotifyId = props.id;
   }
 

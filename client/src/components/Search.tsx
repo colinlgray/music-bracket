@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { WithStyles } from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles";
-import { debounce } from "lodash";
+import { debounce, get } from "lodash";
 import { SEARCH_LIMIT } from "../constants";
 import Track from "../models/Track";
 import Grid from "@material-ui/core/Grid";

@@ -1,11 +1,11 @@
-import { Track } from "./Track";
+import { Track, TrackProperties } from "./Track";
 import { BaseModel } from "./BaseModel";
 import { get, post, put } from "../utils/request";
 import uuid from "uuid/v4";
 
 export interface CompetitorProperties {
   [key: string]: any;
-  track: Track;
+  track: Track | TrackProperties;
   id: string;
 }
 
@@ -17,13 +17,15 @@ export class Competitor implements BaseModel {
   [key: string]: any;
   constructor(props: Track | CompetitorProperties) {
     this.id = uuid();
-    // this.save = this.save.bind(this);
     if (isTrack(props)) {
       this.track = props;
     } else {
-      for (let key in props) {
-        this[key] = props[key];
+      if (!props.track) {
+        throw new Error(
+          "Competitor model requires a Track model or a track json object"
+        );
       }
+      this.track = new Track(<TrackProperties>props.track);
     }
   }
 
