@@ -1,5 +1,5 @@
 import { Bracket } from "./Bracket";
-import { get, post } from "../utils";
+import { get, post } from "../utils/request";
 
 export async function fetchOrCreateBracket(id?: string) {
   if (!id) {

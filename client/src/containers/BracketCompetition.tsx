@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { get } from "../utils";
+import { get } from "../utils/request";
 import { RouteComponentProps } from "react-router-dom";
 import Bracket from "../models/Bracket";
 

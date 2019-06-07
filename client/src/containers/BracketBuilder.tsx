@@ -14,7 +14,7 @@ export default function BracketBuilder(
   props: RouteComponentProps<RouteParams> & Props
 ) {
   const bracket = props.model;
-  const [tracks, setTracks] = useState<Array<Track>>([]);
+  const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
 
   return (
     <>
@@ -25,8 +25,9 @@ export default function BracketBuilder(
         <Grid item xs={12}>
           <Search
             onChange={(searchResults: SearchResults) => {
-              setTracks(
+              setCompetitors(
                 map(searchResults.items, result => {
+                  console.log(JSON.stringify(result));
                   return new Competitor({ track: result, id: uuid() });
                 })
               );
@@ -34,7 +35,7 @@ export default function BracketBuilder(
             }}
           />
         </Grid>
-        <CompetitorSelection competitors={tracks} />
+        <CompetitorSelection competitors={competitors} />
       </Grid>
     </>
   );

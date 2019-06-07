@@ -1,6 +1,6 @@
 import { Track } from "./Track";
 import { BaseModel } from "./BaseModel";
-import { get, post } from "../utils";
+import { get, post, put } from "../utils/request";
 import uuid from "uuid/v4";
 
 export interface CompetitorProperties {
@@ -17,6 +17,7 @@ export class Competitor implements BaseModel {
   [key: string]: any;
   constructor(props: Track | CompetitorProperties) {
     this.id = uuid();
+    // this.save = this.save.bind(this);
     if (isTrack(props)) {
       this.track = props;
     } else {
@@ -40,7 +41,8 @@ export class Competitor implements BaseModel {
   }
 
   async save() {
-    throw new Error("not implemented");
+    const res = await put("/api/competitors", this);
+    return res;
   }
 }
 

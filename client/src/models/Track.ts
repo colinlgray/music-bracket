@@ -1,5 +1,6 @@
 import { BaseModel } from "./BaseModel";
-import { get, post } from "../utils";
+import { get, post } from "../utils/request";
+import { omit } from "lodash";
 
 export interface TrackProperties {
   [key: string]: any;
@@ -17,9 +18,10 @@ export interface TrackProperties {
 export class Track implements BaseModel {
   [key: string]: any;
   constructor(props: TrackProperties) {
-    for (let key in props) {
+    for (let key in omit(props, "id")) {
       this[key] = props[key];
     }
+    this.spotifyId = props.id;
   }
 
   async fetchOrCreate(id?: string) {
