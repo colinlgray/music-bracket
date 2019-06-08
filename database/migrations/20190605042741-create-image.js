@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface
-      .createTable("TrackImages", {
+      .createTable("AlbumImages", {
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE
@@ -15,7 +15,7 @@ module.exports = {
           type: Sequelize.UUID,
           primaryKey: true
         },
-        TrackId: {
+        AlbumId: {
           type: Sequelize.STRING,
           primaryKey: true
         }
@@ -51,7 +51,7 @@ module.exports = {
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable("Images").then(() => {
-      queryInterface.dropTable("TrackImages");
+      queryInterface.dropTable("AlbumImages");
     });
   }
 };

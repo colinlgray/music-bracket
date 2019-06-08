@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps } from "react-router-dom";
 import { Search, SearchResults, CompetitorSelection } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Track, Bracket, Competitor } from "../models";
+import { Bracket, Competitor } from "../models";
 import { map } from "lodash";
 import uuid from "uuid/v4";
 
@@ -13,7 +13,6 @@ type Props = { model: Bracket };
 export default function BracketBuilder(
   props: RouteComponentProps<RouteParams> & Props
 ) {
-  const bracket = props.model;
   const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
 
   return (

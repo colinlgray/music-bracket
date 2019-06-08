@@ -1,6 +1,5 @@
 import { BaseModel } from "./BaseModel";
 import { get, post } from "../utils/request";
-import { omit } from "lodash";
 import uuid from "uuid/v4";
 
 export interface ArtistProperties {

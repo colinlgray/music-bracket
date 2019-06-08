@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Image.associate = function(models) {
-    Image.belongsToMany(models.Track, { through: "TrackImages" });
+    Image.belongsToMany(models.Album, { through: "AlbumImages" });
   };
   return Image;
 };

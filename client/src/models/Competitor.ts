@@ -25,7 +25,7 @@ export class Competitor implements BaseModel {
           "Competitor model requires a Track model or a track json object"
         );
       }
-      this.track = new Track(<TrackProperties>props.track);
+      this.track = new Track(props.track as TrackProperties);
     }
   }
 

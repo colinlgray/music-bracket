@@ -22,7 +22,7 @@ export class Track implements BaseModel {
     for (let key in omit(props, ["artists", "album"])) {
       this[key] = props[key];
     }
-    this.artists = props.artists.map(a => new Artist(<ArtistProperties>a));
+    this.artists = props.artists.map(a => new Artist(a as ArtistProperties));
   }
 
   async fetchOrCreate(id?: string) {
