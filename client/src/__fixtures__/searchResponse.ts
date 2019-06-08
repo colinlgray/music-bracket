@@ -1,4 +1,4 @@
-export const trackSearchResults = [
+export const trackSearchResponse = [
   {
     album: {
       album_type: "single",

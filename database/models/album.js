@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
   Album.associate = function(models) {
     // associations can be defined here
     Album.belongsToMany(models.Artist, { through: "AlbumArtists" });
-    Album.belongsToMany(models.Image, { through: "AlbumImages" });
   };
   return Album;
 };

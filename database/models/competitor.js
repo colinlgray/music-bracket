@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       index: {
         type: DataTypes.INTEGER
       },
+      imageUrl: {
+        type: DataTypes.STRING
+      },
       roundsWon: {
         type: DataTypes.INTEGER
       }

@@ -1,12 +1,14 @@
 import { Track, TrackProperties } from "./Track";
 import { BaseModel } from "./BaseModel";
 import { get, post, put } from "../utils/request";
+import { get as _get } from "lodash";
 import uuid from "uuid/v4";
 
 export interface CompetitorProperties {
   [key: string]: any;
   track: Track | TrackProperties;
   id: string;
+  imageUrl: string;
 }
 
 export function isTrack(props: Track | CompetitorProperties): props is Track {
@@ -27,6 +29,15 @@ export class Competitor implements BaseModel {
       }
       this.track = new Track(props.track as TrackProperties);
     }
+    const images = _get(props, "track.album.images", []);
+    this.imageUrl = images.reduce(
+      (memo: any, curr: { width: number; height: number; url: string }) => {
+        if (!memo || curr.width < memo.width) {
+          return curr;
+        }
+        return memo;
+      }
+    );
   }
 
   async fetchOrCreate(id?: string) {

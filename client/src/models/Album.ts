@@ -15,21 +15,23 @@ export interface AlbumProperties {
   type: string;
   uri: string;
   artists: Array<Artist | ArtistProperties>;
-  tracks: Array<Track | TrackProperties>;
+  tracks?: Array<Track | TrackProperties>;
 }
 
 export class Album implements BaseModel {
   [key: string]: any;
-  constructor(props: TrackProperties) {
+  constructor(props: AlbumProperties) {
     for (let key in omit(props, ["artists", "tracks"])) {
       this[key] = props[key];
     }
     this.artists = props.artists.map(
       (a: Artist | ArtistProperties) => new Artist(<ArtistProperties>a)
     );
-    this.tracks = props.tracks.map(
-      (t: Track | TrackProperties) => new Track(<TrackProperties>t)
-    );
+    if (props.tracks) {
+      this.tracks = props.tracks.map(
+        (t: Track | TrackProperties) => new Track(<TrackProperties>t)
+      );
+    }
   }
 
   async fetchOrCreate(id?: string) {

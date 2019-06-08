@@ -1,5 +1,6 @@
 import { BaseModel } from "./BaseModel";
 import { Artist, ArtistProperties } from "./Artist";
+import { Album, AlbumProperties } from "./Album";
 import { get, post } from "../utils/request";
 import { omit } from "lodash";
 
@@ -14,6 +15,7 @@ export interface TrackProperties {
   uri: string;
   id: string;
   artists: Array<Artist | ArtistProperties>;
+  album: Album | AlbumProperties;
 }
 
 export class Track implements BaseModel {
@@ -23,6 +25,7 @@ export class Track implements BaseModel {
       this[key] = props[key];
     }
     this.artists = props.artists.map(a => new Artist(a as ArtistProperties));
+    this.album = new Album(props.album as AlbumProperties);
   }
 
   async fetchOrCreate(id?: string) {
