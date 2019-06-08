@@ -1,32 +1,28 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 
-export default class ModelLoader extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      model: null,
-      error: null
-    };
-  }
-  componentDidMount() {
-    this.props.model
-      .fetchOrCreate(this.props.match.params.id)
+export default function ModelLoader(props) {
+  const [model, setModel] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    props.model
+      .fetchOrCreate(props.match.params.id)
       .then(model => {
-        this.setState({ model });
+        props.history.replace(`/build/${model.id}`);
+        setModel(model);
       })
-      .catch(error => this.setState({ error }));
-  }
-  render() {
-    if (this.state.model) {
-      const { Component, ...remaining } = this.props;
-      return <Component {...remaining} model={this.state.model} />;
-    } else if (this.state.error) {
-      const ErrorComponent = this.props;
-      if (ErrorComponent) {
-        return <ErrorComponent error={this.state.error} />;
-      }
-      return "sorry something has gone wrong";
+      .catch(error => setError(error));
+  }, []);
+
+  if (model) {
+    const { Component, ...remaining } = props;
+    return <Component {...remaining} model={model} />;
+  } else if (error) {
+    const { ErrorComponent } = props;
+    if (ErrorComponent) {
+      return <ErrorComponent error={error} />;
     }
-    return "not ready";
+    return <div>"sorry something has gone wrong"</div>;
   }
+  return <div>"not ready"</div>;
 }
