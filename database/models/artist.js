@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       href: DataTypes.STRING,
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
@@ -13,8 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING,
-      spotifyId: DataTypes.STRING
+      uri: DataTypes.STRING
     },
     {
       name: {

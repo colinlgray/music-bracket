@@ -32,7 +32,7 @@ module.exports = {
       })
       .then(() => {
         queryInterface.addColumn("Competitors", "TrackId", {
-          type: Sequelize.UUID,
+          type: Sequelize.STRING,
           references: {
             model: "Tracks",
             key: "id"

@@ -6,7 +6,6 @@ import uuid from "uuid/v4";
 export interface ArtistProperties {
   [key: string]: any;
   id: string;
-  spotifyId: string;
   href: string;
   name: string;
   type: string;
@@ -17,10 +16,9 @@ export class Artist implements BaseModel {
   [key: string]: any;
   constructor(props: ArtistProperties) {
     this.id = uuid();
-    for (let key in omit(props, "id")) {
+    for (let key in props) {
       this[key] = props[key];
     }
-    this.spotifyId = props.id;
   }
 
   async fetchOrCreate(id?: string) {

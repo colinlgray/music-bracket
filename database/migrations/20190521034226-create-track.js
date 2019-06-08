@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("Tracks", {
       id: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         primaryKey: true,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
@@ -11,9 +11,6 @@ module.exports = {
       },
       duration: {
         type: Sequelize.INTEGER
-      },
-      spotifyId: {
-        type: Sequelize.STRING
       },
       explicit: {
         type: Sequelize.BOOLEAN

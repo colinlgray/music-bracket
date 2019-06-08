@@ -10,7 +10,6 @@ export interface TrackProperties {
   href: string;
   popularity: number;
   preview_url: string;
-  spotifyId: string;
   type: string;
   uri: string;
   id: string;
@@ -20,11 +19,10 @@ export interface TrackProperties {
 export class Track implements BaseModel {
   [key: string]: any;
   constructor(props: TrackProperties) {
-    for (let key in omit(props, ["id", "artists", "album"])) {
+    for (let key in omit(props, ["artists", "album"])) {
       this[key] = props[key];
     }
     this.artists = props.artists.map(a => new Artist(<ArtistProperties>a));
-    this.spotifyId = props.id;
   }
 
   async fetchOrCreate(id?: string) {

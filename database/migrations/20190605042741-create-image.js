@@ -16,7 +16,7 @@ module.exports = {
           primaryKey: true
         },
         TrackId: {
-          type: Sequelize.UUID,
+          type: Sequelize.STRING,
           primaryKey: true
         }
       })

@@ -3,16 +3,13 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("Artists", {
       id: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         primaryKey: true,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         autoIncrement: false
       },
       href: {
-        type: Sequelize.STRING
-      },
-      spotifyId: {
         type: Sequelize.STRING
       },
       name: {
