@@ -4,21 +4,25 @@ import { get, post, put } from "../utils/request";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
 
-export interface CompetitorProperties {
+export interface CompetitorProps {
   [key: string]: any;
   track: Track | TrackProperties;
+  id?: string;
+}
+
+export interface CompetitorProperties extends CompetitorProps {
   id: string;
   imageUrl: string;
 }
 
-export function isTrack(props: Track | CompetitorProperties): props is Track {
+export function isTrack(props: Track | CompetitorProps): props is Track {
   return (props as Track).save !== undefined;
 }
 
 export class Competitor implements BaseModel {
   [key: string]: any;
-  constructor(props: Track | CompetitorProperties) {
-    this.id = uuid();
+  constructor(props: Track | CompetitorProps) {
+    this.id = props.id || uuid();
     if (isTrack(props)) {
       this.track = props;
     } else {
@@ -54,7 +58,7 @@ export class Competitor implements BaseModel {
   }
 
   async save() {
-    const res = await put("/api/competitors", this);
+    const res = await put("/api/competitors", JSON.parse(JSON.stringify(this)));
     return res;
   }
 }

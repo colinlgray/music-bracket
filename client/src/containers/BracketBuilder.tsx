@@ -26,7 +26,6 @@ export default function BracketBuilder(
             onChange={(searchResults: SearchResults) => {
               setCompetitors(
                 map(searchResults.items, result => {
-                  console.log(JSON.stringify(result));
                   return new Competitor({ track: result, id: uuid() });
                 })
               );
