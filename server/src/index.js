@@ -13,7 +13,7 @@ const searchSongs = searchForType("track");
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 
-const routes = ["Artists", "Brackets"];
+const routes = ["Artists", "Brackets", "Competitors"];
 const getResourceById = routes.map(key => makeGetterById(key));
 const getResourcesAll = routes.map(key => makeGetterAll(key));
 const createResource = routes.map(key => makeCreator(key));
@@ -29,9 +29,15 @@ router.get("/tracks/search", (req, res) =>
     })
 );
 
+const getById = ({ key, id }) => getResourceById[routes.indexOf(key)](id);
+
+const createModel = ({ key, id, body }) => {
+  return createResource[routes.indexOf(key)]({ id: id || uuid(), ...body });
+};
+
 routes.map(key => {
   router.get(`/${key}/:id`, (req, res) => {
-    getResourceById[routes.indexOf(key)](req.params.id).then(model => {
+    getById({ key, id: req.params.id }).then(model => {
       if (model) {
         res.send(model);
       } else {
@@ -41,8 +47,7 @@ routes.map(key => {
   });
 
   router.post(`/${key}`, (req, res) => {
-    const id = uuid();
-    createResource[routes.indexOf(key)]({ id, ...req.body }).then(model => {
+    createModel({ key, id: req.params.id, body: req.body }).then(model => {
       res.status(201);
       res.json(model);
       res.end();
@@ -65,3 +70,8 @@ app.get("*", (req, res) => {
 startDb().then(() => {
   app.listen(process.env.PORT || 8080);
 });
+
+module.exports = {
+  getById,
+  createModel
+};
