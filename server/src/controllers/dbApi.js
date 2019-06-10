@@ -1,6 +1,6 @@
 const pluralize = require("pluralize");
 const { map, identity } = require("lodash");
-const { db } = require("../../database");
+const { db } = require("../database");
 
 const makeGetterById = type => id => {
   return db[pluralize.singular(type)].findByPk(id, {

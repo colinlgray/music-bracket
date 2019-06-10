@@ -1,9 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const { searchForType } = require("./spotifyApi");
-const { makeGetterById, makeGetterAll, makeCreator } = require("./dbApi");
-const { startDb } = require("../../database");
+const { searchForType } = require("./controllers/spotifyApi");
+const {
+  makeGetterById,
+  makeGetterAll,
+  makeCreator
+} = require("./controllers/dbApi");
+const { startDb } = require("./database");
 const uuid = require("uuid/v4");
 
 const router = express.Router();
