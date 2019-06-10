@@ -77,5 +77,6 @@ startDb().then(() => {
 
 module.exports = {
   getById,
-  createModel
+  createModel,
+  app
 };
