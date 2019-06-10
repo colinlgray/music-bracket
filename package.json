@@ -26,10 +26,12 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "@types/jest": "^24.0.13",
     "babel-jest": "^24.8.0",
     "husky": "^2.4.0",
     "jest": "^24.8.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.0.2"
   },
   "jest": {}
 }
