@@ -5,8 +5,7 @@
 /node_modules
 
 # dependencies
-/build
-/server-build
+/dist
 
 /.pnp
 .pnp.js
