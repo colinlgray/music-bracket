@@ -10,16 +10,18 @@ module.exports = {
       }
     ]
   ],
-  test: {
-    presets: [
-      [
-        "env",
-        {
-          modules: "commonjs",
-          useBuiltIns: "usage",
-          debug: false
-        }
+  env: {
+    test: {
+      presets: [
+        [
+          "env",
+          {
+            modules: "commonjs",
+            useBuiltIns: "usage",
+            debug: false
+          }
+        ]
       ]
-    ]
+    }
   }
 };
