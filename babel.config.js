@@ -1,4 +1,3 @@
-// babel.config.js
 module.exports = {
   presets: [
     [
@@ -9,19 +8,5 @@ module.exports = {
         }
       }
     ]
-  ],
-  env: {
-    test: {
-      presets: [
-        [
-          "env",
-          {
-            modules: "commonjs",
-            useBuiltIns: "usage",
-            debug: false
-          }
-        ]
-      ]
-    }
-  }
+  ]
 };

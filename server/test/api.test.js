@@ -1,14 +1,15 @@
+import { app } from "../src";
 import request from "supertest";
-import app from "../src";
 
-describe("GET /api/brackets", () => {
+describe("GET /api/artists", () => {
   it("responds with json", () => {
     return request(app)
-      .get("/api/brackets")
+      .get("/api/artists")
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200)
       .then(response => {
+        expect(response.body.length).toEqual(1);
         expect(response).toBeTruthy();
       });
   });
@@ -23,7 +24,7 @@ describe("GET /api/artists/:id", () => {
       .expect("Content-Type", /json/)
       .expect(200)
       .then(response => {
-        expect(response).toBeTruthy();
+        expect(response.body.id).toEqual(id);
       });
   });
 });
@@ -32,14 +33,13 @@ describe("GET /api/tracks/search", () => {
   const query = "old town road";
   const limit = 10;
   const offset = 0;
+  const url = `/api/tracks/search?query=${encodeURI(
+    query
+  )}&limit=${limit}&offset${offset}`;
 
   it("responds with json", () => {
     return request(app)
-      .get(
-        `/api/tracks/search?query=${encodeURI(
-          query
-        )}&limit=${limit}&offset${offset}`
-      )
+      .get(url)
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200)

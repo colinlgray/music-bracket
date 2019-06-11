@@ -1,7 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { Artist, ArtistProperties } from "./Artist";
 import { Track, TrackProperties } from "./Track";
-import { get, post } from "../utils/request";
+import { get, post } from "../utils/http";
 import { omit } from "lodash";
 
 export interface AlbumProperties {

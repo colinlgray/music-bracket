@@ -1,7 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { Competitor } from "./Competitor";
 import { without } from "lodash";
-import { get, post, staticDecorator } from "../utils/request";
+import { get, post, staticDecorator } from "../utils/http";
 
 export interface BracketProperties {
   [key: string]: any;

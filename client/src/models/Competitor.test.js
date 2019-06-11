@@ -2,10 +2,10 @@ import Competitor from "./Competitor";
 import Artist from "./Artist";
 import Track from "./Track";
 import Album from "./Album";
-import * as request from "../utils/request";
+import * as request from "../utils/http";
 import { trackSearchResponse, competitor } from "../__fixtures__";
 
-jest.mock("../utils/request");
+jest.mock("../utils/http");
 
 test("Instantiates a competitor with correct models", () => {
   const c = new Competitor({ track: trackSearchResponse[0] });

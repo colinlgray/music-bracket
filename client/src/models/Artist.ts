@@ -1,5 +1,5 @@
 import { BaseModel } from "./BaseModel";
-import { get, post } from "../utils/request";
+import { get, post } from "../utils/http";
 import uuid from "uuid/v4";
 
 export interface ArtistProperties {
@@ -13,6 +13,7 @@ export interface ArtistProperties {
 
 export class Artist implements BaseModel {
   [key: string]: any;
+  id: string;
   constructor(props: ArtistProperties) {
     this.id = uuid();
     for (let key in props) {

@@ -1,6 +1,6 @@
 import { Track, TrackProperties } from "./Track";
 import { BaseModel } from "./BaseModel";
-import { get, post, put } from "../utils/request";
+import { get, post, put } from "../utils/http";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
 
@@ -21,6 +21,9 @@ export function isTrack(props: Track | CompetitorProps): props is Track {
 
 export class Competitor implements BaseModel {
   [key: string]: any;
+  id: string;
+  track: Track;
+  imageUrl: string;
   constructor(props: Track | CompetitorProps) {
     this.id = props.id || uuid();
     if (isTrack(props)) {

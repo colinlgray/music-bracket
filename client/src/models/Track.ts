@@ -1,7 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { Artist, ArtistProperties } from "./Artist";
 import { Album, AlbumProperties } from "./Album";
-import { get, post } from "../utils/request";
+import { get, post } from "../utils/http";
 import { omit } from "lodash";
 
 export interface TrackProperties {
@@ -20,6 +20,8 @@ export interface TrackProperties {
 
 export class Track implements BaseModel {
   [key: string]: any;
+  artists: Array<Artist>;
+  album: Album;
   constructor(props: TrackProperties) {
     for (let key in omit(props, ["artists", "album"])) {
       this[key] = props[key];
