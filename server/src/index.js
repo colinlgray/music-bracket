@@ -9,12 +9,14 @@ const {
 } = require("./controllers/dbApi");
 const { startDb } = require("./database");
 const uuid = require("uuid/v4");
+const apolloServer = require("./controllers/apolloServer");
 
 const router = express.Router();
 const app = express();
 const searchSongs = searchForType("track");
 
 app.use(bodyParser.json());
+apolloServer.applyMiddleware({ app });
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 
 const routes = ["Artists", "Brackets", "Competitors"];
