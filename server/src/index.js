@@ -1,24 +1,25 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
-const { searchForType } = require("./controllers/spotifyApi");
-const {
+import express from "express";
+import bodyParser from "body-parser";
+import path from "path";
+import { searchForType } from "./controllers/spotifyApi";
+import {
   makeGetterById,
   makeGetterAll,
   makeCreator
-} = require("./controllers/dbApi");
-const { startDb } = require("./database");
-const uuid = require("uuid/v4");
-const apolloServer = require("./controllers/apolloServer");
+} from "./controllers/dbApi";
+import { startDb } from "./database";
+import uuid from "uuid/v4";
+import apolloServer from "./controllers/apolloServer";
 
 const router = express.Router();
 const app = express();
 const searchSongs = searchForType("track");
 
 app.use(bodyParser.json());
-apolloServer.applyMiddleware({ app });
+
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
 
+apolloServer.applyMiddleware({ app });
 const routes = ["Artists", "Brackets", "Competitors"];
 const getResourceById = routes.map(key => makeGetterById(key));
 const getResourcesAll = routes.map(key => makeGetterAll(key));

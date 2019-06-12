@@ -20,6 +20,8 @@ export interface AlbumProperties {
 
 export class Album implements BaseModel {
   [key: string]: any;
+  artists: Array<Artist>;
+  tracks?: Array<Track>;
   constructor(props: AlbumProperties) {
     for (let key in omit(props, ["artists", "tracks"])) {
       this[key] = props[key];

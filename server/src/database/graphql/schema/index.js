@@ -1,9 +1,5 @@
-const query = `
+export default `
     type Query {
        hello: String
     }
 `;
-
-module.exports = {
-  query
-};

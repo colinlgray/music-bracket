@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
-import { Competitor } from "../models";
+import { Competitor, Artist } from "../models";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -60,12 +60,7 @@ function CompetitorDisplay(props: Props) {
   const [ctaClicked, setCtaClicked] = useState(false);
 
   const artistNames = artists.reduce(
-    (
-      memo: string,
-      val: { name: string },
-      idx: number,
-      arr: Array<{ name: string }>
-    ) => {
+    (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {
       if (idx !== 0) {
         memo = `${memo} `;
       }

@@ -1,10 +1,10 @@
-const { ApolloServer, gql } = require("apollo-server-express");
-const typeDefs = require("../database/graphql/schema");
-const resolvers = require("../database/graphql/resolvers");
-const db = require("../database");
+import { ApolloServer, gql } from "apollo-server-express";
+import typeDefs from "../database/graphql/schema";
+import resolvers from "../database/graphql/resolvers";
+import db from "../database";
 
 const server = new ApolloServer({
-  typeDefs: gql(typeDefs.query),
+  typeDefs: gql(typeDefs),
   resolvers,
   context: { db }
 });
