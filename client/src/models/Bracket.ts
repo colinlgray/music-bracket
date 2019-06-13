@@ -1,26 +1,26 @@
 import { BaseModel } from "./BaseModel";
 import { Competitor } from "./Competitor";
 import { without } from "lodash";
-import { get, post, staticDecorator } from "../utils/http";
+import uuid from "uuid/v4";
+import { get, post, put } from "../utils/http";
 
 export interface BracketProperties {
+  [key: string]: any;
+}
+
+export class Bracket {
   [key: string]: any;
   id: string;
   name: string;
   description: string;
   creator: string;
   competitors: Array<Competitor>;
-}
-
-const defaultProps = {
-  competitors: []
-};
-
-@staticDecorator<BaseModel>()
-export class Bracket {
-  [key: string]: any;
-  constructor(props: BracketProperties) {
-    Object.assign(this, defaultProps, props);
+  constructor(id?: string) {
+    this.id = id || uuid();
+    this.competitors = [];
+    this.name = "";
+    this.description = "";
+    this.creator = "";
   }
 
   addCompetitor(c: Competitor) {
@@ -44,8 +44,8 @@ export class Bracket {
     return new Bracket(parsedBody);
   }
 
-  static async save() {
-    throw new Error("not implemented");
+  async save() {
+    return await put("/api/brackets", JSON.parse(JSON.stringify(this)));
   }
 }
 

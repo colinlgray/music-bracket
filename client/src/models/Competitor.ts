@@ -61,8 +61,7 @@ export class Competitor implements BaseModel {
   }
 
   async save() {
-    const res = await put("/api/competitors", JSON.parse(JSON.stringify(this)));
-    return res;
+    return await put("/api/competitors", JSON.parse(JSON.stringify(this)));
   }
 }
 
