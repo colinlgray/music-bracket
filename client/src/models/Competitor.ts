@@ -19,12 +19,13 @@ export function isTrack(props: Track | CompetitorProps): props is Track {
   return (props as Track).save !== undefined;
 }
 
-export class Competitor implements BaseModel {
+export class Competitor extends BaseModel {
   [key: string]: any;
   id: string;
   track: Track;
   imageUrl: string;
   constructor(props: Track | CompetitorProps) {
+    super(props);
     this.id = props.id || uuid();
     if (isTrack(props)) {
       this.track = props;
@@ -45,23 +46,6 @@ export class Competitor implements BaseModel {
         return memo;
       }
     );
-  }
-
-  async fetchOrCreate(id?: string) {
-    if (!id) {
-      return this.create();
-    }
-    const { parsedBody } = await get(`/api/competitors/${id}`);
-    return new Competitor(parsedBody);
-  }
-
-  async create() {
-    const { parsedBody } = await post("/api/competitors", {});
-    return new Competitor(parsedBody);
-  }
-
-  async save() {
-    return await put("/api/competitors", JSON.parse(JSON.stringify(this)));
   }
 }
 
