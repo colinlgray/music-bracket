@@ -12,6 +12,12 @@ export interface TrackProperties {
   type: string;
   uri: string;
   id: string;
+  disc_number: number;
+  duration_ms: number;
+  is_local: string;
+  is_playable: boolean;
+  name: string;
+  track_number: number;
   artists: Array<Artist | ArtistProperties>;
   album: Album | AlbumProperties;
 }

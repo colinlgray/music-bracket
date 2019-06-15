@@ -30,6 +30,24 @@ module.exports = {
       uri: {
         type: Sequelize.STRING
       },
+      disc_number: {
+        type: Sequelize.INTEGER
+      },
+      duration_ms: {
+        type: Sequelize.INTEGER
+      },
+      is_local: {
+        type: Sequelize.STRING
+      },
+      is_playable: {
+        type: Sequelize.BOOLEAN
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      track_number: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

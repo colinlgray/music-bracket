@@ -16,7 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       popularity: DataTypes.INTEGER,
       preview_url: DataTypes.STRING,
       type: DataTypes.STRING,
-      uri: DataTypes.STRING
+      uri: DataTypes.STRING,
+      disc_number: DataTypes.INTEGER,
+      duration_ms: DataTypes.INTEGER,
+      is_local: DataTypes.STRING,
+      is_playable: DataTypes.BOOLEAN,
+      name: DataTypes.STRING,
+      track_number: DataTypes.INTEGER
     },
     {
       name: {
