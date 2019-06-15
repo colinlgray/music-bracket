@@ -1,6 +1,5 @@
 import { Track, TrackProperties } from "./Track";
 import { BaseModel } from "./BaseModel";
-import { get, post, put } from "../utils/http";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
 

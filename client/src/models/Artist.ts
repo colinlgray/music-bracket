@@ -1,6 +1,4 @@
 import { BaseModel } from "./BaseModel";
-import { get, post } from "../utils/http";
-import uuid from "uuid/v4";
 
 export interface ArtistProperties {
   [key: string]: any;
@@ -11,31 +9,20 @@ export interface ArtistProperties {
   uri: string;
 }
 
-export class Artist implements BaseModel {
+export class Artist extends BaseModel {
   [key: string]: any;
   id: string;
+  href: string;
+  name: string;
+  type: string;
+  uri: string;
   constructor(props: ArtistProperties) {
-    this.id = uuid();
-    for (let key in props) {
-      this[key] = props[key];
-    }
-  }
-
-  async fetchOrCreate(id?: string) {
-    if (!id) {
-      return this.create();
-    }
-    const { parsedBody } = await get(`/api/artists/${id}`);
-    return new Artist(parsedBody);
-  }
-
-  async create() {
-    const { parsedBody } = await post("/api/artists", {});
-    return new Artist(parsedBody);
-  }
-
-  async save() {
-    throw new Error("not implemented");
+    super(props);
+    this.id = props.id;
+    this.href = props.href;
+    this.name = props.name;
+    this.type = props.type;
+    this.uri = props.uri;
   }
 }
 

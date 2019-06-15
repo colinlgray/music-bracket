@@ -22,7 +22,7 @@ export default function ModelLoader(props) {
     if (ErrorComponent) {
       return <ErrorComponent error={error} />;
     }
-    return <div>"sorry something has gone wrong"</div>;
+    return <div>sorry something has gone wrong</div>;
   }
-  return <div>"not ready"</div>;
+  return <div>not ready</div>;
 }

@@ -3,10 +3,6 @@ import { Competitor } from "./Competitor";
 import { without } from "lodash";
 import uuid from "uuid/v4";
 
-export interface BracketProperties {
-  [key: string]: any;
-}
-
 export class Bracket extends BaseModel {
   [key: string]: any;
   id: string;

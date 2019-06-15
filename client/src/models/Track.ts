@@ -1,8 +1,6 @@
 import { BaseModel } from "./BaseModel";
 import { Artist, ArtistProperties } from "./Artist";
 import { Album, AlbumProperties } from "./Album";
-import { get, post } from "../utils/http";
-import { omit } from "lodash";
 
 export interface TrackProperties {
   [key: string]: any;
@@ -18,33 +16,31 @@ export interface TrackProperties {
   album: Album | AlbumProperties;
 }
 
-export class Track implements BaseModel {
+export class Track extends BaseModel {
   [key: string]: any;
   artists: Array<Artist>;
   album: Album;
+  duration: number;
+  explicit: boolean;
+  href: string;
+  popularity: number;
+  preview_url: string;
+  type: string;
+  uri: string;
+  id: string;
+
   constructor(props: TrackProperties) {
-    for (let key in omit(props, ["artists", "album"])) {
-      this[key] = props[key];
-    }
+    super(props);
+    this.duration = props.duration;
+    this.explicit = props.explicit;
+    this.href = props.href;
+    this.popularity = props.popularity;
+    this.preview_url = props.preview_url;
+    this.type = props.type;
+    this.uri = props.uri;
+    this.id = props.id;
     this.artists = props.artists.map(a => new Artist(a as ArtistProperties));
     this.album = new Album(props.album as AlbumProperties);
-  }
-
-  async fetchOrCreate(id?: string) {
-    if (!id) {
-      return this.create();
-    }
-    const { parsedBody } = await get(`/api/tracks/${id}`);
-    return new Track(parsedBody);
-  }
-
-  async create() {
-    const { parsedBody } = await post("/api/tracks", {});
-    return new Track(parsedBody);
-  }
-
-  async save() {
-    throw new Error("not implemented");
   }
 }
 
