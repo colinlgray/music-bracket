@@ -5,26 +5,30 @@ export class BaseModel {
   constructor(props: any) {}
 
   static async fetchOrCreate(id?: string) {
-    (window as any).asd = this;
     if (!id) {
       return this.create();
     }
-    const { parsedBody } = await get(`/api/${this.pathName()}/${id}`);
+    const { parsedBody } = await get(
+      `/api/${this.asUrl(this.prototype.constructor.name)}/${id}`
+    );
     return new this(parsedBody);
   }
 
   static async create() {
-    (window as any).asd = this;
-    const { parsedBody } = await post(`/api/${this.pathName()}`, {});
+    const { parsedBody } = await post(
+      `/api/${this.asUrl(this.prototype.constructor.name)}`,
+      {}
+    );
     return new this(parsedBody);
   }
 
-  static pathName() {
-    return pluralize.plural(this.prototype.constructor.name).toLowerCase();
+  static asUrl(modelName: string): string {
+    return pluralize.plural(modelName).toLowerCase();
   }
+
   async save() {
     return await put(
-      `/api/${BaseModel.pathName()}`,
+      `/api/${BaseModel.asUrl(this.constructor.name)}`,
       JSON.parse(JSON.stringify(this))
     );
   }
