@@ -48,6 +48,12 @@ export const competitor = {
     preview_url:
       "https://p.scdn.co/mp3-preview/d94ec2ebe62fd52cf038760f57c251c145346bb2?cid=513b02de12574d61b9c7242cc0e85ffe",
     type: "track",
+    disc_number: 1,
+    duration_ms: 157066,
+    is_local: false,
+    is_playable: true,
+    name: "Old Town Road - Remix",
+    track_number: 1,
     uri: "spotify:track:6u7jPi22kF8CTQ3rb9DHE7"
   }
 };

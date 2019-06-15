@@ -66,6 +66,13 @@ routes.map(key => {
       res.send(models);
     });
   });
+
+  router.put(`/${key}/:id`, (req, res) => {
+    throw new Error("Not implemented");
+    // putResourceById[routes.indexOf(key)]().then(models => {
+    //   res.send(models);
+    // });
+  });
 });
 
 app.use("/api", router);

@@ -1,25 +1,22 @@
 import Bracket from "./Bracket";
 import * as request from "../utils/http";
+import { forEach } from "lodash";
 
 jest.mock("../utils/http");
 
-test("Instantiates a bracket with id", () => {
-  const b = new Bracket();
-  expect(b.competitors).toEqual([]);
-  expect(b.id).toBeTruthy();
-});
-
 test("Calling save on competitor sends correct json", () => {
-  const b = new Bracket("testId");
-  b.name = "my new bracket";
+  const props = {
+    name: "my new bracket",
+    creator: "my new bracket",
+    competitors: [],
+    description: "test",
+    id: "testId"
+  };
+
+  const b = new Bracket(props);
+
   request.put = jest.fn();
   b.save();
 
-  expect(request.put).toHaveBeenCalledWith("/api/brackets", {
-    competitors: [],
-    creator: "",
-    description: "",
-    id: "testId",
-    name: "my new bracket"
-  });
+  expect(request.put).toHaveBeenCalledWith("/api/brackets", props);
 });
