@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Search, SearchResults, CompetitorSelection } from "../components";
 import Grid from "@material-ui/core/Grid";
 import { Bracket, Competitor } from "../models";
-import { map } from "lodash";
+import { map, without } from "lodash";
 import uuid from "uuid/v4";
 
 type RouteParams = { id: string };
@@ -33,7 +33,17 @@ export default function BracketBuilder(
             }}
           />
         </Grid>
-        <CompetitorSelection competitors={competitors} />
+        <CompetitorSelection
+          onAddCompetitor={(competitor: Competitor) => {
+            setCompetitors(competitors.concat(competitor));
+            props.model.save();
+          }}
+          onRemoveCompetitor={(competitor: Competitor) => {
+            setCompetitors(without(competitors, competitor));
+            props.model.save();
+          }}
+          competitors={competitors}
+        />
       </Grid>
     </>
   );

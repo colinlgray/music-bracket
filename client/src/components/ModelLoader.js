@@ -8,6 +8,7 @@ export default function ModelLoader(props) {
     props.model
       .fetchOrCreate(props.match.params.id)
       .then(model => {
+        console.log("model", model);
         props.history.replace(`/build/${model.id}`);
         setModel(model);
       })

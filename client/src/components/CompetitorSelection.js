@@ -10,23 +10,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
-
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   minWidth: 440
@@ -41,6 +24,24 @@ export class CompetitorSelection extends Component {
   idToList = {
     droppable: "items",
     droppable2: "selected"
+  };
+
+  move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
+    if (droppableSource.index === 0) {
+      this.props.onAddCompetitor(removed);
+    } else {
+      this.props.onRemoveCompetitor(removed);
+    }
+    destClone.splice(droppableDestination.index, 0, removed);
+
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+
+    return result;
   };
 
   getList = id => this.state[this.idToList[id]];
@@ -68,7 +69,7 @@ export class CompetitorSelection extends Component {
 
       this.setState(state);
     } else {
-      const result = move(
+      const result = this.move(
         this.getList(source.droppableId),
         this.getList(destination.droppableId),
         source,

@@ -3,27 +3,27 @@ import pluralize from "pluralize";
 
 export class BaseModel {
   constructor(props: any) {}
+
   static async fetchOrCreate(id?: string) {
     if (!id) {
       return this.create();
     }
-    const { parsedBody } = await get(
-      `/api/${pluralize.plural(this.constructor.name).toLowerCase()}/${id}`
-    );
+    const { parsedBody } = await get(`/api/${this.pathName}/${id}`);
     return new this(parsedBody);
   }
 
   static async create() {
-    const { parsedBody } = await post(
-      `/api/${pluralize.plural(this.constructor.name).toLowerCase()}`,
-      {}
-    );
+    (window as any).asd = this;
+    const { parsedBody } = await post(`/api/${this.pathName}`, {});
     return new this(parsedBody);
   }
 
+  static get pathName() {
+    return pluralize.plural(this.prototype.constructor.name).toLowerCase();
+  }
   async save() {
     return await put(
-      `/api/${pluralize.plural(this.constructor.name).toLowerCase()}`,
+      `/api/${BaseModel.pathName}`,
       JSON.parse(JSON.stringify(this))
     );
   }

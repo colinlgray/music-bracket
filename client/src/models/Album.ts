@@ -40,11 +40,11 @@ export class Album extends BaseModel {
     this.type = props.type;
     this.uri = props.uri;
     this.artists = props.artists.map(
-      (a: Artist | ArtistProperties) => new Artist(<ArtistProperties>a)
+      (a: Artist | ArtistProperties) => new Artist(a as ArtistProperties)
     );
     if (props.tracks) {
       this.tracks = props.tracks.map(
-        (t: Track | TrackProperties) => new Track(<TrackProperties>t)
+        (t: Track | TrackProperties) => new Track(t as TrackProperties)
       );
     }
   }
