@@ -1,6 +1,6 @@
 import { BaseModel } from "./BaseModel";
-import { Artist, ArtistProperties } from "./Artist";
-import { Album, AlbumProperties } from "./Album";
+import { Artist } from "./Artist";
+import { Album } from "./Album";
 
 export interface TrackProperties {
   [key: string]: any;
@@ -18,14 +18,12 @@ export interface TrackProperties {
   is_playable: boolean;
   name: string;
   track_number: number;
-  artists: Array<Artist | ArtistProperties>;
-  album: Album | AlbumProperties;
-}
-
-export class Track extends BaseModel {
-  [key: string]: any;
   artists: Array<Artist>;
   album: Album;
+}
+
+export class Track extends BaseModel implements TrackProperties {
+  [key: string]: any;
   duration: number;
   explicit: boolean;
   href: string;
@@ -34,6 +32,14 @@ export class Track extends BaseModel {
   type: string;
   uri: string;
   id: string;
+  disc_number: number;
+  duration_ms: number;
+  is_local: string;
+  is_playable: boolean;
+  name: string;
+  track_number: number;
+  artists: Array<Artist>;
+  album: Album;
 
   constructor(props: TrackProperties) {
     super(props);
@@ -45,8 +51,14 @@ export class Track extends BaseModel {
     this.type = props.type;
     this.uri = props.uri;
     this.id = props.id;
-    this.artists = props.artists.map(a => new Artist(a as ArtistProperties));
-    this.album = new Album(props.album as AlbumProperties);
+    this.disc_number = props.disc_number;
+    this.duration_ms = props.duration_ms;
+    this.is_local = props.is_local;
+    this.is_playable = props.is_playable;
+    this.name = props.name;
+    this.track_number = props.track_number;
+    this.artists = props.artists.map(a => new Artist(a));
+    this.album = new Album(props.album);
   }
 }
 

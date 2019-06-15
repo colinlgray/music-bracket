@@ -9,7 +9,7 @@ export interface ArtistProperties {
   uri: string;
 }
 
-export class Artist extends BaseModel {
+export class Artist extends BaseModel implements ArtistProperties {
   [key: string]: any;
   id: string;
   href: string;
