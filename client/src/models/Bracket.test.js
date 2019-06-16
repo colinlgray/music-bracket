@@ -18,5 +18,5 @@ test("Calling save on competitor sends correct json", () => {
   request.put = jest.fn();
   b.save();
 
-  expect(request.put).toHaveBeenCalledWith("/api/brackets", props);
+  expect(request.put).toHaveBeenCalledWith("/api/brackets/testId", props);
 });

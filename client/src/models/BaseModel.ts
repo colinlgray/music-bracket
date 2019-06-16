@@ -1,8 +1,16 @@
 import { get, post, put } from "../utils/http";
 import pluralize from "pluralize";
+import uuid from "uuid/v4";
+
+export interface ModelProperties {
+  id?: string;
+}
 
 export class BaseModel {
-  constructor(props: any) {}
+  constructor(props: ModelProperties) {
+    this.id = props.id || uuid();
+  }
+  id: string;
 
   static async fetchOrCreate(id?: string) {
     if (!id) {
@@ -28,7 +36,7 @@ export class BaseModel {
 
   async save() {
     return await put(
-      `/api/${BaseModel.asUrl(this.constructor.name)}`,
+      `/api/${BaseModel.asUrl(this.constructor.name)}/${encodeURI(this.id)}`,
       JSON.parse(JSON.stringify(this))
     );
   }

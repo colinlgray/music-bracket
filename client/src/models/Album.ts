@@ -1,9 +1,11 @@
 import { BaseModel } from "./BaseModel";
 import { Artist } from "./Artist";
 import { Track } from "./Track";
+import { string } from "prop-types";
 
 export interface AlbumProperties {
   [key: string]: any;
+  id: string;
   album_type: string;
   href: string;
   name: string;
@@ -18,6 +20,7 @@ export interface AlbumProperties {
 
 export class Album extends BaseModel implements AlbumProperties {
   [key: string]: any;
+  id: string;
   artists: Array<Artist>;
   tracks?: Array<Track>;
   album_type: string;
@@ -39,6 +42,7 @@ export class Album extends BaseModel implements AlbumProperties {
     this.total_tracks = props.total_tracks;
     this.type = props.type;
     this.uri = props.uri;
+    this.id = props.id;
     this.artists = props.artists.map((a: Artist) => new Artist(a));
     if (props.tracks) {
       this.tracks = props.tracks.map((t: Track) => new Track(t));

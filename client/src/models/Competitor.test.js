@@ -26,5 +26,8 @@ test("Calling save on competitor sends correct json", () => {
   request.put = jest.fn();
   c.save();
 
-  expect(request.put).toHaveBeenCalledWith("/api/competitors", competitor);
+  expect(request.put).toHaveBeenCalledWith(
+    `/api/competitors/${competitor.id}`,
+    competitor
+  );
 });

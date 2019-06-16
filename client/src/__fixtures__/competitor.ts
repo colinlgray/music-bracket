@@ -21,6 +21,7 @@ export const competitor = {
       name: "Old Town Road",
       release_date: "2019-04-05",
       release_date_precision: "day",
+      id: "38kpkGLuPr1nNfD3iEyOlJ",
       total_tracks: 2,
       type: "album",
       uri: "spotify:album:38kpkGLuPr1nNfD3iEyOlJ"
