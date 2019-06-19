@@ -42,3 +42,14 @@ test("GET /api/tracks/search", () => {
       expect(response).toBeTruthy();
     });
 });
+
+test("PUT /api/brackets/:id", () => {
+  const id = "8193731a-e552-40dd-951f-798ec31e8ac6";
+  const bracket = { id, competitors: [] };
+  return request(app)
+    .put(`/api/brackets/${id}`)
+    .send(bracket)
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200);
+});
