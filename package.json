@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run build && node dist/server/index.js",
     "build": "tsc",
-    "test": "jest ./server/test --watch --verbose false",
+    "test": "jest",
     "heroku-postbuild": "npm run build && cd client && npm install --no-shrinkwrap && npm run build",
     "dev": "concurrently \"yarn start\" \"cd client && yarn start\""
   },
