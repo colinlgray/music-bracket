@@ -1,6 +1,5 @@
 import Bracket from "./Bracket";
 import * as request from "../utils/http";
-import { forEach } from "lodash";
 
 jest.mock("../utils/http");
 
