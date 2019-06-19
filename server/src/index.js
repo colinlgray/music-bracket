@@ -5,7 +5,8 @@ import { searchForType } from "./controllers/spotifyApi";
 import {
   makeGetterById,
   makeGetterAll,
-  makeCreator
+  makeCreator,
+  makePutById
 } from "./controllers/dbApi";
 import { startDb } from "./database";
 import uuid from "uuid/v4";
@@ -24,6 +25,7 @@ const routes = ["Artists", "Brackets", "Competitors"];
 const getResourceById = routes.map(key => makeGetterById(key));
 const getResourcesAll = routes.map(key => makeGetterAll(key));
 const createResource = routes.map(key => makeCreator(key));
+const putResourceById = routes.map(key => makePutById(key));
 
 router.get("/tracks/search", (req, res) =>
   searchSongs(req.query)
@@ -68,10 +70,10 @@ routes.map(key => {
   });
 
   router.put(`/${key}/:id`, (req, res) => {
-    throw new Error("Not implemented");
-    // putResourceById[routes.indexOf(key)]().then(models => {
-    //   res.send(models);
-    // });
+    putResourceById[routes.indexOf(key)](req.body).then(model => {
+      res.status(200);
+      res.send(model);
+    });
   });
 });
 

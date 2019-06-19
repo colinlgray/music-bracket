@@ -49,7 +49,5 @@ test("PUT /api/brackets/:id", () => {
   return request(app)
     .put(`/api/brackets/${id}`)
     .send(bracket)
-    .set("Accept", "application/json")
-    .expect("Content-Type", /json/)
     .expect(200);
 });

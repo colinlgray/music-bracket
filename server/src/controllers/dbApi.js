@@ -7,6 +7,11 @@ const makeGetterById = type => id => {
     include: map(db[pluralize.singular(type)].associations, identity)
   });
 };
+
+const makePutById = type => body => {
+  return db[pluralize.singular(type)].upsert(body);
+};
+
 const makeGetterAll = type => () => {
   return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
 };
@@ -18,5 +23,6 @@ const makeCreator = type => params => {
 module.exports = {
   makeCreator,
   makeGetterAll,
-  makeGetterById
+  makeGetterById,
+  makePutById
 };
