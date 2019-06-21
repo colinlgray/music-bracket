@@ -1,7 +1,6 @@
 import { BaseModel } from "./BaseModel";
 import { Artist } from "./Artist";
 import { Track } from "./Track";
-import { string } from "prop-types";
 
 export interface AlbumProperties {
   [key: string]: any;

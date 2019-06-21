@@ -85,7 +85,7 @@ export class CompetitorSelection extends Component {
 
   componentWillReceiveProps(props) {
     // Do something more complex here
-    this.setState({ items: props.competitors });
+    this.setState({ items: props.competitors, selected: props.selected });
   }
 
   render() {
