@@ -1,4 +1,5 @@
 import { app } from "../src";
+import { bracket } from "../../fixtures";
 import request from "supertest";
 
 test("GET /api/artists", () => {
@@ -44,10 +45,15 @@ test("GET /api/tracks/search", () => {
 });
 
 test("PUT /api/brackets/:id", () => {
-  const id = "8193731a-e552-40dd-951f-798ec31e8ac6";
-  const bracket = { id, competitors: [] };
+  const { id } = bracket;
+  const url = `/api/brackets/${id}`;
+
   return request(app)
-    .put(`/api/brackets/${id}`)
+    .put(url)
     .send(bracket)
-    .expect(200);
+    .expect(200)
+    .get(url)
+    .then(response => {
+      expect(response).toBeTruthy();
+    });
 });
