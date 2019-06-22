@@ -1,5 +1,3 @@
-import { BaseModel } from "./BaseModel";
-
 export interface ArtistProperties {
   [key: string]: any;
   id: string;
@@ -9,7 +7,7 @@ export interface ArtistProperties {
   uri: string;
 }
 
-export class Artist extends BaseModel implements ArtistProperties {
+export class Artist implements ArtistProperties {
   [key: string]: any;
   id: string;
   href: string;
@@ -17,7 +15,6 @@ export class Artist extends BaseModel implements ArtistProperties {
   type: string;
   uri: string;
   constructor(props: ArtistProperties) {
-    super(props);
     this.id = props.id;
     this.href = props.href;
     this.name = props.name;

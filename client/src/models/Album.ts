@@ -17,7 +17,7 @@ export interface AlbumProperties {
   tracks?: Array<Track>;
 }
 
-export class Album extends BaseModel implements AlbumProperties {
+export class Album implements AlbumProperties {
   [key: string]: any;
   id: string;
   artists: Array<Artist>;
@@ -32,7 +32,6 @@ export class Album extends BaseModel implements AlbumProperties {
   uri: string;
 
   constructor(props: AlbumProperties) {
-    super(props);
     this.album_type = props.album_type;
     this.href = props.href;
     this.name = props.name;

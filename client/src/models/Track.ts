@@ -1,4 +1,3 @@
-import { BaseModel } from "./BaseModel";
 import { Artist } from "./Artist";
 import { Album } from "./Album";
 
@@ -22,7 +21,7 @@ export interface TrackProperties {
   album: Album;
 }
 
-export class Track extends BaseModel implements TrackProperties {
+export class Track implements TrackProperties {
   [key: string]: any;
   duration: number;
   explicit: boolean;
@@ -42,7 +41,6 @@ export class Track extends BaseModel implements TrackProperties {
   album: Album;
 
   constructor(props: TrackProperties) {
-    super(props);
     this.duration = props.duration;
     this.explicit = props.explicit;
     this.href = props.href;

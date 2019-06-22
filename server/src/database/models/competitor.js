@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       roundsWon: {
         type: DataTypes.INTEGER
+      },
+      type: {
+        type: DataTypes.STRING
+      },
+      spotifyId: {
+        type: DataTypes.STRING
       }
     },
     {
@@ -30,7 +36,6 @@ module.exports = (sequelize, DataTypes) => {
   Competitor.associate = function(models) {
     // associations can be defined here
     Competitor.belongsTo(models.Bracket);
-    Competitor.belongsTo(models.Track);
   };
   return Competitor;
 };

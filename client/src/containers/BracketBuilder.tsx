@@ -25,7 +25,11 @@ export default function BracketBuilder(
             onChange={(searchResults: SearchResults) => {
               setCompetitors(
                 map(searchResults.items, result => {
-                  return new Competitor({ track: result, id: uuid() });
+                  return new Competitor({
+                    type: "track",
+                    spotifyId: result.id,
+                    id: uuid()
+                  });
                 })
               );
               return null;

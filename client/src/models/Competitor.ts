@@ -5,46 +5,47 @@ import uuid from "uuid/v4";
 
 export interface CompetitorProps {
   [key: string]: any;
-  track: Track | TrackProperties;
-  id?: string;
+  type: string;
+  spotifyId: string;
+  track?: Track;
 }
 
 export interface CompetitorProperties extends CompetitorProps {
   id: string;
   imageUrl: string;
-}
-
-export function isTrack(props: Track | CompetitorProps): props is Track {
-  return (props as Track).save !== undefined;
+  spotifyId: string;
+  type: string;
+  model: Track | null;
 }
 
 export class Competitor extends BaseModel implements CompetitorProperties {
   [key: string]: any;
   id: string;
-  track: Track;
   imageUrl: string;
-  constructor(props: Track | CompetitorProps) {
-    super(props);
-    this.id = props.id || uuid();
-    if (isTrack(props)) {
-      this.track = props;
-    } else {
-      if (!props.track) {
-        throw new Error(
-          "Competitor model requires a Track model or a track json object"
-        );
-      }
-      this.track = new Track(props.track as TrackProperties);
-    }
-    const images = _get(props, "track.album.images", []);
-    this.imageUrl = images.reduce(
-      (memo: any, curr: { width: number; height: number; url: string }) => {
-        if (!memo || curr.width < memo.width) {
-          return curr;
+  spotifyId: string;
+  type: string;
+  model: Track | null;
+  constructor(props: CompetitorProps) {
+    const id = uuid();
+    super({ id });
+    this.id = id;
+    this.type = props.type;
+    this.spotifyId = props.spotifyId;
+    if (props.type === "track" && props.track) {
+      this.model = new Track(props.track as TrackProperties);
+      const images = _get(props, "track.album.images", []);
+      this.imageUrl = images.reduce(
+        (memo: any, curr: { width: number; height: number; url: string }) => {
+          if (!memo || curr.width < memo.width) {
+            return curr;
+          }
+          return memo;
         }
-        return memo;
-      }
-    );
+      );
+    } else {
+      this.model = null;
+      this.imageUrl = "";
+    }
   }
 }
 

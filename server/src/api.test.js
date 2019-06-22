@@ -2,19 +2,7 @@ import { app } from "../src";
 import { bracket } from "../../fixtures";
 import request from "supertest";
 
-test("GET /api/artists", () => {
-  return request(app)
-    .get("/api/artists")
-    .set("Accept", "application/json")
-    .expect("Content-Type", /json/)
-    .expect(200)
-    .then(response => {
-      expect(response.body.length).toEqual(1);
-      expect(response).toBeTruthy();
-    });
-});
-
-test("GET /api/artists/:id", () => {
+test.skip("GET /api/artists/:id", () => {
   const id = "7jVv8c5Fj3E9VhNjxT4snq";
   return request(app)
     .get(`/api/artists/${id}`)
@@ -44,7 +32,7 @@ test("GET /api/tracks/search", () => {
     });
 });
 
-test("PUT /api/brackets/:id", () => {
+test.skip("PUT /api/brackets/:id", () => {
   const { id } = bracket;
   const url = `/api/brackets/${id}`;
 
