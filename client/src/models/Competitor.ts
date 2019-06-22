@@ -34,16 +34,17 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     if (props.type === "track" && props.track) {
       this.model = new Track(props.track as TrackProperties);
       const images = _get(props, "track.album.images", []);
-      this.imageUrl =
-        images.reduce(
-          (memo: any, curr: { width: number; height: number; url: string }) => {
-            if (!memo || curr.width < memo.width) {
-              return curr;
-            }
-            return memo;
+      this.imageUrl = images.reduce(
+        (memo: any, curr: { width: number; height: number; url: string }) => {
+          if (!memo || curr.width < memo.width) {
+            return curr;
           }
-        ) || "";
+          return memo;
+        },
+        ""
+      );
     } else {
+      console.error("This case not handled yet");
       this.model = null;
       this.imageUrl = "";
     }

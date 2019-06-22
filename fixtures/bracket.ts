@@ -1,13 +1,16 @@
 export const bracket = {
-  id: "cfc4caf8-db18-4296-9aa5-fa6ae098d6b6",
+  id: "0ed717b6-b816-4828-95b6-94b8ff0d9a84",
   name: null,
   description: null,
   creator: null,
   competitors: [
     {
-      id: "f195f49d-2148-41d4-b94c-882861aeabb5",
-      track: {
-        id: "1DMEzmAoQIikcL52psptQL",
+      id: "73529914-a2a9-4ea7-b354-afeb8712938a",
+      imageUrl:
+        "https://i.scdn.co/image/1d828085e1ba97a564dcdad94373023eff8b02ca",
+      spotifyId: "1DMEzmAoQIikcL52psptQL",
+      type: "track",
+      model: {
         explicit: true,
         href: "https://api.spotify.com/v1/tracks/1DMEzmAoQIikcL52psptQL",
         popularity: 75,
@@ -15,6 +18,7 @@ export const bracket = {
           "https://p.scdn.co/mp3-preview/c7d8c051043d53a2ecd3aba7916cec3860456454?cid=513b02de12574d61b9c7242cc0e85ffe",
         type: "track",
         uri: "spotify:track:1DMEzmAoQIikcL52psptQL",
+        id: "1DMEzmAoQIikcL52psptQL",
         disc_number: 1,
         duration_ms: 179423,
         is_local: false,
@@ -50,11 +54,6 @@ export const bracket = {
           type: "album",
           uri: "spotify:album:34GQP3dILpyCN018y2k61L"
         }
-      },
-      imageUrl: {
-        height: 64,
-        url: "https://i.scdn.co/image/1d828085e1ba97a564dcdad94373023eff8b02ca",
-        width: 64
       }
     }
   ]

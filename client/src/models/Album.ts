@@ -15,7 +15,7 @@ export interface AlbumProperties {
   uri: string;
   artists: Array<Artist>;
   tracks?: Array<Track>;
-  images: Array<Image>;
+  images?: Array<Image>;
 }
 
 export class Album implements AlbumProperties {
@@ -23,7 +23,7 @@ export class Album implements AlbumProperties {
   id: string;
   artists: Array<Artist>;
   tracks?: Array<Track>;
-  images: Array<Image>;
+  images?: Array<Image>;
   album_type: string;
   href: string;
   name: string;
@@ -44,7 +44,9 @@ export class Album implements AlbumProperties {
     this.uri = props.uri;
     this.id = props.id;
     this.artists = props.artists.map((a: Artist) => new Artist(a));
-    this.images = props.images.map((i: Image) => new Image(i));
+    if (props.images) {
+      this.images = props.images.map((i: Image) => new Image(i));
+    }
     if (props.tracks) {
       this.tracks = props.tracks.map((t: Track) => new Track(t));
     }

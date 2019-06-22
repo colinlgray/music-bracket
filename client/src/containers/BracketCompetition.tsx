@@ -34,7 +34,6 @@ class BracketCompetition extends React.Component<
       const { parsedBody } = await get(
         `/api/brackets/${this.props.match.params.id}`
       );
-
       return new Bracket(parsedBody);
     } catch (error) {
       this.setState({ loading: false });
