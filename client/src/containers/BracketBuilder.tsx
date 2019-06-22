@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps } from "react-router-dom";
 import { Search, SearchResults, CompetitorSelection } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Bracket, Competitor } from "../models";
+import { Bracket, Competitor, Track } from "../models";
 import { map } from "lodash";
 import uuid from "uuid/v4";
 
@@ -28,6 +28,7 @@ export default function BracketBuilder(
                   return new Competitor({
                     type: "track",
                     spotifyId: result.id,
+                    track: new Track(result),
                     id: uuid()
                   });
                 })

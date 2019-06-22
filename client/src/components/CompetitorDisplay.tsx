@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useState } from "react";
+import { get } from "lodash";
 import AddIcon from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import { Competitor, Artist } from "../models";
@@ -56,9 +57,10 @@ function CompetitorDisplay(props: Props) {
     ...remaining
   } = props;
   const classes = useStyles();
-  const artists = competitor.track.artists || [];
+  const artists = get(competitor, "model.artists", []);
   const [ctaClicked, setCtaClicked] = useState(false);
 
+  const title = get(competitor, "model.name", "loading");
   const artistNames = artists.reduce(
     (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {
       if (idx !== 0) {
@@ -92,13 +94,13 @@ function CompetitorDisplay(props: Props) {
             <CtaIcon viewState={viewState} clicked={ctaClicked} />
           </IconButton>
         }
-        title={competitor.track.name}
+        title={title}
         subheader={artistNames}
       />
       <CardContent>
         <iframe
-          title={competitor.track.id}
-          src={`https://open.spotify.com/embed/track/${competitor.track.id}`}
+          title={competitor.id}
+          src={`https://open.spotify.com/embed/track/${competitor.spotifyId}`}
           frameBorder="0"
           allow="encrypted-media"
           className={classes.player}
