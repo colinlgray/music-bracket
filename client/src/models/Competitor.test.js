@@ -3,7 +3,7 @@ import Artist from "./Artist";
 import Track from "./Track";
 import Album from "./Album";
 import * as request from "../utils/http";
-import { trackSearchResponse, competitor } from "../__fixtures__";
+import { trackSearchResponse, competitor } from "../../../fixtures";
 
 jest.mock("../utils/http");
 
