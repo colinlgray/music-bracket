@@ -1,7 +1,7 @@
 import Bracket from "./Bracket";
 import Track from "./Track";
 import Competitor from "./Competitor";
-import { track as trackFixture } from "../../../fixtures";
+import { trackSearchResponse } from "../../../fixtures";
 import * as request from "../utils/http";
 
 jest.mock("../utils/http");
@@ -14,12 +14,14 @@ test("bracket can add track and save correctly", () => {
     description: "test",
     id: "testId"
   };
-
+  const trackSearchResult = trackSearchResponse[0];
+  const { id } = trackSearchResult;
   const c = new Competitor({
     type: "track",
-    spotifyId: trackFixture.id,
-    track: new Track(trackFixture),
-    id: "competitorId"
+    spotifyId: id,
+    track: new Track(trackSearchResult),
+    id: "competitorId",
+    index: 0
   });
 
   const b = new Bracket(props);
@@ -29,18 +31,16 @@ test("bracket can add track and save correctly", () => {
   b.save();
 
   const expected = {
-    id: c.id,
-    name: "my new bracket",
-    creator: "my new bracket",
-    description: "test",
+    ...props,
     competitors: [
       {
         index: 0,
         imageUrl:
-          "https://i.scdn.co/image/1d828085e1ba97a564dcdad94373023eff8b02ca",
+          "https://i.scdn.co/image/2cc54e7570d470966be2def87590dfa84f87076f",
         roundsWon: 0,
         type: "track",
-        spotifyId: "1DMEzmAoQIikcL52psptQL"
+        id: "competitorId",
+        spotifyId: "6u7jPi22kF8CTQ3rb9DHE7"
       }
     ]
   };

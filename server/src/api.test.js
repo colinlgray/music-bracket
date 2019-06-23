@@ -1,16 +1,17 @@
 import { app } from "../src";
-import { bracket } from "../../fixtures";
+import { bracket, searchResponse } from "../../fixtures";
 import request from "supertest";
 
-test.skip("GET /api/artists/:id", () => {
-  const id = "7jVv8c5Fj3E9VhNjxT4snq";
+test.skip("GET /api/tracks/:id", () => {
+  const trackResponse = searchResponse[0];
+  const id = { trackResponse };
   return request(app)
-    .get(`/api/artists/${id}`)
+    .get(`/api/tracks/${id}`)
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
     .expect(200)
     .then(response => {
-      expect(response.body.id).toEqual(id);
+      expect(response.body).toEqual(trackResponse);
     });
 });
 

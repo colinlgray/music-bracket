@@ -1,6 +1,7 @@
 import { BaseModel } from "./BaseModel";
+import { put } from "../utils/http";
 import { Competitor } from "./Competitor";
-import { without } from "lodash";
+import { map, without } from "lodash";
 
 export interface BracketProperties {
   [key: string]: any;
@@ -33,6 +34,18 @@ export class Bracket extends BaseModel implements BracketProperties {
 
   removeCompetitor(c: Competitor) {
     this.competitors = without(this.competitors, c);
+  }
+
+  async save() {
+    let asObj: { [index: string]: {} } = {};
+    Object.keys(this).forEach(key => {
+      asObj[key] = this[key];
+    });
+    asObj.competitors = map(this.competitors, c => c.dbProps);
+    return await put(
+      `/api/${BaseModel.asUrl(this.constructor.name)}/${encodeURI(this.id)}`,
+      asObj
+    );
   }
 }
 
