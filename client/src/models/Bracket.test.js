@@ -32,17 +32,7 @@ test("bracket can add track and save correctly", () => {
 
   const expected = {
     ...props,
-    competitors: [
-      {
-        index: 0,
-        imageUrl:
-          "https://i.scdn.co/image/2cc54e7570d470966be2def87590dfa84f87076f",
-        roundsWon: 0,
-        type: "track",
-        id: "competitorId",
-        spotifyId: "6u7jPi22kF8CTQ3rb9DHE7"
-      }
-    ]
+    competitors: ["competitorId"]
   };
 
   expect(request.put).toHaveBeenCalledWith("/api/brackets/testId", expected);

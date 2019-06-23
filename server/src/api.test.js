@@ -1,7 +1,14 @@
 import { app } from "../src";
 import { Bracket, Competitor, Track } from "../../client/src/models";
 import { bracket, trackSearchResponse } from "../../fixtures";
+import { db } from "./database";
 import request from "supertest";
+
+beforeAll(() => {
+  return db.sequelize.queryInterface.bulkDelete("competitors", {
+    id: "testCompetitorId"
+  });
+});
 
 test.skip("GET /api/tracks/:id", () => {
   const trackResponse = trackSearchResponse[0];
@@ -34,12 +41,29 @@ test("GET /api/tracks/search", () => {
     });
 });
 
+test("POST /api/competitors", () => {
+  const c = new Competitor({
+    type: "track",
+    spotifyId: trackSearchResponse[0].id,
+    track: new Track(trackSearchResponse[0]),
+    id: "testCompetitorId",
+    index: 0
+  });
+  return request(app)
+    .post("/api/competitors")
+    .send(c.dbProps)
+    .expect(201)
+    .then(response => {
+      expect(response.body).toBeTruthy();
+    });
+});
+
 test("PUT /api/brackets/:id", () => {
   const c = new Competitor({
     type: "track",
     spotifyId: trackSearchResponse[0].id,
     track: new Track(trackSearchResponse[0]),
-    id: "competitorId",
+    id: "testCompetitorId",
     index: 0
   });
 
@@ -57,8 +81,5 @@ test("PUT /api/brackets/:id", () => {
   return request(app)
     .put(url)
     .send(b.dbProps)
-    .expect(200)
-    .then(response => {
-      expect(response.body).toEqual(b.dbProps);
-    });
+    .expect(200);
 });

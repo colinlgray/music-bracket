@@ -41,7 +41,7 @@ export class Bracket extends BaseModel implements BracketProperties {
     Object.keys(this).forEach(key => {
       dbProps[key] = this[key];
     });
-    dbProps.competitors = map(this.competitors, c => c.dbProps);
+    dbProps.competitors = map(this.competitors, c => c.id);
     return dbProps;
   }
 

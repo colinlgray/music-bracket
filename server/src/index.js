@@ -44,36 +44,49 @@ const createModel = ({ key, id, body }) => {
   return createResource[routes.indexOf(key)]({ id: id || uuid(), ...body });
 };
 
+const errorHandler = res => err => {
+  console.error(err);
+  res.sendStatus(500);
+};
+
 routes.map(key => {
   router.get(`/${key}/:id`, (req, res) => {
-    getById({ key, id: req.params.id }).then(model => {
-      if (model) {
-        res.send(model);
-      } else {
-        res.sendStatus(404);
-      }
-    });
+    return getById({ key, id: req.params.id })
+      .then(model => {
+        if (model) {
+          return res.send(model);
+        } else {
+          return res.sendStatus(404);
+        }
+      })
+      .catch(errorHandler(res));
   });
 
   router.post(`/${key}`, (req, res) => {
-    createModel({ key, id: req.params.id, body: req.body }).then(model => {
-      res.status(201);
-      res.json(model);
-      res.end();
-    });
+    return createModel({ key, id: req.params.id, body: req.body })
+      .then(model => {
+        res.status(201);
+        res.json(model);
+        res.end();
+      })
+      .catch(errorHandler(res));
   });
 
   router.get(`/${key}`, (req, res) => {
-    getResourcesAll[routes.indexOf(key)]().then(models => {
-      res.send(models);
-    });
+    return getResourcesAll[routes.indexOf(key)]()
+      .then(models => {
+        res.send(models);
+      })
+      .catch(errorHandler(res));
   });
 
   router.put(`/${key}/:id`, (req, res) => {
-    putResourceById[routes.indexOf(key)](req.body).then(model => {
-      res.status(200);
-      res.send(model);
-    });
+    return putResourceById[routes.indexOf(key)](req.body)
+      .then(model => {
+        res.status(200);
+        res.send(model);
+      })
+      .catch(errorHandler(res));
   });
 });
 
