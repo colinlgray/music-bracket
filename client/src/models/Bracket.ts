@@ -36,15 +36,19 @@ export class Bracket extends BaseModel implements BracketProperties {
     this.competitors = without(this.competitors, c);
   }
 
-  async save() {
-    let asObj: { [index: string]: {} } = {};
+  get dbProps() {
+    let dbProps: { [index: string]: {} } = {};
     Object.keys(this).forEach(key => {
-      asObj[key] = this[key];
+      dbProps[key] = this[key];
     });
-    asObj.competitors = map(this.competitors, c => c.dbProps);
+    dbProps.competitors = map(this.competitors, c => c.dbProps);
+    return dbProps;
+  }
+
+  async save() {
     return await put(
       `/api/${BaseModel.asUrl(this.constructor.name)}/${encodeURI(this.id)}`,
-      asObj
+      this.dbProps
     );
   }
 }

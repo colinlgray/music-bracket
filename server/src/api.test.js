@@ -1,9 +1,10 @@
 import { app } from "../src";
-import { bracket, searchResponse } from "../../fixtures";
+import { Bracket, Competitor, Track } from "../../client/src/models";
+import { bracket, trackSearchResponse } from "../../fixtures";
 import request from "supertest";
 
 test.skip("GET /api/tracks/:id", () => {
-  const trackResponse = searchResponse[0];
+  const trackResponse = trackSearchResponse[0];
   const id = { trackResponse };
   return request(app)
     .get(`/api/tracks/${id}`)
@@ -33,16 +34,31 @@ test("GET /api/tracks/search", () => {
     });
 });
 
-test.skip("PUT /api/brackets/:id", () => {
+test("PUT /api/brackets/:id", () => {
+  const c = new Competitor({
+    type: "track",
+    spotifyId: trackSearchResponse[0].id,
+    track: new Track(trackSearchResponse[0]),
+    id: "competitorId",
+    index: 0
+  });
+
+  const b = new Bracket({
+    name: "my new bracket",
+    creator: "my new bracket",
+    competitors: [],
+    description: "test",
+    id: "testId"
+  });
+
+  b.addCompetitor(c);
   const { id } = bracket;
   const url = `/api/brackets/${id}`;
-
   return request(app)
     .put(url)
-    .send(bracket)
+    .send(b.dbProps)
     .expect(200)
-    .get(url)
     .then(response => {
-      expect(response).toBeTruthy();
+      expect(response.body).toEqual(b.dbProps);
     });
 });

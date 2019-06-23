@@ -1,4 +1,4 @@
-import { Track, TrackProperties } from "./Track";
+import { Track } from "./Track";
 import { BaseModel } from "./BaseModel";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
@@ -53,7 +53,6 @@ export class Competitor extends BaseModel implements CompetitorProperties {
       const images = _get(props, "track.album.images", []);
       this.imageUrl = images.reduce(
         (memo: any, curr: { width: number; height: number; url: string }) => {
-          console.log("test", curr);
           if (!memo || curr.width < memo.width) {
             return curr.url;
           }
