@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { map } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -124,7 +125,7 @@ export class CompetitorSelection extends Component {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-              {this.state.selected.map((item, index) => (
+              {map(this.state.selected, (item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <CompetitorDisplay
