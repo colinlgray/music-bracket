@@ -1,5 +1,6 @@
 const moment = require("moment");
 const request = require("request");
+const pluralize = require("pluralize");
 
 const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
 const clientSecret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
@@ -20,25 +21,27 @@ const authOptions = {
   json: true
 };
 
-const makeRequest = params => {
-  return new Promise((resolve, reject) => {
-    const { url, token } = params;
-    const options = {
-      headers: {
-        Authorization: "Bearer " + token
-      },
-      json: true,
-      url
-    };
-    request.get(options, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(body);
-      }
+const makeRequest = url => {
+  return getAndRefreshTokenIfNeeded().then(token => {
+    return new Promise((resolve, reject) => {
+      const options = {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        json: true,
+        url
+      };
+      request.get(options, (error, response, body) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(body);
+        }
+      });
     });
   });
 };
+
 const getAndRefreshTokenIfNeeded = () => {
   if (!tokenExpireTime || tokenExpireTime.isAfter(moment())) {
     return getApiToken().then(body => {
@@ -65,25 +68,35 @@ const getApiToken = () => {
 };
 
 const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
-  return getAndRefreshTokenIfNeeded().then(token => {
-    if (!query) {
-      return [{ total: 0, items: [], offset }];
-    }
-    return makeRequest({
-      url: `https://api.spotify.com/v1/search?q=${encodeURI(
-        query
-      )}&type=${type}&market=US&limit=${limit}&offset=${offset}`,
-      token
-    }).then(spotifyResponse => {
-      return {
-        total: spotifyResponse.tracks.total,
-        items: spotifyResponse.tracks.items,
-        offset
-      };
-    });
+  if (!query) {
+    return Promise.resolve([{ total: 0, items: [], offset }]);
+  }
+
+  const modelType = pluralize.singular(type).toLowerCase();
+  const url = `https://api.spotify.com/v1/search?q=${encodeURI(
+    query
+  )}&type=${modelType}&market=US&limit=${limit}&offset=${offset}`;
+
+  return makeRequest(url).then(body => {
+    return {
+      total: body.tracks.total,
+      items: body.tracks.items,
+      offset
+    };
   });
 };
 
+const getType = type => id => {
+  if (!id) {
+    return null;
+  }
+  const modelType = pluralize.plural(type).toLowerCase();
+  const url = `https://api.spotify.com/v1/${modelType}/${id}`;
+
+  return makeRequest(url);
+};
+
 module.exports = {
-  searchForType
+  searchForType,
+  getType
 };

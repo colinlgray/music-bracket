@@ -860,3 +860,128 @@ export const trackSearchResponse = [
     uri: "spotify:track:28BpIOxsRmf1EU4acDVIgw"
   }
 ];
+
+export const getTrackResponse = {
+  album_type: "single",
+  artists: [
+    {
+      external_urls: {
+        spotify: "https://open.spotify.com/artist/7jVv8c5Fj3E9VhNjxT4snq"
+      },
+      href: "https://api.spotify.com/v1/artists/7jVv8c5Fj3E9VhNjxT4snq",
+      id: "7jVv8c5Fj3E9VhNjxT4snq",
+      name: "Lil Nas X",
+      type: "artist",
+      uri: "spotify:artist:7jVv8c5Fj3E9VhNjxT4snq"
+    }
+  ],
+  available_markets: [
+    "AD",
+    "AE",
+    "AR",
+    "AT",
+    "AU",
+    "BE",
+    "BG",
+    "BH",
+    "BO",
+    "BR",
+    "CA",
+    "CH",
+    "CL",
+    "CO",
+    "CR",
+    "CY",
+    "CZ",
+    "DE",
+    "DK",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "ES",
+    "FI",
+    "FR",
+    "GB",
+    "GR",
+    "GT",
+    "HK",
+    "HN",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IN",
+    "IS",
+    "IT",
+    "JO",
+    "JP",
+    "KW",
+    "LB",
+    "LI",
+    "LT",
+    "LU",
+    "LV",
+    "MA",
+    "MC",
+    "MT",
+    "MX",
+    "MY",
+    "NI",
+    "NL",
+    "NO",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PH",
+    "PL",
+    "PS",
+    "PT",
+    "PY",
+    "QA",
+    "RO",
+    "SA",
+    "SE",
+    "SG",
+    "SK",
+    "SV",
+    "TH",
+    "TN",
+    "TR",
+    "TW",
+    "US",
+    "UY",
+    "VN",
+    "ZA"
+  ],
+  external_urls: {
+    spotify: "https://open.spotify.com/album/38kpkGLuPr1nNfD3iEyOlJ"
+  },
+  href: "https://api.spotify.com/v1/albums/38kpkGLuPr1nNfD3iEyOlJ",
+  id: "38kpkGLuPr1nNfD3iEyOlJ",
+  images: [
+    {
+      height: 640,
+      url: "https://i.scdn.co/image/2cc54e7570d470966be2def87590dfa84f87076f",
+      width: 640
+    },
+    {
+      height: 300,
+      url: "https://i.scdn.co/image/85959c52c6ae576ee504a7c819cf65b71cb31278",
+      width: 300
+    },
+    {
+      height: 64,
+      url: "https://i.scdn.co/image/394d581cef8d98be1884bfab8457e8581e800a8a",
+      width: 64
+    }
+  ],
+  name: "Old Town Road",
+  release_date: "2019-04-05",
+  release_date_precision: "day",
+  total_tracks: 2,
+  type: "album",
+  uri: "spotify:album:38kpkGLuPr1nNfD3iEyOlJ"
+};

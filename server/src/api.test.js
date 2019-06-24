@@ -1,6 +1,6 @@
 import { app } from "../src";
 import { Bracket, Competitor, Track } from "../../client/src/models";
-import { bracket, trackSearchResponse } from "../../fixtures";
+import { bracket, trackSearchResponse, getTrackResponse } from "../../fixtures";
 import { db } from "./database";
 import request from "supertest";
 
@@ -10,16 +10,13 @@ beforeAll(() => {
   });
 });
 
-test.skip("GET /api/tracks/:id", () => {
-  const trackResponse = trackSearchResponse[0];
-  const id = { trackResponse };
+test("GET /api/tracks/:id", () => {
   return request(app)
-    .get(`/api/tracks/${id}`)
+    .get(`/api/tracks/${trackSearchResponse[0].id}`)
     .set("Accept", "application/json")
-    .expect("Content-Type", /json/)
     .expect(200)
     .then(response => {
-      expect(response.body).toEqual(trackResponse);
+      expect(response.body.album).toEqual(getTrackResponse);
     });
 });
 
