@@ -7,7 +7,7 @@
     "allowJs": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "outDir": "dist/server",
+    "outDir": "dist/",
     "skipLibCheck": true
   },
   "include": ["server/src/**/*"]

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run build && node dist/server/index.js",
+    "start": "npm run build && node dist/server/src/index.js",
     "build": "tsc",
     "test": "jest",
     "heroku-postbuild": "npm run build && cd client && npm install --no-shrinkwrap && npm run build",
