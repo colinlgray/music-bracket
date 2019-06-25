@@ -6,6 +6,7 @@
     "start": "npm run build && node dist/server/src/index.js",
     "build": "tsc",
     "test": "jest",
+    "reset-db": "yarn run sequelize db:drop && yarn run sequelize db:create && yarn run sequelize db:migrate",
     "heroku-postbuild": "npm run build && cd client && npm install --no-shrinkwrap && npm run build",
     "dev": "concurrently \"yarn start\" \"cd client && yarn start\""
   },
