@@ -30,10 +30,12 @@ export class Bracket extends BaseModel implements BracketProperties {
 
   addCompetitor(c: Competitor) {
     this.competitors = this.competitors.concat(c);
+    c.bracketId = this.id;
   }
 
   removeCompetitor(c: Competitor) {
     this.competitors = without(this.competitors, c);
+    c.bracketId = null;
   }
 
   get dbProps() {

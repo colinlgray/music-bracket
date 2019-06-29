@@ -89,6 +89,13 @@ export class CompetitorSelection extends Component {
     this.setState({ items: props.competitors, selected: props.selected });
   }
 
+  componentDidMount() {
+    this.setState({
+      items: this.props.competitors,
+      selected: this.props.selected
+    });
+  }
+
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>

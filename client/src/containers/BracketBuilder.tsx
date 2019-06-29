@@ -41,11 +41,11 @@ export default function BracketBuilder(
         <CompetitorSelection
           onAddCompetitor={(competitor: Competitor) => {
             props.model.addCompetitor(competitor);
-            props.model.save();
+            competitor.save();
           }}
           onRemoveCompetitor={(competitor: Competitor) => {
             props.model.removeCompetitor(competitor);
-            props.model.save();
+            competitor.save();
           }}
           competitors={competitors}
           selected={props.model.competitors}

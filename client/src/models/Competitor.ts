@@ -1,4 +1,5 @@
 import { Track } from "./Track";
+import { Bracket } from "./Bracket";
 import { BaseModel } from "./BaseModel";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
@@ -20,6 +21,7 @@ export interface CompetitorProperties extends CompetitorProps {
   type: string;
   model: Track | null;
   roundsWon: number;
+  bracketId: string | null;
 }
 
 export function isTrack(props: Track | CompetitorProps): props is Track {
@@ -35,6 +37,7 @@ export class Competitor extends BaseModel implements CompetitorProperties {
   model: Track | null;
   roundsWon: number;
   index: number;
+  bracketId: string | null;
   constructor(props: CompetitorProps) {
     let id = null;
     if (props.id) {
@@ -48,6 +51,7 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     this.spotifyId = props.spotifyId;
     this.roundsWon = 0;
     this.index = props.index;
+    this.bracketId = null;
     if (props.type === "track" && props.track) {
       this.model = props.track;
       const images = _get(props, "track.album.images", []);
