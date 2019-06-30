@@ -9,18 +9,10 @@ import {
 import { db } from "./database";
 import request from "supertest";
 
+// TODO: Mock this
 beforeAll(() =>
-  Promise.all([
-    db.sequelize.queryInterface.bulkDelete("competitors", {
-      id: "testCompetitorId"
-    }),
-    db.sequelize.queryInterface.bulkInsert("competitors", competitor)
-  ])
-);
-
-afterAll(() =>
   db.sequelize.queryInterface.bulkDelete("competitors", {
-    id: competitor.id
+    id: "testCompetitorId"
   })
 );
 

@@ -67,6 +67,7 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     } else {
       this.model = null;
       this.imageUrl = "";
+      console.error("Did not receive correct model data");
     }
   }
 

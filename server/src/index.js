@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
+import { map, forEach } from "lodash";
 import { searchForType, getType } from "./controllers/spotifyApi";
 import {
   makeGetterById,
@@ -23,10 +24,10 @@ app.use(express.static(path.join(__dirname, "..", "..", "build")));
 
 apolloServer.applyMiddleware({ app });
 const dbRoutes = ["Brackets", "Competitors"];
-const getResourceById = dbRoutes.map(key => makeGetterById(key));
-const getResourcesAll = dbRoutes.map(key => makeGetterAll(key));
-const createResource = dbRoutes.map(key => makeCreator(key));
-const putResourceById = dbRoutes.map(key => makePutById(key));
+const getResourceById = map(dbRoutes, key => makeGetterById(key));
+const getResourcesAll = map(dbRoutes, key => makeGetterAll(key));
+const createResource = map(dbRoutes, key => makeCreator(key));
+const putResourceById = map(dbRoutes, key => makePutById(key));
 
 const errorHandler = res => err => {
   console.error(err);
@@ -52,19 +53,11 @@ router.get("/tracks/:id", (req, res) =>
     .catch(errorHandler(res))
 );
 
-const getById = ({ key, id }) => getResourceById[dbRoutes.indexOf(key)](id);
-
 const createModel = ({ key, id, body }) => {
   return createResource[dbRoutes.indexOf(key)]({ id: id || uuid(), ...body });
 };
 
-dbRoutes.map(key => {
-  router.get(`/${key}/:id`, (req, res) => {
-    return getById({ key, id: req.params.id })
-      .then(sendOr404(res))
-      .catch(errorHandler(res));
-  });
-
+map(dbRoutes, key => {
   router.post(`/${key}`, (req, res) => {
     return createModel({ key, id: req.params.id, body: req.body })
       .then(model => {
@@ -93,6 +86,38 @@ dbRoutes.map(key => {
   });
 });
 
+const attachSpotify = c =>
+  getTrack(c.spotifyId).then(t => {
+    c.track = t;
+    return c;
+  });
+
+// Brackets
+router.get(`/${dbRoutes[0]}/:id`, (req, res) => {
+  return getResourceById[0](req.params.id)
+    .then(bracket => {
+      const asJson = bracket.toJSON();
+      return Promise.all([asJson, ...map(asJson.competitors, attachSpotify)]);
+    })
+    .then(([bracket]) => {
+      return Promise.resolve(bracket);
+    })
+    .then(sendOr404(res))
+    .catch(errorHandler(res));
+});
+
+// Competitors
+router.get(`/${dbRoutes[1]}/:id`, (req, res) => {
+  return getResourceById[1](req.params.id)
+    .then(competitor => {
+      const asJson = competitor.toJSON();
+      return Promise.all([asJson, ...map(asJson.competitors, attachSpotify)]);
+    })
+    .then(([c]) => Promise.resolve(c))
+    .then(sendOr404(res))
+    .catch(errorHandler(res));
+});
+
 app.use("/api", router);
 
 app.get("*", (req, res) => {
@@ -104,7 +129,6 @@ startDb().then(() => {
 });
 
 module.exports = {
-  getById,
   createModel,
   app
 };
