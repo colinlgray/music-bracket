@@ -1,60 +1,11 @@
 export const competitor = {
-  id: "774ed6f2-b3ea-4f3f-b1e8-39a5bf412d02",
-  imageUrl: {
-    height: 64,
-    url: "https://i.scdn.co/image/394d581cef8d98be1884bfab8457e8581e800a8a",
-    width: 64
-  },
-  track: {
-    album: {
-      album_type: "single",
-      artists: [
-        {
-          href: "https://api.spotify.com/v1/artists/7jVv8c5Fj3E9VhNjxT4snq",
-          id: "7jVv8c5Fj3E9VhNjxT4snq",
-          name: "Lil Nas X",
-          type: "artist",
-          uri: "spotify:artist:7jVv8c5Fj3E9VhNjxT4snq"
-        }
-      ],
-      href: "https://api.spotify.com/v1/albums/38kpkGLuPr1nNfD3iEyOlJ",
-      name: "Old Town Road",
-      release_date: "2019-04-05",
-      release_date_precision: "day",
-      id: "38kpkGLuPr1nNfD3iEyOlJ",
-      total_tracks: 2,
-      type: "album",
-      uri: "spotify:album:38kpkGLuPr1nNfD3iEyOlJ"
-    },
-    artists: [
-      {
-        href: "https://api.spotify.com/v1/artists/7jVv8c5Fj3E9VhNjxT4snq",
-        id: "7jVv8c5Fj3E9VhNjxT4snq",
-        name: "Lil Nas X",
-        type: "artist",
-        uri: "spotify:artist:7jVv8c5Fj3E9VhNjxT4snq"
-      },
-      {
-        href: "https://api.spotify.com/v1/artists/60rpJ9SgigSd16DOAG7GSa",
-        id: "60rpJ9SgigSd16DOAG7GSa",
-        name: "Billy Ray Cyrus",
-        type: "artist",
-        uri: "spotify:artist:60rpJ9SgigSd16DOAG7GSa"
-      }
-    ],
-    explicit: false,
-    href: "https://api.spotify.com/v1/tracks/6u7jPi22kF8CTQ3rb9DHE7",
-    id: "6u7jPi22kF8CTQ3rb9DHE7",
-    popularity: 98,
-    preview_url:
-      "https://p.scdn.co/mp3-preview/d94ec2ebe62fd52cf038760f57c251c145346bb2?cid=513b02de12574d61b9c7242cc0e85ffe",
-    type: "track",
-    disc_number: 1,
-    duration_ms: 157066,
-    is_local: false,
-    is_playable: true,
-    name: "Old Town Road - Remix",
-    track_number: 1,
-    uri: "spotify:track:6u7jPi22kF8CTQ3rb9DHE7"
-  }
+  id: "competitorFixture",
+  index: -1,
+  imageUrl: "https://i.scdn.co/image/2cc54e7570d470966be2def87590dfa84f87076f",
+  roundsWon: 0,
+  type: "track",
+  spotifyId: "6u7jPi22kF8CTQ3rb9DHE7",
+  createdAt: "2019-06-30T02:56:09.000Z",
+  updatedAt: "2019-06-30T02:56:09.000Z",
+  bracketId: "e7002f5b-a9f6-41b5-b813-f4a4af22cff0"
 };

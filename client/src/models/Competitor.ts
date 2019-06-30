@@ -1,5 +1,5 @@
-import { Track } from "./Track";
-import { Bracket } from "./Bracket";
+import { Track, TrackProperties } from "./Track";
+import { get } from "../utils/http";
 import { BaseModel } from "./BaseModel";
 import { get as _get } from "lodash";
 import uuid from "uuid/v4";
@@ -65,7 +65,6 @@ export class Competitor extends BaseModel implements CompetitorProperties {
         ""
       );
     } else {
-      console.error("This case not handled yet");
       this.model = null;
       this.imageUrl = "";
     }

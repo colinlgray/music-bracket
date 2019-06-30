@@ -59,7 +59,6 @@ function CompetitorDisplay(props: Props) {
   const classes = useStyles();
   const artists = get(competitor, "model.artists", []);
   const [ctaClicked, setCtaClicked] = useState(false);
-
   const title = get(competitor, "model.name", "loading");
   const artistNames = artists.reduce(
     (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {

@@ -1,13 +1,37 @@
 import { app } from "../src";
 import { Bracket, Competitor, Track } from "../../client/src/models";
-import { bracket, trackSearchResponse, getTrackResponse } from "../../fixtures";
+import {
+  bracket,
+  trackSearchResponse,
+  getTrackResponse,
+  competitor
+} from "../../fixtures";
 import { db } from "./database";
 import request from "supertest";
 
-beforeAll(() => {
-  return db.sequelize.queryInterface.bulkDelete("competitors", {
-    id: "testCompetitorId"
-  });
+beforeAll(() =>
+  Promise.all([
+    db.sequelize.queryInterface.bulkDelete("competitors", {
+      id: "testCompetitorId"
+    }),
+    db.sequelize.queryInterface.bulkInsert("competitors", competitor)
+  ])
+);
+
+afterAll(() =>
+  db.sequelize.queryInterface.bulkDelete("competitors", {
+    id: competitor.id
+  })
+);
+
+test.skip("Get /api/competitors/:id returns spotify info", () => {
+  return request(app)
+    .get(`/api/competitors/${competitor.id}`)
+    .set("Accept", "application/json")
+    .expect(200)
+    .then(response => {
+      expect(response.body.model).toBeTruthy();
+    });
 });
 
 test("GET /api/tracks/:id", () => {
