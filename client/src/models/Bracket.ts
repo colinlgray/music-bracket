@@ -1,6 +1,6 @@
 import { BaseModel } from "./BaseModel";
 import { put } from "../utils/http";
-import { Competitor } from "./Competitor";
+import { Competitor, CompetitorProperties } from "./Competitor";
 import { map, without } from "lodash";
 
 export interface BracketProperties {
@@ -9,7 +9,7 @@ export interface BracketProperties {
   name: string;
   description: string;
   creator: string;
-  competitors: Array<Competitor>;
+  competitors: Array<CompetitorProperties>;
 }
 
 export class Bracket extends BaseModel implements BracketProperties {
@@ -22,10 +22,10 @@ export class Bracket extends BaseModel implements BracketProperties {
   constructor(props: BracketProperties) {
     super(props);
     this.id = props.id;
-    this.competitors = props.competitors;
     this.name = props.name;
     this.description = props.description;
     this.creator = props.creator;
+    this.competitors = map(props.competitors, c => new Competitor(c));
   }
 
   addCompetitor(c: Competitor) {

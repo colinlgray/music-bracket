@@ -78,6 +78,10 @@ const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   )}&type=${modelType}&market=US&limit=${limit}&offset=${offset}`;
 
   return makeRequest(url).then(body => {
+    if (!body.tracks) {
+      console.error("missing tracks in response", body);
+      return { total: 0, items: [], offset };
+    }
     return {
       total: body.tracks.total,
       items: body.tracks.items,
