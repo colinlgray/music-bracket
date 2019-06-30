@@ -6,8 +6,6 @@ export const bracket = {
   competitors: [
     {
       id: "73529914-a2a9-4ea7-b354-afeb8712938a",
-      imageUrl:
-        "https://i.scdn.co/image/1d828085e1ba97a564dcdad94373023eff8b02ca",
       spotifyId: "1DMEzmAoQIikcL52psptQL",
       type: "track",
       model: {

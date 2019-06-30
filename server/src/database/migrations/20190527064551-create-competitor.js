@@ -15,9 +15,6 @@ module.exports = {
       roundsWon: {
         type: Sequelize.INTEGER
       },
-      imageUrl: {
-        type: Sequelize.STRING
-      },
       type: {
         type: Sequelize.STRING
       },

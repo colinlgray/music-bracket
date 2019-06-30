@@ -29,6 +29,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const getSmallestImage = (competitor: Competitor) => {
+  return get(competitor, "model.album.images", []).reduce(
+    (memo: any, curr: { width: number; height: number; url: string }) => {
+      if (!memo || curr.width < memo.width) {
+        return curr;
+      }
+      return memo;
+    }
+  );
+};
+
+const getDisplayName = (c: Competitor) => {
+  return get(c, "model.artists", []).reduce(
+    (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {
+      if (idx !== 0) {
+        memo = `${memo} `;
+      }
+      memo += val.name;
+      if (idx !== arr.length - 1) {
+        memo = `${memo},`;
+      }
+      return memo;
+    },
+    ""
+  );
+};
+
 type Props = {
   competitor: Competitor;
   onClickCta: () => any;
@@ -57,22 +84,12 @@ function CompetitorDisplay(props: Props) {
     ...remaining
   } = props;
   const classes = useStyles();
-  const artists = get(competitor, "model.artists", []);
+  const displayName = getDisplayName(competitor);
   const [ctaClicked, setCtaClicked] = useState(false);
   const title = get(competitor, "model.name", "loading");
-  const artistNames = artists.reduce(
-    (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {
-      if (idx !== 0) {
-        memo = `${memo} `;
-      }
-      memo += val.name;
-      if (idx !== arr.length - 1) {
-        memo = `${memo},`;
-      }
-      return memo;
-    },
-    ""
-  );
+
+  const imageData = getSmallestImage(competitor);
+
   return (
     <Card className={classes.card} ref={innerRef} {...remaining}>
       <CardHeader
@@ -94,18 +111,10 @@ function CompetitorDisplay(props: Props) {
           </IconButton>
         }
         title={title}
-        subheader={artistNames}
+        subheader={displayName}
       />
       <CardContent>
-        <iframe
-          title={competitor.id}
-          src={`https://open.spotify.com/embed/track/${competitor.spotifyId}`}
-          frameBorder="0"
-          allow="encrypted-media"
-          className={classes.player}
-          width={300}
-          height={80}
-        />
+        <img src={imageData.url} />
       </CardContent>
     </Card>
   );

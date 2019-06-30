@@ -1,7 +1,5 @@
-import { Track, TrackProperties } from "./Track";
-import { get } from "../utils/http";
+import { Track } from "./Track";
 import { BaseModel } from "./BaseModel";
-import { get as _get } from "lodash";
 import uuid from "uuid/v4";
 import { omit } from "lodash";
 
@@ -16,7 +14,6 @@ export interface CompetitorProps {
 
 export interface CompetitorProperties extends CompetitorProps {
   id: string;
-  imageUrl: string;
   spotifyId: string;
   type: string;
   model: Track | null;
@@ -31,7 +28,6 @@ export function isTrack(props: Track | CompetitorProps): props is Track {
 export class Competitor extends BaseModel implements CompetitorProperties {
   [key: string]: any;
   id: string;
-  imageUrl: string;
   spotifyId: string;
   type: string;
   model: Track | null;
@@ -54,19 +50,8 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     this.bracketId = null;
     if (props.type === "track" && props.track) {
       this.model = props.track;
-      const images = _get(props, "track.album.images", []);
-      this.imageUrl = images.reduce(
-        (memo: any, curr: { width: number; height: number; url: string }) => {
-          if (!memo || curr.width < memo.width) {
-            return curr.url;
-          }
-          return memo;
-        },
-        ""
-      );
     } else {
       this.model = null;
-      this.imageUrl = "";
       console.error("Did not receive correct model data");
     }
   }
