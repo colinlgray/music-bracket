@@ -47,7 +47,7 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     this.spotifyId = props.spotifyId;
     this.roundsWon = 0;
     this.index = props.index;
-    this.bracketId = null;
+    this.bracketId = props.bracketId;
     if (props.type === "track" && props.track) {
       this.model = props.track;
     } else {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { map } from "lodash";
+import { map, without } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -122,13 +122,16 @@ export class CompetitorSelection extends Component {
                   {(provided, snapshot) => (
                     <CompetitorDisplay
                       competitor={item}
-                      viewState={"not-selected"}
                       isDragging={snapshot.isDragging}
                       innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClickCta={() => {
-                        console.log("onClick");
+                      onClickCta={c => {
+                        this.props.onAddCompetitor(c);
+                        this.setState({
+                          items: without(this.state.items, c),
+                          selected: [c].concat(this.state.selected)
+                        });
                       }}
                     />
                   )}
@@ -149,13 +152,15 @@ export class CompetitorSelection extends Component {
                   {(provided, snapshot) => (
                     <CompetitorDisplay
                       competitor={item}
-                      viewState={"not-selected"}
                       isDragging={snapshot.isDragging}
                       innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClickCta={() => {
-                        console.log("onClick");
+                      onClickCta={c => {
+                        this.props.onRemoveCompetitor(c);
+                        this.setState({
+                          selected: without(this.state.selected, c)
+                        });
                       }}
                     />
                   )}
