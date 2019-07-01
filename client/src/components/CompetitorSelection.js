@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { map, without } from "lodash";
+import { map, without, xorBy } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -90,9 +90,11 @@ export class CompetitorSelection extends Component {
   };
 
   componentWillReceiveProps(props) {
-    // Do something more complex here
     if (!this.state.dragging) {
-      this.setState({ items: props.competitors, selected: props.selected });
+      this.setState({
+        items: xorBy(props.competitors, props.selected, val => val.spotifyId),
+        selected: props.selected
+      });
     } else {
       console.error("Tried to update list while dragging");
     }
