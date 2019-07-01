@@ -42,17 +42,16 @@ interface State {
   offset: number;
   hasHiddenSearchError: boolean;
   totalResults: number;
+  step: number;
 }
 
 class Search extends React.Component<Props, State> {
   debouncedLookupSongs: () => void;
-  step: number;
   constructor(props: Props) {
     super(props);
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
-    this.step = 10;
   }
   state = {
     query: "",
@@ -62,7 +61,8 @@ class Search extends React.Component<Props, State> {
     searchError: null,
     offset: 0,
     hasHiddenSearchError: false,
-    totalResults: 0
+    totalResults: 0,
+    step: 10
   };
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
@@ -90,6 +90,7 @@ class Search extends React.Component<Props, State> {
       );
     }
   };
+
   lookupSongs = () => {
     if (!this.state.query.trim().length) {
       this.setState({
@@ -100,9 +101,9 @@ class Search extends React.Component<Props, State> {
     } else {
       this.setState({ loading: true });
       fetch(
-        `/api/tracks/search?query=${encodeURI(
-          this.state.query
-        )}&limit=${SEARCH_LIMIT}&offset=${this.state.offset}`
+        `/api/tracks/search?query=${encodeURI(this.state.query)}&limit=${
+          this.state.step
+        }&offset=${this.state.offset}`
       )
         .then(res => res.json())
         .then(response => {
@@ -136,13 +137,13 @@ class Search extends React.Component<Props, State> {
   }
 
   handleChangePage(event: unknown, newPage: number) {
-    this.setState({ offset: newPage * this.step }, this.lookupSongs);
+    this.setState({ offset: newPage * this.state.step }, this.lookupSongs);
   }
 
   handleChangeRowsPerPage(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    console.error("Not implemented yet");
+    this.setState({ step: parseInt(event.target.value, 10) }, this.lookupSongs);
   }
 
   render() {
@@ -166,8 +167,8 @@ class Search extends React.Component<Props, State> {
               rowsPerPageOptions={[5, 10]}
               component="div"
               count={this.state.totalResults}
-              rowsPerPage={this.step}
-              page={this.state.offset / this.step}
+              rowsPerPage={this.state.step}
+              page={this.state.offset / this.state.step}
               backIconButtonProps={{
                 "aria-label": "Previous Page"
               }}
