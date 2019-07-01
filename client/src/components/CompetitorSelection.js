@@ -49,6 +49,7 @@ export class CompetitorSelection extends Component {
 
   onDragEnd = result => {
     const { source, destination } = result;
+    this.setState({ dragging: false });
 
     // dropped outside the list
     if (!destination) {
@@ -84,9 +85,17 @@ export class CompetitorSelection extends Component {
     }
   };
 
+  onDragStart = () => {
+    this.setState({ dragging: true });
+  };
+
   componentWillReceiveProps(props) {
     // Do something more complex here
-    this.setState({ items: props.competitors, selected: props.selected });
+    if (!this.state.dragging) {
+      this.setState({ items: props.competitors, selected: props.selected });
+    } else {
+      console.error("Tried to update list while dragging");
+    }
   }
 
   componentDidMount() {
@@ -98,7 +107,10 @@ export class CompetitorSelection extends Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext
+        onDragStart={this.onDragStart}
+        onDragEnd={this.onDragEnd}
+      >
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div
