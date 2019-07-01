@@ -1,5 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 import { WithStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles, Theme } from "@material-ui/core/styles";
@@ -81,7 +82,7 @@ class Search extends React.Component<Props, State> {
     );
   }
   handleKeyPress = (e: KeyboardEvent) => {
-    if (e && e.keyCode === 13) {
+    if (e && e.target instanceof HTMLInputElement && e.keyCode === 13) {
       this.setState(
         {
           loading: true
@@ -153,7 +154,7 @@ class Search extends React.Component<Props, State> {
         {this.state.searchResults.length > 0 && (
           <>
             <Grid item>
-              <IconButton
+              <Fab
                 aria-label="Previous"
                 disabled={
                   this.state.loading || this.state.offset - this.step < 0
@@ -166,10 +167,10 @@ class Search extends React.Component<Props, State> {
                 }}
               >
                 <SkipPreviousIcon />
-              </IconButton>
+              </Fab>
             </Grid>
             <Grid item>
-              <IconButton
+              <Fab
                 aria-label="Next"
                 disabled={
                   this.state.loading ||
@@ -183,7 +184,7 @@ class Search extends React.Component<Props, State> {
                 }}
               >
                 <SkipNextIcon />
-              </IconButton>
+              </Fab>
             </Grid>
           </>
         )}
