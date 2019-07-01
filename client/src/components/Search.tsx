@@ -1,15 +1,12 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import Fab from "@material-ui/core/Fab";
 import { WithStyles } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
 import { withStyles, Theme } from "@material-ui/core/styles";
+import TablePagination from "@material-ui/core/TablePagination";
 import { debounce } from "lodash";
 import { SEARCH_LIMIT } from "../constants";
 import Track from "../models/Track";
 import Grid from "@material-ui/core/Grid";
-import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
-import SkipNextIcon from "@material-ui/icons/SkipNext";
 
 const styles = (theme: Theme) => ({
   textInput: {
@@ -53,6 +50,8 @@ class Search extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.debouncedLookupSongs = debounce(this.lookupSongs.bind(this), 500);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.step = 10;
   }
   state = {
@@ -135,6 +134,17 @@ class Search extends React.Component<Props, State> {
     }
     return "";
   }
+
+  handleChangePage(event: unknown, newPage: number) {
+    this.setState({ offset: newPage * this.step }, this.lookupSongs);
+  }
+
+  handleChangeRowsPerPage(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    console.error("Not implemented yet");
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -150,44 +160,25 @@ class Search extends React.Component<Props, State> {
             margin="normal"
           />
         </Grid>
-        <Grid item>{this.displayText()}</Grid>
-        {this.state.searchResults.length > 0 && (
-          <>
-            <Grid item>
-              <Fab
-                aria-label="Previous"
-                disabled={
-                  this.state.loading || this.state.offset - this.step < 0
-                }
-                onClick={() => {
-                  this.setState(
-                    { offset: this.state.offset - this.step },
-                    this.lookupSongs
-                  );
-                }}
-              >
-                <SkipPreviousIcon />
-              </Fab>
-            </Grid>
-            <Grid item>
-              <Fab
-                aria-label="Next"
-                disabled={
-                  this.state.loading ||
-                  this.state.offset + this.step > this.state.totalResults
-                }
-                onClick={() => {
-                  this.setState(
-                    { offset: this.state.offset + this.step },
-                    this.lookupSongs
-                  );
-                }}
-              >
-                <SkipNextIcon />
-              </Fab>
-            </Grid>
-          </>
-        )}
+        <Grid item>
+          {this.state.searchResults.length > 0 && (
+            <TablePagination
+              rowsPerPageOptions={[5, 10]}
+              component="div"
+              count={this.state.totalResults}
+              rowsPerPage={this.step}
+              page={this.state.offset / this.step}
+              backIconButtonProps={{
+                "aria-label": "Previous Page"
+              }}
+              nextIconButtonProps={{
+                "aria-label": "Next Page"
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          )}
+        </Grid>
       </Grid>
     );
   }

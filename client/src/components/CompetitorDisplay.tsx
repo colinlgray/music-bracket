@@ -33,7 +33,8 @@ const getSmallestImage = (competitor: Competitor) => {
         return curr;
       }
       return memo;
-    }
+    },
+    ""
   );
 };
 
