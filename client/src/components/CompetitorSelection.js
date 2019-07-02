@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Grid from "@material-ui/core/Grid";
 import { map, without, xorBy } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
@@ -13,7 +14,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
-  minWidth: 440
+  minHeight: 400
 });
 
 export class CompetitorSelection extends Component {
@@ -113,65 +114,71 @@ export class CompetitorSelection extends Component {
         onDragStart={this.onDragStart}
         onDragEnd={this.onDragEnd}
       >
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {this.state.items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <CompetitorDisplay
-                      competitor={item}
-                      isDragging={snapshot.isDragging}
-                      innerRef={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      onClickCta={c => {
-                        this.props.onAddCompetitor(c);
-                        this.setState({
-                          items: without(this.state.items, c),
-                          selected: [c].concat(this.state.selected)
-                        });
-                      }}
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="droppable2">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {map(this.state.selected, (item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <CompetitorDisplay
-                      competitor={item}
-                      isDragging={snapshot.isDragging}
-                      innerRef={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      onClickCta={c => {
-                        this.props.onRemoveCompetitor(c);
-                        this.setState({
-                          selected: without(this.state.selected, c)
-                        });
-                      }}
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        <Grid container>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <Grid
+                item
+                ref={provided.innerRef}
+                xs={6}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+                {this.state.items.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <CompetitorDisplay
+                        competitor={item}
+                        isDragging={snapshot.isDragging}
+                        innerRef={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        onClickCta={c => {
+                          this.props.onAddCompetitor(c);
+                          this.setState({
+                            items: without(this.state.items, c),
+                            selected: [c].concat(this.state.selected)
+                          });
+                        }}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
+          <Droppable droppableId="droppable2">
+            {(provided, snapshot) => (
+              <Grid
+                item
+                xs={6}
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
+                {map(this.state.selected, (item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <CompetitorDisplay
+                        competitor={item}
+                        isDragging={snapshot.isDragging}
+                        innerRef={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        onClickCta={c => {
+                          this.props.onRemoveCompetitor(c);
+                          this.setState({
+                            selected: without(this.state.selected, c)
+                          });
+                        }}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
+        </Grid>
       </DragDropContext>
     );
   }

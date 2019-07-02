@@ -4,7 +4,6 @@ import { WithStyles } from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles";
 import TablePagination from "@material-ui/core/TablePagination";
 import { debounce } from "lodash";
-import { SEARCH_LIMIT } from "../constants";
 import Track from "../models/Track";
 import Grid from "@material-ui/core/Grid";
 
@@ -149,7 +148,7 @@ class Search extends React.Component<Props, State> {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container>
+      <Grid container alignContent="center">
         <Grid item>
           <TextField
             className={classes.textInput}
@@ -162,23 +161,21 @@ class Search extends React.Component<Props, State> {
           />
         </Grid>
         <Grid item>
-          {this.state.searchResults.length > 0 && (
-            <TablePagination
-              rowsPerPageOptions={[5, 10]}
-              component="div"
-              count={this.state.totalResults}
-              rowsPerPage={this.state.step}
-              page={this.state.offset / this.state.step}
-              backIconButtonProps={{
-                "aria-label": "Previous Page"
-              }}
-              nextIconButtonProps={{
-                "aria-label": "Next Page"
-              }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
-          )}
+          <TablePagination
+            rowsPerPageOptions={[5, 10]}
+            component="div"
+            count={this.state.totalResults}
+            rowsPerPage={this.state.step}
+            page={this.state.offset / this.state.step}
+            backIconButtonProps={{
+              "aria-label": "Previous Page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "Next Page"
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
         </Grid>
       </Grid>
     );

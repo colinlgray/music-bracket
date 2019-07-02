@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { Bracket, Competitor, Track } from "../models";
 import { map } from "lodash";
 import uuid from "uuid/v4";
+import { Paper } from "@material-ui/core";
 
 type RouteParams = { id: string };
 type Props = { model: Bracket };
@@ -19,38 +20,42 @@ export default function BracketBuilder(
       <Typography component="h3" variant="h3" color="inherit" gutterBottom>
         Select Tracks
       </Typography>
-      <Grid container direction="row">
-        <Grid item xs={12}>
-          <Search
-            onChange={(searchResults: SearchResults) => {
-              setCompetitors(
-                map(searchResults.items, result => {
-                  return new Competitor({
-                    index: -1,
-                    type: "track",
-                    spotifyId: result.id,
-                    track: new Track(result),
-                    id: uuid()
-                  });
-                })
-              );
-              return null;
-            }}
-          />
+      <Paper>
+        <Grid container direction="row">
+          <Grid item xs={12}>
+            <Search
+              onChange={(searchResults: SearchResults) => {
+                setCompetitors(
+                  map(searchResults.items, result => {
+                    return new Competitor({
+                      index: -1,
+                      type: "track",
+                      spotifyId: result.id,
+                      track: new Track(result),
+                      id: uuid()
+                    });
+                  })
+                );
+                return null;
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CompetitorSelection
+              onAddCompetitor={(competitor: Competitor) => {
+                props.model.addCompetitor(competitor);
+                competitor.save();
+              }}
+              onRemoveCompetitor={(competitor: Competitor) => {
+                props.model.removeCompetitor(competitor);
+                competitor.save();
+              }}
+              competitors={competitors}
+              selected={props.model.competitors}
+            />
+          </Grid>
         </Grid>
-        <CompetitorSelection
-          onAddCompetitor={(competitor: Competitor) => {
-            props.model.addCompetitor(competitor);
-            competitor.save();
-          }}
-          onRemoveCompetitor={(competitor: Competitor) => {
-            props.model.removeCompetitor(competitor);
-            competitor.save();
-          }}
-          competitors={competitors}
-          selected={props.model.competitors}
-        />
-      </Grid>
+      </Paper>
     </>
   );
 }
