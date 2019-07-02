@@ -1,16 +1,17 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 import { WithStyles } from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles";
 import TablePagination from "@material-ui/core/TablePagination";
 import { debounce } from "lodash";
 import Track from "../models/Track";
-import Grid from "@material-ui/core/Grid";
 
 const styles = (theme: Theme) => ({
   textInput: {
     width: theme.spacing(24),
-    marginRight: theme.spacing(4)
+    margin: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(2)
@@ -148,7 +149,7 @@ class Search extends React.Component<Props, State> {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container alignContent="center">
+      <Grid container alignItems="flex-end">
         <Grid item>
           <TextField
             className={classes.textInput}
