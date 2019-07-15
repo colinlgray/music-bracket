@@ -10,6 +10,7 @@ export interface BracketProperties {
   description: string;
   creator: string;
   competitors: Array<CompetitorProperties>;
+  isStarted: boolean;
 }
 
 export class Bracket extends BaseModel implements BracketProperties {
@@ -18,9 +19,11 @@ export class Bracket extends BaseModel implements BracketProperties {
   name: string;
   description: string;
   creator: string;
+  isStarted: boolean;
   competitors: Array<Competitor>;
   constructor(props: BracketProperties) {
     super(props);
+    this.isStarted = props.isStarted;
     this.id = props.id;
     this.name = props.name;
     this.description = props.description;

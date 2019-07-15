@@ -10,14 +10,14 @@ type RouteParams = { id: string };
 class BracketCompetition extends React.Component<
   RouteComponentProps<RouteParams>
 > {
-  state = { tracks: [], error: null };
+  state = { tracks: [], error: null, bracket: Bracket };
   componentWillMount() {
     this.fetchBracket()
       .then((bracket: Bracket | null) => {
         if (bracket === null) {
           this.props.history.replace("/404");
         } else {
-          this.setState({ tracks: bracket.tracks || [] });
+          this.setState({ bracket, tracks: bracket.tracks || [] });
         }
       })
       .catch((error: Error) => {

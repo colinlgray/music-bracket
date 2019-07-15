@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      creator: DataTypes.STRING
+      creator: DataTypes.STRING,
+      isStarted: DataTypes.BOOLEAN
     },
     {
       name: {
