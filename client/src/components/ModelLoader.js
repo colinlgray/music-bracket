@@ -8,7 +8,6 @@ export default function ModelLoader(props) {
     props.model
       .fetchOrCreate(props.match.params.id)
       .then(model => {
-        props.history.replace(`/build/${model.id}`);
         setModel(model);
       })
       .catch(error => setError(error));
@@ -24,5 +23,5 @@ export default function ModelLoader(props) {
     }
     return <div>sorry something has gone wrong</div>;
   }
-  return <div>not ready</div>;
+  return <div>Loading...</div>;
 }

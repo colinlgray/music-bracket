@@ -31,7 +31,14 @@ export default function BracketBuilder(
   const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
   const makeBracket = () => {
     props.model.isStarted = true;
-    props.model.save();
+    props.model
+      .save()
+      .then(() => {
+        props.history.replace(`/bracket/${props.model.id}`);
+      })
+      .catch(err => {
+        console.log("oh no! an error", err);
+      });
   };
   return (
     (props.model.isStarted && (

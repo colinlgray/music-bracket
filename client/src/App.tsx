@@ -117,7 +117,15 @@ function App() {
           />
           <Route
             path="/bracket/:id?"
-            render={props => <BracketCompetition {...props} />}
+            render={props => {
+              return (
+                <ModelLoader
+                  {...props}
+                  Component={BracketCompetition}
+                  model={Bracket}
+                />
+              );
+            }}
           />
           <Route
             path="/nominations/"
