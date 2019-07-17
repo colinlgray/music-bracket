@@ -6,6 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useState } from "react";
 import { get } from "lodash";
 import AddIcon from "@material-ui/icons/Add";
+import StarIcon from "@material-ui/icons/Star";
 import { Competitor, Artist } from "../models";
 
 const useStyles = makeStyles(theme => ({
@@ -58,11 +59,13 @@ type Props = {
   competitor: Competitor;
   onClickCta: (competitor: Competitor) => any;
   innerRef?: React.RefObject<any>;
-  isDragging?: boolean;
+  displayedOn: "competition" | "selection";
 };
 
-function CtaIcon(props: { competitor: Competitor }) {
-  if (props.competitor.bracketId) {
+function CtaIcon(props: { displayedOn: string; competitor: Competitor }) {
+  if (props.displayedOn === "competition") {
+    return <StarIcon />;
+  } else if (props.competitor.bracketId) {
     return <DeleteIcon />;
   } else {
     return <AddIcon />;
@@ -70,7 +73,7 @@ function CtaIcon(props: { competitor: Competitor }) {
 }
 
 function CompetitorDisplay(props: Props) {
-  const { competitor, onClickCta, innerRef, isDragging, ...remaining } = props;
+  const { competitor, onClickCta, innerRef, displayedOn, ...remaining } = props;
   const classes = useStyles();
   const displayName = getDisplayName(competitor);
   const [ctaClicked, setCtaClicked] = useState(false);
@@ -96,7 +99,7 @@ function CompetitorDisplay(props: Props) {
               }
             }}
           >
-            <CtaIcon competitor={competitor} />
+            <CtaIcon competitor={competitor} displayedOn={displayedOn} />
           </IconButton>
         }
         title={title}

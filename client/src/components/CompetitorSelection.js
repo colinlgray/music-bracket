@@ -129,6 +129,7 @@ export class CompetitorSelection extends Component {
                       <CompetitorDisplay
                         competitor={item}
                         isDragging={snapshot.isDragging}
+                        displayedOn="selection"
                         innerRef={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
@@ -161,6 +162,7 @@ export class CompetitorSelection extends Component {
                       <CompetitorDisplay
                         competitor={item}
                         isDragging={snapshot.isDragging}
+                        displayedOn="selection"
                         innerRef={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
