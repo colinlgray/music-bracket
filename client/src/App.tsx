@@ -14,7 +14,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import {
   BracketCompetition,
   BracketBuilder,
-  Nominations,
+  BracketList,
   Home
 } from "./containers";
 import ListItemLink from "./components/ListItemLink";
@@ -110,26 +110,36 @@ function App() {
                   {...props}
                   Component={BracketBuilder}
                   model={Bracket}
-                  new
+                  type="fetchOrCreate"
                 />
               );
             }}
           />
           <Route
-            path="/bracket/:id?"
+            path="/bracket/:id"
             render={props => {
               return (
                 <ModelLoader
                   {...props}
                   Component={BracketCompetition}
                   model={Bracket}
+                  type="fetch"
                 />
               );
             }}
           />
           <Route
             path="/nominations/"
-            render={props => <Nominations {...props} nominees={nominees} />}
+            render={props => {
+              return (
+                <ModelLoader
+                  {...props}
+                  Component={BracketList}
+                  model={Bracket}
+                  type="fetchAll"
+                />
+              );
+            }}
           />
         </main>
       </Router>

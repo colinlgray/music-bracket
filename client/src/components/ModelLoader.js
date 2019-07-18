@@ -5,8 +5,7 @@ export default function ModelLoader(props) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    props.model
-      .fetchOrCreate(props.match.params.id)
+    props.model[props.type](props.match.params.id)
       .then(model => {
         setModel(model);
       })

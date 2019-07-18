@@ -1,4 +1,5 @@
 import { get, post, put } from "../utils/http";
+import { map } from "lodash";
 import pluralize from "pluralize";
 import uuid from "uuid/v4";
 
@@ -11,6 +12,20 @@ export class BaseModel {
     this.id = props.id || uuid();
   }
   id: string;
+
+  static async fetchAll() {
+    const { parsedBody } = await get(
+      `/api/${this.asUrl(this.prototype.constructor.name)}`
+    );
+
+    return map(parsedBody, b => new this(b));
+  }
+  static async fetch(id: string) {
+    const { parsedBody } = await get(
+      `/api/${this.asUrl(this.prototype.constructor.name)}/${id}`
+    );
+    return new this(parsedBody);
+  }
 
   static async fetchOrCreate(id?: string) {
     if (!id) {
