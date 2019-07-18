@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function BracketList(props) {
-  console.log("props", props.model);
   const classes = useStyles();
   const startedBrackets = filter(props.model, m => m.isStarted);
   return (
@@ -26,34 +25,30 @@ function BracketList(props) {
       <Typography component="h4" variant="h4" color="inherit" gutterBottom>
         Top songs
       </Typography>
-      <Typography variant="h6">
-        <List>
-          <ListItem>
-            <ListItemText
-              primary={"1. Old Town Road remix ft. Billy Ray Cyrus"}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary={"2. Old Town Road"} />
-          </ListItem>
-        </List>
-        <Typography component="h4" variant="h4" gutterBottom>
-          Other brackets
-          <List>
-            {map(startedBrackets, m => (
-              <ListItem>
-                <Card className={classes.card}>
-                  <Link href={`/bracket/${m.id}`}>
-                    <Typography component="div">
-                      {m.name || "Unnamed"}
-                    </Typography>
-                  </Link>
-                </Card>
-              </ListItem>
-            ))}
-          </List>
-        </Typography>
+      <List>
+        <ListItem>
+          <ListItemText
+            primary={"1. Old Town Road remix ft. Billy Ray Cyrus"}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary={"2. Old Town Road"} />
+        </ListItem>
+      </List>
+      <Typography component="h4" variant="h4" gutterBottom>
+        Other brackets
       </Typography>
+      <List>
+        {map(startedBrackets, m => (
+          <ListItem key={m.id}>
+            <Card className={classes.card}>
+              <Link href={`/bracket/${m.id}`}>
+                <Typography component="div">{m.name || "Unnamed"}</Typography>
+              </Link>
+            </Card>
+          </ListItem>
+        ))}
+      </List>
     </>
   );
 }

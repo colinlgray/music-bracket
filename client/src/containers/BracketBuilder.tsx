@@ -41,8 +41,9 @@ export default function BracketBuilder(
       });
   };
   return (
+    (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
     (props.model.isStarted && (
-      <Redirect to={`/Bracket/${props.model.id}`} />
+      <Redirect to={`/bracket/${props.model.id}`} />
     )) || (
       <>
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
