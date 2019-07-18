@@ -91,7 +91,7 @@ export default function BracketBuilder(
             onClick={makeBracket}
             className={classes.button}
           >
-            Submit
+            Next
           </Button>
         </Grid>
       </>

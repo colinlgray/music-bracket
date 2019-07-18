@@ -60,6 +60,7 @@ type Props = {
   onClickCta: (competitor: Competitor) => any;
   innerRef?: React.RefObject<any>;
   displayedOn: "competition" | "selection";
+  isDragging?: boolean;
 };
 
 function CtaIcon(props: { displayedOn: string; competitor: Competitor }) {
@@ -73,7 +74,14 @@ function CtaIcon(props: { displayedOn: string; competitor: Competitor }) {
 }
 
 function CompetitorDisplay(props: Props) {
-  const { competitor, onClickCta, innerRef, displayedOn, ...remaining } = props;
+  const {
+    competitor,
+    onClickCta,
+    innerRef,
+    displayedOn,
+    isDragging,
+    ...remaining
+  } = props;
   const classes = useStyles();
   const displayName = getDisplayName(competitor);
   const [ctaClicked, setCtaClicked] = useState(false);

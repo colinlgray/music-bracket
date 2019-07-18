@@ -27,10 +27,6 @@ import useStyles from "./app.css";
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [nominees] = useState([
-    "1. Old Town Road remix ft. Billy Ray Cyrus",
-    "2. Old Town Road"
-  ]);
 
   const classes = useStyles();
 

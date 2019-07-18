@@ -8,8 +8,7 @@ function Home() {
         Welcome
       </Typography>
       <Typography component="div" style={{ paddingTop: "24px" }}>
-        To the left is the menu where you can nominate your favorite song, then
-        see the list of everyone's favorite songs so far
+        This is not a fully formed idea. Keeps your hopes in check
       </Typography>
     </>
   );

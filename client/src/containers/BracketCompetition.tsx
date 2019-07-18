@@ -18,7 +18,7 @@ function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
       <Grid container direction="column">
         {props.model.competitors.map((c: Competitor) => {
           return (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={c.id}>
               <CompetitorDisplay
                 competitor={c}
                 displayedOn="competition"
