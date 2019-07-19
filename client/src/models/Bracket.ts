@@ -3,7 +3,7 @@ import { put } from "../utils/http";
 import { Competitor, CompetitorProperties } from "./Competitor";
 import { map, without } from "lodash";
 
-type creationStates = "created" | "started" | "seeding";
+export type CreationStates = "created" | "started" | "seeding";
 
 export interface BracketProperties {
   [key: string]: any;
@@ -12,7 +12,7 @@ export interface BracketProperties {
   description: string;
   creator: string;
   competitors: Array<CompetitorProperties>;
-  creationState: creationStates;
+  creationState: CreationStates;
 }
 
 export class Bracket extends BaseModel implements BracketProperties {
@@ -21,7 +21,7 @@ export class Bracket extends BaseModel implements BracketProperties {
   name: string;
   description: string;
   creator: string;
-  creationState: creationStates;
+  creationState: CreationStates;
   competitors: Array<Competitor>;
   constructor(props: BracketProperties) {
     super(props);

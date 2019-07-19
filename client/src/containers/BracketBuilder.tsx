@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Search, SearchResults, CompetitorSelection } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Bracket, Competitor, Track } from "../models";
+import { Bracket, Competitor, Track, CreationStates } from "../models";
 import { map } from "lodash";
 import uuid from "uuid/v4";
 import { Paper } from "@material-ui/core";
@@ -21,6 +21,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const MAX_STEP = 1;
+const creationStateToStep: { [creationState: string]: number } = {
+  created: 0,
+  seeding: 1
+};
+
 type RouteParams = { id: string };
 type Props = { model: Bracket };
 
@@ -29,8 +35,13 @@ export default function BracketBuilder(
 ) {
   const classes = useStyles();
   const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
+  const [currStep, setStep] = useState<number>(
+    creationStateToStep[props.model.creationState]
+  );
   const makeBracket = () => {
-    props.model.creationState = "seeding";
+    props.model.creationState = Object.keys(creationStateToStep)[
+      currStep
+    ] as CreationStates;
     props.model.save().catch(err => {
       console.log("oh no! an error", err);
     });
@@ -81,11 +92,29 @@ export default function BracketBuilder(
             </Grid>
           </Grid>
         </Paper>
-        <Grid item xs={12} className={classes.buttons}>
+        <Grid container className={classes.buttons}>
           <Button
             variant="contained"
             color="primary"
-            onClick={makeBracket}
+            disabled={currStep <= 0}
+            onClick={() => {
+              setStep(currStep - 1);
+            }}
+            className={classes.button}
+          >
+            Prev
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={currStep > MAX_STEP}
+            onClick={() => {
+              const newStep = currStep + 1;
+              if (newStep === MAX_STEP) {
+                makeBracket();
+              }
+              setStep(newStep);
+            }}
             className={classes.button}
           >
             Next
