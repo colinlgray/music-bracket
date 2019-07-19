@@ -30,19 +30,14 @@ export default function BracketBuilder(
   const classes = useStyles();
   const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
   const makeBracket = () => {
-    props.model.isStarted = true;
-    props.model
-      .save()
-      .then(() => {
-        props.history.replace(`/bracket/${props.model.id}`);
-      })
-      .catch(err => {
-        console.log("oh no! an error", err);
-      });
+    props.model.creationState = "seeding";
+    props.model.save().catch(err => {
+      console.log("oh no! an error", err);
+    });
   };
   return (
     (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
-    (props.model.isStarted && (
+    (props.model.creationState === "started" && (
       <Redirect to={`/bracket/${props.model.id}`} />
     )) || (
       <>
@@ -79,6 +74,7 @@ export default function BracketBuilder(
                   props.model.removeCompetitor(competitor);
                   competitor.save();
                 }}
+                editable={props.model.creationState === "created"}
                 competitors={competitors}
                 selected={props.model.competitors}
               />

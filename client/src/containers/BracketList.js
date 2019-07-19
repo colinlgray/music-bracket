@@ -19,7 +19,10 @@ const useStyles = makeStyles(theme => ({
 
 function BracketList(props) {
   const classes = useStyles();
-  const startedBrackets = filter(props.model, m => m.isStarted);
+  const startedBrackets = filter(
+    props.model,
+    m => m.creationState === "started"
+  );
   return (
     <>
       <Typography component="h4" variant="h4" color="inherit" gutterBottom>

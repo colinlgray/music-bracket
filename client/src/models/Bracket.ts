@@ -3,6 +3,8 @@ import { put } from "../utils/http";
 import { Competitor, CompetitorProperties } from "./Competitor";
 import { map, without } from "lodash";
 
+type creationStates = "created" | "started" | "seeding";
+
 export interface BracketProperties {
   [key: string]: any;
   id: string;
@@ -10,7 +12,7 @@ export interface BracketProperties {
   description: string;
   creator: string;
   competitors: Array<CompetitorProperties>;
-  isStarted: boolean;
+  creationState: creationStates;
 }
 
 export class Bracket extends BaseModel implements BracketProperties {
@@ -19,11 +21,11 @@ export class Bracket extends BaseModel implements BracketProperties {
   name: string;
   description: string;
   creator: string;
-  isStarted: boolean;
+  creationState: creationStates;
   competitors: Array<Competitor>;
   constructor(props: BracketProperties) {
     super(props);
-    this.isStarted = props.isStarted;
+    this.creationState = props.creationState;
     this.id = props.id;
     this.name = props.name;
     this.description = props.description;

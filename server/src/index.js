@@ -96,6 +96,7 @@ const attachSpotify = c =>
 router.get(`/${dbRoutes[0]}/:id`, (req, res) => {
   return getResourceById[0](req.params.id)
     .then(bracket => {
+      if (!bracket) return Promise.resolve([]);
       const asJson = bracket.toJSON();
       return Promise.all([asJson, ...map(asJson.competitors, attachSpotify)]);
     })
@@ -110,6 +111,7 @@ router.get(`/${dbRoutes[0]}/:id`, (req, res) => {
 router.get(`/${dbRoutes[1]}/:id`, (req, res) => {
   return getResourceById[1](req.params.id)
     .then(competitor => {
+      if (!competitor) return Promise.resolve([]);
       const asJson = competitor.toJSON();
       return Promise.all([asJson, ...map(asJson.competitors, attachSpotify)]);
     })

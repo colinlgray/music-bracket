@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       creator: DataTypes.STRING,
-      isStarted: DataTypes.BOOLEAN
+      creationState: DataTypes.STRING
     },
     {
       name: {
