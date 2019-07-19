@@ -34,9 +34,9 @@ export default function BracketBuilder(
   props: RouteComponentProps<RouteParams> & Props
 ) {
   const classes = useStyles();
-  const [competitors, setCompetitors] = useState<Array<Competitor>>([]);
+  const [searchResults, setSearchResults] = useState<Array<Competitor>>([]);
   const [currStep, setStep] = useState<number>(
-    creationStateToStep[props.model.creationState]
+    creationStateToStep[props.model.creationState] || 0
   );
   const makeBracket = () => {
     props.model.creationState = Object.keys(creationStateToStep)[
@@ -46,6 +46,7 @@ export default function BracketBuilder(
       console.log("oh no! an error", err);
     });
   };
+
   return (
     (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
     (props.model.creationState === "started" && (
@@ -60,7 +61,7 @@ export default function BracketBuilder(
             <Grid item xs={12}>
               <Search
                 onChange={(searchResults: SearchResults) => {
-                  setCompetitors(
+                  setSearchResults(
                     map(searchResults.items, result => {
                       return new Competitor({
                         index: -1,
@@ -85,8 +86,8 @@ export default function BracketBuilder(
                   props.model.removeCompetitor(competitor);
                   competitor.save();
                 }}
-                editable={props.model.creationState === "created"}
-                competitors={competitors}
+                editable={currStep === 0}
+                selectable={searchResults}
                 selected={props.model.competitors}
               />
             </Grid>

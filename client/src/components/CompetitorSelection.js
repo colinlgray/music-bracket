@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
-import { map, without, xorBy } from "lodash";
+import { map, without, filter, includes } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -19,12 +19,12 @@ const getListStyle = isDraggingOver => ({
 
 export class CompetitorSelection extends Component {
   state = {
-    items: [],
+    selectable: [],
     selected: []
   };
 
   idToList = {
-    droppable: "items",
+    droppable: "selectable",
     droppable2: "selected"
   };
 
@@ -93,7 +93,9 @@ export class CompetitorSelection extends Component {
   componentWillReceiveProps(props) {
     if (!this.state.dragging) {
       this.setState({
-        items: xorBy(props.competitors, props.selected, val => val.spotifyId),
+        selectable: filter(props.selectable, val =>
+          includes(props.selectable, val)
+        ),
         selected: props.selected
       });
     } else {
@@ -103,7 +105,7 @@ export class CompetitorSelection extends Component {
 
   componentDidMount() {
     this.setState({
-      items: this.props.competitors,
+      selectable: this.props.selectable,
       selected: this.props.selected
     });
   }
@@ -123,27 +125,32 @@ export class CompetitorSelection extends Component {
                 xs={6}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {this.state.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <CompetitorDisplay
-                        competitor={item}
-                        isDragging={snapshot.isDragging}
-                        displayedOn="selection"
-                        innerRef={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        onClickCta={c => {
-                          this.props.onAddCompetitor(c);
-                          this.setState({
-                            items: without(this.state.items, c),
-                            selected: [c].concat(this.state.selected)
-                          });
-                        }}
-                      />
-                    )}
-                  </Draggable>
-                ))}
+                {this.props.editable &&
+                  this.state.selectable.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <CompetitorDisplay
+                          competitor={item}
+                          isDragging={snapshot.isDragging}
+                          displayedOn="selection"
+                          innerRef={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          onClickCta={c => {
+                            this.props.onAddCompetitor(c);
+                            this.setState({
+                              items: without(this.state.items, c),
+                              selected: [c].concat(this.state.selected)
+                            });
+                          }}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
                 {provided.placeholder}
               </Grid>
             )}
