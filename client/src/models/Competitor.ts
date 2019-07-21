@@ -52,7 +52,6 @@ export class Competitor extends BaseModel implements CompetitorProperties {
       this.model = props.track;
     } else {
       this.model = null;
-      console.error("Did not receive correct model data");
     }
   }
 

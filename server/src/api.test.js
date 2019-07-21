@@ -16,16 +16,6 @@ beforeAll(() =>
   })
 );
 
-test.skip("Get /api/competitors/:id returns spotify info", () => {
-  return request(app)
-    .get(`/api/competitors/${competitor.id}`)
-    .set("Accept", "application/json")
-    .expect(200)
-    .then(response => {
-      expect(response.body.model).toBeTruthy();
-    });
-});
-
 test("GET /api/tracks/:id", () => {
   return request(app)
     .get(`/api/tracks/${trackSearchResponse[0].id}`)
