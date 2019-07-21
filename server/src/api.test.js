@@ -40,7 +40,7 @@ test("GET /api/tracks/search", () => {
     .expect("Content-Type", /json/)
     .expect(200)
     .then(response => {
-      expect(response).toBeTruthy();
+      expect(response.body).toBeTruthy();
     });
 });
 

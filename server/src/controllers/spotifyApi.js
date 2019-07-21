@@ -32,8 +32,8 @@ const makeRequest = url => {
         url
       };
       request.get(options, (error, response, body) => {
-        if (error) {
-          reject(error);
+        if (error || body.error) {
+          reject(error || body.error);
         } else {
           resolve(body);
         }
