@@ -32,7 +32,7 @@ export class CompetitorSelection extends Component {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    if (droppableSource.droppableId === "droppable") {
+    if (droppableDestination.droppableId === "selected") {
       this.props.onAddCompetitor(removed);
     } else {
       this.props.onRemoveCompetitor(removed);
@@ -56,33 +56,23 @@ export class CompetitorSelection extends Component {
     if (!destination) {
       return;
     }
-
     if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        this.getList(source.droppableId),
-        source.index,
-        destination.index
-      );
-
-      let state = { items };
-
-      if (source.droppableId === "droppable2") {
-        state = { selected: items };
-      }
-
-      this.setState(state);
-    } else {
-      const result = this.move(
-        this.getList(source.droppableId),
-        this.getList(destination.droppableId),
-        source,
-        destination
-      );
-
       this.setState({
-        items: result.droppable,
-        selected: result.droppable2
+        [source.droppableId]: reorder(
+          this.state[source.droppableId],
+          source.index,
+          destination.index
+        )
       });
+    } else {
+      this.setState(
+        this.move(
+          this.state[source.droppableId],
+          this.state[destination.droppableId],
+          source,
+          destination
+        )
+      );
     }
   };
 
@@ -117,7 +107,7 @@ export class CompetitorSelection extends Component {
         onDragEnd={this.onDragEnd}
       >
         <Grid container>
-          <Droppable droppableId="droppable">
+          <Droppable droppableId="selectable">
             {(provided, snapshot) => (
               <Grid
                 item
@@ -143,7 +133,7 @@ export class CompetitorSelection extends Component {
                           onClickCta={c => {
                             this.props.onAddCompetitor(c);
                             this.setState({
-                              items: without(this.state.items, c),
+                              selectable: without(this.state.selectable, c),
                               selected: [c].concat(this.state.selected)
                             });
                           }}
@@ -155,7 +145,7 @@ export class CompetitorSelection extends Component {
               </Grid>
             )}
           </Droppable>
-          <Droppable droppableId="droppable2">
+          <Droppable droppableId="selected">
             {(provided, snapshot) => (
               <Grid
                 item
