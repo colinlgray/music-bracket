@@ -20,7 +20,6 @@ import {
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import RateReviewIcon from "@material-ui/icons/RateReview";
 import ModelLoader from "./components/ModelLoader";
 import { Bracket } from "./models";
 import useStyles from "./app.css";
@@ -59,7 +58,7 @@ function App() {
               noWrap
               className={classes.title}
             >
-              Song of the Summer: 2019
+              Music Bracket Maker
             </Typography>
           </Toolbar>
         </AppBar>
@@ -82,11 +81,6 @@ function App() {
           <Divider />
           <List className={classes.navList}>
             <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
-            <ListItemLink
-              to="/build"
-              primary="Build a bracket"
-              icon={<RateReviewIcon />}
-            />
             <ListItemLink
               to="/nominations"
               primary="Current Nominations"
