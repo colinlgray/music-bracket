@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 const MAX_STEP = 1;
 const creationStateToStep: { [creationState: string]: number } = {
   created: 0,
-  seeding: 1
+  seeding: 1,
+  started: 2
 };
 
 type RouteParams = { id: string };
@@ -38,13 +39,16 @@ export default function BracketBuilder(
   const [currStep, setStep] = useState<number>(
     creationStateToStep[props.model.creationState] || 0
   );
-  const makeBracket = () => {
+  const updateCreationStateForStep = (step: number) => {
     props.model.creationState = Object.keys(creationStateToStep)[
-      currStep
+      step
     ] as CreationStates;
     props.model.save().catch(err => {
       console.log("oh no! an error", err);
     });
+  };
+
+  const makeBracket = () => {
     props.history.push(`/bracket/${props.model.id}`);
   };
 
@@ -100,7 +104,9 @@ export default function BracketBuilder(
             color="primary"
             disabled={currStep <= 0}
             onClick={() => {
-              setStep(currStep - 1);
+              const newStep = currStep - 1;
+              updateCreationStateForStep(newStep);
+              setStep(newStep);
             }}
             className={classes.button}
           >
@@ -114,7 +120,9 @@ export default function BracketBuilder(
               if (currStep === MAX_STEP) {
                 makeBracket();
               }
-              setStep(currStep + 1);
+              const newStep = currStep + 1;
+              updateCreationStateForStep(newStep);
+              setStep(newStep);
             }}
             className={classes.button}
           >

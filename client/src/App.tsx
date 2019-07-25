@@ -83,7 +83,7 @@ function App() {
             <ListItemLink to="/" primary="Home" icon={<DashboardIcon />} />
             <ListItemLink
               to="/nominations"
-              primary="Current Nominations"
+              primary="Top Brackets"
               icon={<BarChartIcon />}
             />
           </List>

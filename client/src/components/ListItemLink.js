@@ -16,7 +16,7 @@ export default class ListItemLink extends React.Component {
       <li>
         <ListItem button component={this.renderLink}>
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
-          <ListItemText inset primary={primary} secondary={secondary} />
+          <ListItemText primary={primary} secondary={secondary} />
         </ListItem>
       </li>
     );
