@@ -26,7 +26,7 @@ function BracketList(props) {
   return (
     <>
       <Typography component="h4" variant="h4" color="inherit" gutterBottom>
-        Top songs
+        Top songs so far
       </Typography>
       <List>
         <ListItem>

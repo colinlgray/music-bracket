@@ -45,6 +45,7 @@ export default function BracketBuilder(
     props.model.save().catch(err => {
       console.log("oh no! an error", err);
     });
+    props.history.push(`/bracket/${props.model.id}`);
   };
 
   return (
@@ -110,11 +111,10 @@ export default function BracketBuilder(
             color="primary"
             disabled={currStep > MAX_STEP}
             onClick={() => {
-              const newStep = currStep + 1;
-              if (newStep === MAX_STEP) {
+              if (currStep === MAX_STEP) {
                 makeBracket();
               }
-              setStep(newStep);
+              setStep(currStep + 1);
             }}
             className={classes.button}
           >
