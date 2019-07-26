@@ -43,7 +43,7 @@ const makeRequest = url => {
 };
 
 const getAndRefreshTokenIfNeeded = () => {
-  if (!tokenExpireTime || tokenExpireTime.isAfter(moment())) {
+  if (!tokenExpireTime || moment().isAfter(tokenExpireTime)) {
     return getApiToken().then(body => {
       tokenExpireTime = moment().add(body.expires_in, "seconds");
       authToken = body.access_token;
