@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     display: "flex",
     justifyContent: "flex-end"
+  },
+  tableHeader: {
+    height: theme.spacing(10)
   }
 }));
 
@@ -63,23 +66,28 @@ export default function BracketBuilder(
         </Typography>
         <Paper>
           <Grid container direction="row">
-            <Grid item xs={12}>
-              <Search
-                onChange={(searchResults: SearchResults) => {
-                  setSearchResults(
-                    map(searchResults.items, result => {
-                      return new Competitor({
-                        index: -1,
-                        type: "track",
-                        spotifyId: result.id,
-                        track: new Track(result),
-                        id: uuid()
-                      });
-                    })
-                  );
-                  return null;
-                }}
-              />
+            <Grid item xs={12} className={classes.tableHeader}>
+              {currStep === 0 && (
+                <Search
+                  onChange={(searchResults: SearchResults) => {
+                    setSearchResults(
+                      map(searchResults.items, result => {
+                        return new Competitor({
+                          index: -1,
+                          type: "track",
+                          spotifyId: result.id,
+                          track: new Track(result),
+                          id: uuid()
+                        });
+                      })
+                    );
+                    return null;
+                  }}
+                />
+              )}
+              {currStep === 1 && (
+                <Typography component="div">Seed by:</Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <CompetitorSelection
