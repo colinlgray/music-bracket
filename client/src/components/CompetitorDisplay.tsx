@@ -24,6 +24,10 @@ const useStyles = makeStyles(theme => ({
   player: {
     width: "100%",
     height: "80px"
+  },
+  avatar: {
+    width: "64px",
+    height: "64px"
   }
 }));
 
@@ -96,7 +100,8 @@ function CompetitorDisplay(props: Props) {
         classes={{
           content: classes.headerContent,
           title: classes.headerText,
-          subheader: classes.headerText
+          subheader: classes.headerText,
+          avatar: classes.avatar
         }}
         action={
           <IconButton
