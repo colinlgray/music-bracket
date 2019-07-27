@@ -62,7 +62,7 @@ class Search extends React.Component<Props, State> {
     offset: 0,
     hasHiddenSearchError: false,
     totalResults: 0,
-    step: 10
+    step: 5
   };
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);

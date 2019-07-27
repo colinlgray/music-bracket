@@ -107,16 +107,16 @@ export class CompetitorSelection extends Component {
         onDragEnd={this.onDragEnd}
       >
         <Grid container>
-          <Droppable droppableId="selectable">
-            {(provided, snapshot) => (
-              <Grid
-                item
-                ref={provided.innerRef}
-                xs={6}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {this.props.editable &&
-                  this.state.selectable.map((item, index) => (
+          {this.props.editable && (
+            <Droppable droppableId="selectable">
+              {(provided, snapshot) => (
+                <Grid
+                  item
+                  ref={provided.innerRef}
+                  xs={6}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {this.state.selectable.map((item, index) => (
                     <Draggable
                       key={item.id}
                       draggableId={item.id}
@@ -141,10 +141,11 @@ export class CompetitorSelection extends Component {
                       )}
                     </Draggable>
                   ))}
-                {provided.placeholder}
-              </Grid>
-            )}
-          </Droppable>
+                  {provided.placeholder}
+                </Grid>
+              )}
+            </Droppable>
+          )}
           <Droppable droppableId="selected">
             {(provided, snapshot) => (
               <Grid

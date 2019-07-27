@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
-import { Search, SearchResults, CompetitorSelection } from "../components";
+import {
+  Search,
+  SearchResults,
+  CompetitorSelection,
+  SeedingOptions
+} from "../components";
 import Grid from "@material-ui/core/Grid";
 import { Bracket, Competitor, Track, CreationStates } from "../models";
 import { map } from "lodash";
@@ -85,9 +90,7 @@ export default function BracketBuilder(
                   }}
                 />
               )}
-              {currStep === 1 && (
-                <Typography component="div">Seed by:</Typography>
-              )}
+              {currStep === 1 && <SeedingOptions />}
             </Grid>
             <Grid item xs={12}>
               <CompetitorSelection
