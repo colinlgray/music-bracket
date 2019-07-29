@@ -150,7 +150,7 @@ export class CompetitorSelection extends Component {
             {(provided, snapshot) => (
               <Grid
                 item
-                xs={6}
+                xs={this.props.editable ? 6 : 12}
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >

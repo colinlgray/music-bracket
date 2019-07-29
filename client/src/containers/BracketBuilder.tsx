@@ -23,11 +23,14 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     display: "flex",
     justifyContent: "flex-end"
-  },
-  tableHeader: {
-    height: theme.spacing(10)
   }
 }));
+
+const headerText: { [step: number]: string } = {
+  0: "Select Tracks",
+  1: "Select Seeding",
+  2: "Creating"
+};
 
 const MAX_STEP = 1;
 const creationStateToStep: { [creationState: string]: number } = {
@@ -60,38 +63,37 @@ export default function BracketBuilder(
     props.history.push(`/bracket/${props.model.id}`);
   };
 
+  // TODO: Add back in the static height for this, but force to bottom
   return (
     (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
     (props.model.creationState === "started" && (
       <Redirect to={`/bracket/${props.model.id}`} />
     )) || (
       <>
-        <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-          Select Tracks
+        <Typography component="h5" variant="h5" color="inherit" gutterBottom>
+          {headerText[currStep]}
         </Typography>
         <Paper>
           <Grid container direction="row">
-            <Grid item xs={12} className={classes.tableHeader}>
-              {currStep === 0 && (
-                <Search
-                  onChange={(searchResults: SearchResults) => {
-                    setSearchResults(
-                      map(searchResults.items, result => {
-                        return new Competitor({
-                          index: -1,
-                          type: "track",
-                          spotifyId: result.id,
-                          track: new Track(result),
-                          id: uuid()
-                        });
-                      })
-                    );
-                    return null;
-                  }}
-                />
-              )}
-              {currStep === 1 && <SeedingOptions />}
-            </Grid>
+            {currStep === 0 && (
+              <Search
+                onChange={(searchResults: SearchResults) => {
+                  setSearchResults(
+                    map(searchResults.items, result => {
+                      return new Competitor({
+                        index: -1,
+                        type: "track",
+                        spotifyId: result.id,
+                        track: new Track(result),
+                        id: uuid()
+                      });
+                    })
+                  );
+                  return null;
+                }}
+              />
+            )}
+            {currStep === 1 && <SeedingOptions />}
             <Grid item xs={12}>
               <CompetitorSelection
                 onAddCompetitor={(competitor: Competitor) => {
