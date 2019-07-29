@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     display: "flex",
     justifyContent: "flex-end"
+  },
+  cardHeader: {
+    height: theme.spacing(10)
   }
 }));
 
@@ -63,7 +66,6 @@ export default function BracketBuilder(
     props.history.push(`/bracket/${props.model.id}`);
   };
 
-  // TODO: Add back in the static height for this, but force to bottom
   return (
     (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
     (props.model.creationState === "started" && (
@@ -75,25 +77,27 @@ export default function BracketBuilder(
         </Typography>
         <Paper>
           <Grid container direction="row">
-            {currStep === 0 && (
-              <Search
-                onChange={(searchResults: SearchResults) => {
-                  setSearchResults(
-                    map(searchResults.items, result => {
-                      return new Competitor({
-                        index: -1,
-                        type: "track",
-                        spotifyId: result.id,
-                        track: new Track(result),
-                        id: uuid()
-                      });
-                    })
-                  );
-                  return null;
-                }}
-              />
-            )}
-            {currStep === 1 && <SeedingOptions />}
+            <Grid container className={classes.cardHeader} alignItems="center">
+              {currStep === 0 && (
+                <Search
+                  onChange={(searchResults: SearchResults) => {
+                    setSearchResults(
+                      map(searchResults.items, result => {
+                        return new Competitor({
+                          index: -1,
+                          type: "track",
+                          spotifyId: result.id,
+                          track: new Track(result),
+                          id: uuid()
+                        });
+                      })
+                    );
+                    return null;
+                  }}
+                />
+              )}
+              {currStep === 1 && <SeedingOptions />}
+            </Grid>
             <Grid item xs={12}>
               <CompetitorSelection
                 onAddCompetitor={(competitor: Competitor) => {
