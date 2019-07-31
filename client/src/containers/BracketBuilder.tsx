@@ -100,14 +100,7 @@ export default function BracketBuilder(
             </Grid>
             <Grid item xs={12}>
               <CompetitorSelection
-                onAddCompetitor={(competitor: Competitor) => {
-                  props.model.addCompetitor(competitor);
-                  competitor.save();
-                }}
-                onRemoveCompetitor={(competitor: Competitor) => {
-                  props.model.removeCompetitor(competitor);
-                  competitor.save();
-                }}
+                bracket={props.model}
                 editable={currStep === 0}
                 selectable={searchResults}
                 selected={props.model.competitors}

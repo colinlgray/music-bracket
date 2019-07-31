@@ -36,11 +36,28 @@ export class Bracket extends BaseModel implements BracketProperties {
   addCompetitor(c: Competitor) {
     this.competitors = this.competitors.concat(c);
     c.bracketId = this.id;
+    this.save();
   }
 
   removeCompetitor(c: Competitor) {
     this.competitors = without(this.competitors, c);
     c.bracketId = null;
+    this.save();
+  }
+
+  updateIndices(list: Array<Competitor>, startIndex: number, endIndex: number) {
+    this.competitors = list;
+    let start = startIndex;
+    let end = endIndex;
+    if (start > end) {
+      let tmp = start;
+      start = end;
+      end = tmp;
+    }
+    for (let index = start; index <= end; index++) {
+      this.competitors[index].index = index;
+      this.competitors[index].save();
+    }
   }
 
   get dbProps() {

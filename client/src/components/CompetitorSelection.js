@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
-import { map, without, filter, includes } from "lodash";
+import { map, without, filter, includes, sortBy } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
 const reorder = (list, startIndex, endIndex) => {
@@ -33,9 +33,9 @@ export class CompetitorSelection extends Component {
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
     if (droppableDestination.droppableId === "selected") {
-      this.props.onAddCompetitor(removed);
+      this.props.bracket.addCompetitor(removed);
     } else {
-      this.props.onRemoveCompetitor(removed);
+      this.props.bracket.removeCompetitor(removed);
     }
     destClone.splice(droppableDestination.index, 0, removed);
 
@@ -57,13 +57,21 @@ export class CompetitorSelection extends Component {
       return;
     }
     if (source.droppableId === destination.droppableId) {
+      const reordered = reorder(
+        this.state[source.droppableId],
+        source.index,
+        destination.index
+      );
       this.setState({
-        [source.droppableId]: reorder(
-          this.state[source.droppableId],
+        [source.droppableId]: reordered
+      });
+      if (destination.droppableId === "selected") {
+        this.props.bracket.updateIndices(
+          reordered,
           source.index,
           destination.index
-        )
-      });
+        );
+      }
     } else {
       this.setState(
         this.move(
@@ -96,7 +104,7 @@ export class CompetitorSelection extends Component {
   componentDidMount() {
     this.setState({
       selectable: this.props.selectable,
-      selected: this.props.selected
+      selected: sortBy(this.props.selected, ["index"])
     });
   }
 
