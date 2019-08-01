@@ -15,12 +15,13 @@ const options = [
   { value: "custom", displayText: "Custom" },
   { value: "popularity", displayText: "Popularity" }
 ];
-export function SeedingOptions(props: {}) {
+export function SeedingOptions(props: { onChange: (val: string) => void }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(options[0].value);
 
   function handleChange(event: React.ChangeEvent<{ value: unknown }>) {
     setValue(event.target.value as string);
+    props.onChange(event.target.value as string);
   }
 
   return (

@@ -96,7 +96,13 @@ export default function BracketBuilder(
                   }}
                 />
               )}
-              {currStep === 1 && <SeedingOptions />}
+              {currStep === 1 && (
+                <SeedingOptions
+                  onChange={(value: string) => {
+                    props.model.sortBy(value);
+                  }}
+                />
+              )}
             </Grid>
             <Grid item xs={12}>
               <CompetitorSelection
