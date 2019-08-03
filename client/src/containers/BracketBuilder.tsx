@@ -65,7 +65,6 @@ export default function BracketBuilder(
   const makeBracket = () => {
     props.history.push(`/bracket/${props.model.id}`);
   };
-
   return (
     (!props.match.params.id && <Redirect to={`/build/${props.model.id}`} />) ||
     (props.model.creationState === "started" && (
@@ -131,7 +130,7 @@ export default function BracketBuilder(
           <Button
             variant="contained"
             color="primary"
-            disabled={currStep > MAX_STEP}
+            disabled={currStep > MAX_STEP || !props.model.competitors.length}
             onClick={() => {
               if (currStep === MAX_STEP) {
                 makeBracket();
