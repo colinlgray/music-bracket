@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { map, filter } from "lodash";
-import { GET_BRACKETS } from "../store/actions";
+import { getBrackets } from "../store/actions";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -26,7 +26,7 @@ function BracketList(props) {
     m => m.creationState === "started"
   );
   if (props.hasLoadedBrackets === false) {
-    props.dispatch({ type: GET_BRACKETS });
+    props.dispatch(getBrackets());
   }
   return (
     <>
