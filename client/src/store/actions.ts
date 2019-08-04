@@ -1,9 +1,5 @@
 import { Bracket } from "../models";
 
-export interface State {
-  existingBrackets: Array<Bracket>;
-}
-
 export const GET_BRACKETS = "GET_BRACKETS";
 export const GET_BRACKET_BY_ID = "GET_BRACKET_BY_ID";
 

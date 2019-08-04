@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -7,6 +8,7 @@ import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { map, filter } from "lodash";
+import { GET_BRACKETS } from "../store/actions";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -23,6 +25,9 @@ function BracketList(props) {
     props.model,
     m => m.creationState === "started"
   );
+  if (props.hasLoadedBrackets === false) {
+    props.dispatch({ type: GET_BRACKETS });
+  }
   return (
     <>
       <Typography component="h4" variant="h4" color="inherit" gutterBottom>
@@ -55,4 +60,11 @@ function BracketList(props) {
     </>
   );
 }
-export default BracketList;
+
+function mapStateToProps(state) {
+  return {
+    existingBrackets: state.existingBrackets,
+    hasLoadedBrackets: state.hasLoadedBrackets
+  };
+}
+export default connect(mapStateToProps)(BracketList);

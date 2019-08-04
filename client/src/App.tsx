@@ -20,14 +20,9 @@ import {
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import { createStore } from "redux";
 import ModelLoader from "./components/ModelLoader";
 import { Bracket } from "./models";
 import useStyles from "./app.css";
-import reducer from "./store/reducer";
-
-const store = createStore(reducer);
-
 function App() {
   const [open, setOpen] = useState(false);
 
@@ -125,7 +120,7 @@ function App() {
           <Route
             path="/nominations/"
             render={props => {
-              return <BracketList {...props} model={[]} />;
+              return <BracketList {...props} />;
             }}
           />
         </main>
