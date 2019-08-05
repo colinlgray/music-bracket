@@ -1,4 +1,4 @@
-import { Bracket } from "../models";
+import { Bracket } from "../../models";
 
 export interface IState {
   existingBrackets: Array<Bracket>;

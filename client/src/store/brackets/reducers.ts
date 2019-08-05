@@ -1,7 +1,7 @@
 import { IState, initialState } from "./state";
 import { Action, SET_BRACKETS, SET_FETCHING_BRACKETS } from "./types";
 
-export default function reducer(
+export function bracketsReducer(
   state: IState = initialState,
   action: Action
 ): IState {

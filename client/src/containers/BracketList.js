@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { map, filter } from "lodash";
-import { getBrackets } from "../store/actions";
+import { getBrackets } from "../store/brackets/actions";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -26,6 +26,7 @@ function BracketList(props) {
     props.brackets,
     m => m.creationState === "started"
   );
+
   useEffect(() => {
     dispatch(getBrackets());
   }, [dispatch]);
@@ -66,8 +67,8 @@ function BracketList(props) {
 
 function mapStateToProps(state) {
   return {
-    brackets: state.existingBrackets,
-    loading: state.isLoadingBrackets
+    brackets: state.brackets.existingBrackets,
+    loading: state.brackets.isLoadingBrackets
   };
 }
 export default connect(mapStateToProps)(BracketList);

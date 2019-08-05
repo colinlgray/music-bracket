@@ -1,4 +1,4 @@
-import { Bracket } from "../models";
+import { Bracket } from "../../models";
 import { SetBracketsAction, SetFetchingBrackets } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
