@@ -6,12 +6,13 @@ import { AnyAction } from "redux";
 export const setExistingBrackets = (
   existingBrackets: Array<Bracket>
 ): SetBracketsAction => {
-  return { type: "SET_BRACKETS", existingBrackets };
+  return { type: "SET_BRACKETS", payload: existingBrackets };
 };
 
 export const isFetching = (isFetching: boolean): SetFetchingBrackets => {
-  return { type: "SET_FETCHING_BRACKETS", isFetching };
+  return { type: "SET_FETCHING_BRACKETS", payload: isFetching };
 };
+
 export const getBrackets = (): ThunkAction<
   Promise<void>,
   {},
@@ -28,8 +29,8 @@ export const getBrackets = (): ThunkAction<
           dispatch(isFetching(false));
           console.log("Done mocking async");
           resolve();
-        }, 5000);
-      }, 5000);
+        }, 1000);
+      }, 1000);
     });
   };
 };

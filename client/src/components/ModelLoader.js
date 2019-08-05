@@ -10,7 +10,7 @@ export default function ModelLoader(props) {
         setModel(model);
       })
       .catch(error => setError(error));
-  }, []);
+  }, [props.model, props.match.params.id, props.type]);
 
   if (model) {
     const { Component, ...remaining } = props;

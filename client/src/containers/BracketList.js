@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -21,13 +21,15 @@ const useStyles = makeStyles(theme => ({
 
 function BracketList(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const startedBrackets = filter(
-    props.model,
+    props.brackets,
     m => m.creationState === "started"
   );
-  if (props.hasLoadedBrackets === false) {
-    props.dispatch(getBrackets());
-  }
+  useEffect(() => {
+    dispatch(getBrackets());
+  }, [dispatch]);
+
   return (
     <>
       <Typography component="h4" variant="h4" color="inherit" gutterBottom>
@@ -46,6 +48,7 @@ function BracketList(props) {
       <Typography component="h4" variant="h4" gutterBottom>
         Other brackets
       </Typography>
+      {props.loading && <div>Loading...</div>}
       <List>
         {map(startedBrackets, m => (
           <ListItem key={m.id}>
@@ -63,8 +66,8 @@ function BracketList(props) {
 
 function mapStateToProps(state) {
   return {
-    existingBrackets: state.existingBrackets,
-    hasLoadedBrackets: state.hasLoadedBrackets
+    brackets: state.existingBrackets,
+    loading: state.isLoadingBrackets
   };
 }
 export default connect(mapStateToProps)(BracketList);
