@@ -1,13 +1,13 @@
 export const GET_BRACKETS = "GET_BRACKETS";
-export const GET_BRACKET_BY_ID = "GET_BRACKET_BY_ID";
+import { Bracket } from "../models";
 
-interface GetBracketsAction {
-  type: typeof GET_BRACKETS;
+export interface SetBracketsAction {
+  type: "SET_BRACKETS";
+  existingBrackets: Array<Bracket>;
+}
+export interface SetFetchingBrackets {
+  type: "SET_FETCHING_BRACKETS";
+  isFetching: boolean;
 }
 
-interface GetBracketByIdAction {
-  type: typeof GET_BRACKET_BY_ID;
-  id: string;
-}
-
-export type ActionTypes = GetBracketsAction | GetBracketByIdAction;
+export type Action = SetBracketsAction | SetFetchingBrackets;
