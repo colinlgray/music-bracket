@@ -20,17 +20,17 @@ export const getBrackets = (): ThunkAction<
   AnyAction
 > => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve, reject) => {
       dispatch(isFetching(true));
-      console.log("Going to get brackets");
-      setTimeout(() => {
-        dispatch(setExistingBrackets([]));
-        setTimeout(() => {
+      Bracket.fetchAll()
+        .then(brackets => {
+          dispatch(setExistingBrackets(brackets as Array<Bracket>));
           dispatch(isFetching(false));
-          console.log("Done mocking async");
-          resolve();
-        }, 1000);
-      }, 1000);
+        })
+        .catch((e: Error) => {
+          dispatch(isFetching(false));
+          reject(e);
+        });
     });
   };
 };
