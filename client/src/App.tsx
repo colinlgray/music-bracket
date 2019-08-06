@@ -94,14 +94,7 @@ function App() {
           <Route
             path="/build/:id?"
             render={props => {
-              return (
-                <ModelLoader
-                  {...props}
-                  Component={BracketBuilder}
-                  model={Bracket}
-                  type="fetchOrCreate"
-                />
-              );
+              return <BracketBuilder {...props} />;
             }}
           />
           <Route

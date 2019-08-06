@@ -49,7 +49,7 @@ function BracketList(props) {
       <Typography component="h4" variant="h4" gutterBottom>
         Other brackets
       </Typography>
-      {props.loading && <div>Loading...</div>}
+      {props.isLoading && <div>Loading...</div>}
       <List>
         {map(startedBrackets, m => (
           <ListItem key={m.id}>
@@ -68,7 +68,7 @@ function BracketList(props) {
 function mapStateToProps(state) {
   return {
     brackets: state.brackets.existingBrackets,
-    loading: state.brackets.isLoadingBrackets
+    isLoading: state.brackets.isLoadingBrackets
   };
 }
 export default connect(mapStateToProps)(BracketList);
