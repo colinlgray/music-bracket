@@ -11,7 +11,11 @@ import {
 } from "../components";
 import Grid from "@material-ui/core/Grid";
 import { Bracket, Competitor, Track, CreationStates } from "../models";
-import { getBracket } from "../store/bracket/actions";
+import {
+  getBracket,
+  addCompetitor,
+  removeCompetitor
+} from "../store/bracket/actions";
 import { map } from "lodash";
 import uuid from "uuid/v4";
 import { Paper } from "@material-ui/core";
@@ -119,6 +123,12 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                 editable={currStep === 0}
                 selectable={searchResults}
                 selected={props.bracket.competitors}
+                onAddCompetitor={(c: Competitor) => {
+                  dispatch(addCompetitor(c));
+                }}
+                onRemoveCompetitor={(c: Competitor) => {
+                  dispatch(removeCompetitor(c));
+                }}
               />
             </Grid>
           </Grid>

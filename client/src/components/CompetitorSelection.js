@@ -33,9 +33,11 @@ export class CompetitorSelection extends Component {
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
     if (droppableDestination.droppableId === "selected") {
-      this.props.bracket.addCompetitor(removed);
+      this.props.onAddCompetitor(removed);
+      this.props.bracket.save();
     } else {
-      this.props.bracket.removeCompetitor(removed);
+      this.props.onRemoveCompetitor(removed);
+      this.props.bracket.save();
     }
     destClone.splice(droppableDestination.index, 0, removed);
 
