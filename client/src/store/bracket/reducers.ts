@@ -1,3 +1,4 @@
+import { without } from "lodash";
 import { IState, initialState } from "./state";
 import {
   Action,
@@ -6,18 +7,7 @@ import {
   REMOVE_COMPETITOR,
   ADD_COMPETITOR
 } from "./types";
-
-// addCompetitor(c: Competitor) {
-//   this.competitors = this.competitors.concat(c);
-//   c.bracketId = this.id;
-//   c.save();
-// }
-
-// removeCompetitor(c: Competitor) {
-//   this.competitors = without(this.competitors, c);
-//   c.bracketId = null;
-//   c.save();
-// }
+import { Bracket } from "../../models";
 
 export function bracketReducer(
   state: IState = initialState,
@@ -29,10 +19,18 @@ export function bracketReducer(
     case SET_FETCHING_BRACKET:
       return { ...state, isLoadingBracket: action.payload };
     case REMOVE_COMPETITOR:
-      console.log("not implemented");
-      return state;
+      const competitors = without(
+        state.currentBracket.competitors,
+        action.payload
+      );
+      return {
+        ...state,
+        currentBracket: new Bracket({ ...state.currentBracket, competitors })
+      };
     case ADD_COMPETITOR:
-      console.log("not implemented");
+      state.currentBracket.competitors = state.currentBracket.competitors.concat(
+        action.payload
+      );
       return state;
     default:
       return state;

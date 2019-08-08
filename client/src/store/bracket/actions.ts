@@ -16,13 +16,22 @@ export const setBracket = (bracket: Bracket): SetBracketAction => {
   return { type: SET_BRACKET, payload: bracket };
 };
 
-export const addCompetitor = (competitor: Competitor): AddCompetitorAction => {
+export const addCompetitor = (
+  competitor: Competitor,
+  bracket: Bracket
+): AddCompetitorAction => {
+  // TODO: This needs to be a redux action
+  competitor.bracketId = bracket.id;
+  competitor.save();
   return { type: ADD_COMPETITOR, payload: competitor };
 };
 
 export const removeCompetitor = (
   competitor: Competitor
 ): RemoveCompetitorAction => {
+  // TODO: This needs to be a redux action
+  competitor.bracketId = null;
+  competitor.save();
   return { type: REMOVE_COMPETITOR, payload: competitor };
 };
 export const isFetching = (isFetching: boolean): SetFetchingBracketAction => {

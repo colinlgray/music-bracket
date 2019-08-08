@@ -1,7 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { put } from "../utils/http";
 import { Competitor, CompetitorProperties } from "./Competitor";
-import { map, without, forEach, sortBy } from "lodash";
+import { map, forEach, sortBy } from "lodash";
 
 export type CreationStates = "created" | "started" | "seeding";
 
