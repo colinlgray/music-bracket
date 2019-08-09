@@ -96,10 +96,8 @@ export class CompetitorSelection extends Component {
         selectable: filter(props.selectable, val =>
           includes(props.selectable, val)
         ),
-        selected: props.selected
+        ...props
       });
-    } else {
-      console.error("Tried to update list while dragging");
     }
   }
 

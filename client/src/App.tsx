@@ -20,8 +20,6 @@ import {
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import ModelLoader from "./components/ModelLoader";
-import { Bracket } from "./models";
 import useStyles from "./app.css";
 function App() {
   const [open, setOpen] = useState(false);
@@ -100,14 +98,7 @@ function App() {
           <Route
             path="/bracket/:id"
             render={props => {
-              return (
-                <ModelLoader
-                  {...props}
-                  Component={BracketCompetition}
-                  model={Bracket}
-                  type="fetch"
-                />
-              );
+              return <BracketCompetition {...props} />;
             }}
           />
           <Route

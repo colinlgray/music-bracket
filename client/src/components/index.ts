@@ -5,4 +5,3 @@ export * from "./SeedingOptions";
 export * from "./CompetitorDisplay";
 export * from "./CompetitorSelection";
 export * from "./ListItemLink";
-export * from "./ModelLoader";

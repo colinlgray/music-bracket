@@ -76,6 +76,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
   const makeBracket = () => {
     props.history.push(`/bracket/${props.bracket.id}`);
   };
+
   return (
     (props.bracket.id && !props.match.params.id && (
       <Redirect to={`/build/${props.bracket.id}`} />

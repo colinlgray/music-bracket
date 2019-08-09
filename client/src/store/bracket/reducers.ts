@@ -28,10 +28,13 @@ export function bracketReducer(
         currentBracket: new Bracket({ ...state.currentBracket, competitors })
       };
     case ADD_COMPETITOR:
-      state.currentBracket.competitors = state.currentBracket.competitors.concat(
-        action.payload
-      );
-      return state;
+      return {
+        ...state,
+        currentBracket: new Bracket({
+          ...state.currentBracket,
+          competitors: state.currentBracket.competitors.concat(action.payload)
+        })
+      };
     default:
       return state;
   }
