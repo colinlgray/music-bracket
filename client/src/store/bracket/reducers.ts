@@ -1,4 +1,4 @@
-import { without } from "lodash";
+import { without, sortBy } from "lodash";
 import { IState, initialState } from "./state";
 import {
   Action,
@@ -32,9 +32,13 @@ export function bracketReducer(
         ...state,
         currentBracket: new Bracket({
           ...state.currentBracket,
-          competitors: state.currentBracket.competitors.concat(action.payload)
+          competitors: sortBy(
+            state.currentBracket.competitors.concat(action.payload),
+            ["index"]
+          )
         })
       };
+
     default:
       return state;
   }

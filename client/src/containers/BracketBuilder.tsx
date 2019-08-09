@@ -100,7 +100,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                           index: -1,
                           type: "track",
                           spotifyId: result.id,
-                          track: new Track(result),
+                          model: new Track(result),
                           id: uuid()
                         });
                       })

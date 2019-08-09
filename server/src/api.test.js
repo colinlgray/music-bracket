@@ -48,7 +48,7 @@ test("POST /api/competitors", () => {
   const c = new Competitor({
     type: "track",
     spotifyId: trackSearchResponse[0].id,
-    track: new Track(trackSearchResponse[0]),
+    model: new Track(trackSearchResponse[0]),
     id: "testCompetitorId",
     index: 0
   });
@@ -65,7 +65,7 @@ test("PUT /api/brackets/:id", () => {
   const c = new Competitor({
     type: "track",
     spotifyId: trackSearchResponse[0].id,
-    track: new Track(trackSearchResponse[0]),
+    model: new Track(trackSearchResponse[0]),
     id: "testCompetitorId",
     index: 0
   });

@@ -48,8 +48,8 @@ export class Competitor extends BaseModel implements CompetitorProperties {
     this.roundsWon = 0;
     this.index = props.index;
     this.bracketId = props.bracketId;
-    if (props.type === "track" && props.track) {
-      this.model = props.track;
+    if (props.model) {
+      this.model = props.model;
     } else {
       this.model = null;
     }

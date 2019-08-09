@@ -50,7 +50,7 @@ export class Bracket extends BaseModel implements BracketProperties {
 
   sortBy(value: string) {
     if (value === "popularity") {
-      sortBy(this.competitors, [c => (c.model ? c.model.popularity : -1)]);
+      sortBy(this.competitors, [c => (c.track ? c.track.popularity : -1)]);
       forEach(this.competitors, c => c.save());
     }
   }

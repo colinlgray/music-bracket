@@ -24,7 +24,7 @@ test("bracket can add track and save correctly", () => {
   const c = new Competitor({
     type: "track",
     spotifyId: id,
-    track: new Track(trackSearchResult),
+    model: new Track(trackSearchResult),
     id: "competitorId",
     index: 0
   });

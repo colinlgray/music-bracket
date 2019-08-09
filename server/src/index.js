@@ -88,7 +88,7 @@ map(dbRoutes, key => {
 
 const attachSpotify = c =>
   getTrack(c.spotifyId).then(t => {
-    c.track = t;
+    c.model = t;
     return c;
   });
 
