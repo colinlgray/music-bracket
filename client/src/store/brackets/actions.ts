@@ -1,5 +1,5 @@
 import { Bracket } from "../../models";
-import { SetBracketsAction, SetFetchingBrackets } from "./types";
+import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 
@@ -9,8 +9,10 @@ export const setExistingBrackets = (
   return { type: "SET_BRACKETS", payload: existingBrackets };
 };
 
-export const isFetching = (isFetching: boolean): SetFetchingBrackets => {
-  return { type: "SET_FETCHING_BRACKETS", payload: isFetching };
+export const setFetching = (
+  setFetching: boolean
+): SetFetchingBracketsAction => {
+  return { type: "SET_FETCHING_BRACKETS", payload: setFetching };
 };
 
 export const getBrackets = (): ThunkAction<
@@ -21,14 +23,14 @@ export const getBrackets = (): ThunkAction<
 > => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      dispatch(isFetching(true));
+      dispatch(setFetching(true));
       Bracket.fetchAll()
         .then(brackets => {
           dispatch(setExistingBrackets(brackets as Array<Bracket>));
-          dispatch(isFetching(false));
+          dispatch(setFetching(false));
         })
         .catch((e: Error) => {
-          dispatch(isFetching(false));
+          dispatch(setFetching(false));
           reject(e);
         });
     });

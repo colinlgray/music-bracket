@@ -16,6 +16,7 @@ import {
   addCompetitor,
   removeCompetitor
 } from "../store/bracket/actions";
+import { SearchRequest } from "../store/system/types";
 import { map } from "lodash";
 import uuid from "uuid/v4";
 import { Paper } from "@material-ui/core";
@@ -93,12 +94,8 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
             <Grid container className={classes.cardHeader} alignItems="center">
               {currStep === 0 && (
                 <Search
-                  onChange={(result: {
-                    val: string;
-                    limit: number;
-                    offset: number;
-                  }) => {
-                    console.log("onChange", result);
+                  onChange={(request: SearchRequest) => {
+                    console.log("onChange", request);
                   }}
                   // onChange={(searchResults: SearchResults) => {
                   //   setSearchResults(

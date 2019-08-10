@@ -8,9 +8,9 @@ export interface SetBracketsAction {
   type: "SET_BRACKETS";
   payload: Array<Bracket>;
 }
-export interface SetFetchingBrackets {
+export interface SetFetchingBracketsAction {
   type: "SET_FETCHING_BRACKETS";
   payload: boolean;
 }
 
-export type Action = SetBracketsAction | SetFetchingBrackets;
+export type Action = SetBracketsAction | SetFetchingBracketsAction;

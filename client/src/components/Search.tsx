@@ -6,6 +6,7 @@ import { withStyles, Theme } from "@material-ui/core/styles";
 import TablePagination from "@material-ui/core/TablePagination";
 import { debounce } from "lodash";
 import Track from "../models/Track";
+import { SearchRequest } from "../store/system/types";
 
 const styles = (theme: Theme) => ({
   textInput: {
@@ -30,7 +31,7 @@ export interface SearchResults {
 }
 
 interface Props extends WithStyles<typeof styles> {
-  onChange: (result: { val: string; limit: number; offset: number }) => any;
+  onChange: (request: SearchRequest) => any;
 }
 
 interface State {
@@ -100,34 +101,12 @@ class Search extends React.Component<Props, State> {
       });
     } else {
       this.props.onChange({
-        val: this.state.query.trim(),
+        query: this.state.query.trim(),
         limit: this.state.step,
         offset: this.state.offset
       });
 
       // this.setState({ loading: true });
-      // fetch(
-      //   `/api/tracks/search?query=${encodeURI(this.state.query)}&limit=${
-      //     this.state.step
-      //   }&offset=${this.state.offset}`
-      // )
-      //   .then(res => res.json())
-      //   .then(response => {
-      //     this.setState({
-      //       loading: false,
-      //       searchResults: response.items.map(
-      //         (serverResponse: any) => new Track(serverResponse)
-      //       ),
-      //       totalResults: response.total
-      //     });
-      //     if (this.props.onChange) {
-      //       this.props.onChange(response);
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //     this.setState({ loading: false, searchError: err });
-      //   });
     }
   };
 

@@ -34,8 +34,8 @@ export const removeCompetitor = (
   competitor.save();
   return { type: REMOVE_COMPETITOR, payload: competitor };
 };
-export const isFetching = (isFetching: boolean): SetFetchingBracketAction => {
-  return { type: SET_FETCHING_BRACKET, payload: isFetching };
+export const setFetching = (setFetching: boolean): SetFetchingBracketAction => {
+  return { type: SET_FETCHING_BRACKET, payload: setFetching };
 };
 
 export const getBracket = (
@@ -43,14 +43,14 @@ export const getBracket = (
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      dispatch(isFetching(true));
+      dispatch(setFetching(true));
       Bracket.fetchOrCreate(id)
         .then(bracket => {
           dispatch(setBracket(bracket as Bracket));
-          dispatch(isFetching(false));
+          dispatch(setFetching(false));
         })
         .catch((e: Error) => {
-          dispatch(isFetching(false));
+          dispatch(setFetching(false));
           reject(e);
         });
     });
