@@ -1,5 +1,8 @@
+import { Competitor } from "../../models";
+
 export const SEARCH_SPOTIFY = "SEARCH_SPOTIFY";
 export const SET_SEARCHING = "SET_SEARCHING";
+export const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS";
 
 export type SearchRequest = {
   query: string;
@@ -15,5 +18,11 @@ export interface SetSearchingAction {
   type: "SET_SEARCHING";
   payload: boolean;
 }
-
-export type SystemAction = SearchSpotifyAction;
+export interface SetSearchResultsAction {
+  type: "SET_SEARCH_RESULTS";
+  payload: Array<Competitor>;
+}
+export type SystemAction =
+  | SearchSpotifyAction
+  | SetSearchResultsAction
+  | SetSearchingAction;

@@ -16,6 +16,7 @@ import {
   addCompetitor,
   removeCompetitor
 } from "../store/bracket/actions";
+import { searchSpotify, setSearchResults } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
 import { map } from "lodash";
 import uuid from "uuid/v4";
@@ -51,7 +52,11 @@ const creationStateToStep: { [creationState: string]: number } = {
 };
 
 type RouteParams = { id: string };
-type Props = { bracket: Bracket; isLoading: boolean };
+type Props = {
+  bracket: Bracket;
+  searchResults: Array<Competitor>;
+  isLoading: boolean;
+};
 
 function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
   const classes = useStyles();
@@ -94,23 +99,9 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
             <Grid container className={classes.cardHeader} alignItems="center">
               {currStep === 0 && (
                 <Search
-                  onChange={(request: SearchRequest) => {
-                    console.log("onChange", request);
-                  }}
-                  // onChange={(searchResults: SearchResults) => {
-                  //   setSearchResults(
-                  //     map(searchResults.items, result => {
-                  //       return new Competitor({
-                  //         index: -1,
-                  //         type: "track",
-                  //         spotifyId: result.id,
-                  //         model: new Track(result),
-                  //         id: uuid()
-                  //       });
-                  //     })
-                  //   );
-                  //   return null;
-                  // }}
+                  onChange={(request: SearchRequest) =>
+                    dispatch(searchSpotify(request))
+                  }
                 />
               )}
               {currStep === 1 && (
@@ -126,7 +117,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
               <CompetitorSelection
                 bracket={props.bracket}
                 editable={currStep === 0}
-                selectable={searchResults}
+                selectable={props.searchResults}
                 selected={props.bracket.competitors}
                 onAddCompetitor={(c: Competitor) => {
                   dispatch(addCompetitor(c, props.bracket));
@@ -177,7 +168,8 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
 function mapStateToProps(state: AppState) {
   return {
     bracket: state.bracket.currentBracket,
-    isLoading: state.bracket.isLoadingBracket
+    isLoading: state.bracket.isLoadingBracket,
+    searchResults: state.system.searchResults
   };
 }
 export default connect(mapStateToProps)(BracketBuilder);
