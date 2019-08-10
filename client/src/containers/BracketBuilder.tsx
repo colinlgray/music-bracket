@@ -93,20 +93,27 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
             <Grid container className={classes.cardHeader} alignItems="center">
               {currStep === 0 && (
                 <Search
-                  onChange={(searchResults: SearchResults) => {
-                    setSearchResults(
-                      map(searchResults.items, result => {
-                        return new Competitor({
-                          index: -1,
-                          type: "track",
-                          spotifyId: result.id,
-                          model: new Track(result),
-                          id: uuid()
-                        });
-                      })
-                    );
-                    return null;
+                  onChange={(result: {
+                    val: string;
+                    limit: number;
+                    offset: number;
+                  }) => {
+                    console.log("onChange", result);
                   }}
+                  // onChange={(searchResults: SearchResults) => {
+                  //   setSearchResults(
+                  //     map(searchResults.items, result => {
+                  //       return new Competitor({
+                  //         index: -1,
+                  //         type: "track",
+                  //         spotifyId: result.id,
+                  //         model: new Track(result),
+                  //         id: uuid()
+                  //       });
+                  //     })
+                  //   );
+                  //   return null;
+                  // }}
                 />
               )}
               {currStep === 1 && (

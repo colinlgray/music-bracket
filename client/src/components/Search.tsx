@@ -30,7 +30,7 @@ export interface SearchResults {
 }
 
 interface Props extends WithStyles<typeof styles> {
-  onChange?: (response: SearchResults) => any;
+  onChange: (result: { val: string; limit: number; offset: number }) => any;
 }
 
 interface State {
@@ -99,29 +99,35 @@ class Search extends React.Component<Props, State> {
         totalResults: 0
       });
     } else {
-      this.setState({ loading: true });
-      fetch(
-        `/api/tracks/search?query=${encodeURI(this.state.query)}&limit=${
-          this.state.step
-        }&offset=${this.state.offset}`
-      )
-        .then(res => res.json())
-        .then(response => {
-          this.setState({
-            loading: false,
-            searchResults: response.items.map(
-              (serverResponse: any) => new Track(serverResponse)
-            ),
-            totalResults: response.total
-          });
-          if (this.props.onChange) {
-            this.props.onChange(response);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({ loading: false, searchError: err });
-        });
+      this.props.onChange({
+        val: this.state.query.trim(),
+        limit: this.state.step,
+        offset: this.state.offset
+      });
+
+      // this.setState({ loading: true });
+      // fetch(
+      //   `/api/tracks/search?query=${encodeURI(this.state.query)}&limit=${
+      //     this.state.step
+      //   }&offset=${this.state.offset}`
+      // )
+      //   .then(res => res.json())
+      //   .then(response => {
+      //     this.setState({
+      //       loading: false,
+      //       searchResults: response.items.map(
+      //         (serverResponse: any) => new Track(serverResponse)
+      //       ),
+      //       totalResults: response.total
+      //     });
+      //     if (this.props.onChange) {
+      //       this.props.onChange(response);
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.error(err);
+      //     this.setState({ loading: false, searchError: err });
+      //   });
     }
   };
 
