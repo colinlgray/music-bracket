@@ -3,23 +3,19 @@ import { connect, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
-import {
-  Search,
-  SearchResults,
-  CompetitorSelection,
-  SeedingOptions
-} from "../components";
+import { Search, CompetitorSelection, SeedingOptions } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Bracket, Competitor, Track, CreationStates } from "../models";
+import { Bracket, Competitor, CreationStates } from "../models";
 import {
   getBracket,
   addCompetitor,
   removeCompetitor
 } from "../store/bracket/actions";
-import { searchSpotify, setSearchResults } from "../store/system/actions";
+import {
+  searchSpotify,
+  removeFromSearchResults
+} from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
-import { map } from "lodash";
-import uuid from "uuid/v4";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppState } from "../store";
@@ -60,7 +56,6 @@ type Props = {
 
 function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
   const classes = useStyles();
-  const [searchResults, setSearchResults] = useState<Array<Competitor>>([]);
   const [currStep, setStep] = useState<number>(
     creationStateToStep[props.bracket.creationState] || 0
   );
@@ -121,6 +116,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                 selected={props.bracket.competitors}
                 onAddCompetitor={(c: Competitor) => {
                   dispatch(addCompetitor(c, props.bracket));
+                  dispatch(removeFromSearchResults(c));
                 }}
                 onRemoveCompetitor={(c: Competitor) => {
                   dispatch(removeCompetitor(c));

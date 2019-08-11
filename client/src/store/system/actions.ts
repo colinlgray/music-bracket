@@ -1,9 +1,9 @@
 import {
-  SearchSpotifyAction,
+  RemoveFromSearchResultsAction,
   SetSearchResultsAction,
   SetSearchingAction,
   SearchRequest,
-  SEARCH_SPOTIFY,
+  REMOVE_FROM_SEARCH_RESULTS,
   SET_SEARCH_RESULTS,
   SET_SEARCHING
 } from "./types";
@@ -49,6 +49,12 @@ export const setSearchResults = (
   results: Array<Competitor>
 ): SetSearchResultsAction => {
   return { type: SET_SEARCH_RESULTS, payload: results };
+};
+
+export const removeFromSearchResults = (
+  competitor: Competitor
+): RemoveFromSearchResultsAction => {
+  return { type: REMOVE_FROM_SEARCH_RESULTS, payload: competitor };
 };
 
 export const searchSpotify = (

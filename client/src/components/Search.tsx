@@ -25,11 +25,6 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface SearchResults {
-  items: Array<any>;
-  total: number;
-}
-
 interface Props extends WithStyles<typeof styles> {
   onChange: (request: SearchRequest) => any;
 }
