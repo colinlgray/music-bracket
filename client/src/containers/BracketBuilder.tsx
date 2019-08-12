@@ -9,7 +9,8 @@ import { Bracket, Competitor, CreationStates } from "../models";
 import {
   getBracket,
   addCompetitor,
-  removeCompetitor
+  removeCompetitor,
+  reorderCompetitors
 } from "../store/bracket/actions";
 import {
   searchSpotify,
@@ -123,6 +124,13 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                   if (params.listName === "selectable") {
                     dispatch(
                       reorderSearchResults({
+                        startIndex: params.startIndex,
+                        endIndex: params.endIndex
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      reorderCompetitors({
                         startIndex: params.startIndex,
                         endIndex: params.endIndex
                       })

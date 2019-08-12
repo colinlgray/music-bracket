@@ -4,11 +4,14 @@ import {
   SetFetchingBracketAction,
   RemoveCompetitorAction,
   AddCompetitorAction,
+  ReorderCompetitorsAction,
   SET_BRACKET,
   ADD_COMPETITOR,
   REMOVE_COMPETITOR,
+  REORDER_COMPETITORS,
   SET_FETCHING_BRACKET
 } from "./types";
+import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy } from "lodash";
@@ -37,8 +40,19 @@ export const removeCompetitor = (
   competitor.save();
   return { type: REMOVE_COMPETITOR, payload: competitor };
 };
+
 export const setFetching = (setFetching: boolean): SetFetchingBracketAction => {
   return { type: SET_FETCHING_BRACKET, payload: setFetching };
+};
+
+export const reorderCompetitors = (
+  params: ReorderSearchResultsParams
+): ReorderCompetitorsAction => {
+  return {
+    type: REORDER_COMPETITORS,
+    startIndex: params.startIndex,
+    endIndex: params.endIndex
+  };
 };
 
 export const getBracket = (
