@@ -1,5 +1,4 @@
 import { Competitor } from "../../models";
-import { ReorderSearchResultsParams } from "./actions";
 
 export const SEARCH_SPOTIFY = "SEARCH_SPOTIFY";
 export const SET_SEARCHING = "SET_SEARCHING";
@@ -33,6 +32,12 @@ export interface ReorderSearchResultsAction {
   type: "REORDER_SEARCH_RESULTS";
   payload: ReorderSearchResultsParams;
 }
+export interface ReorderSearchResultsParams {
+  list?: Array<any>;
+  startIndex: number;
+  endIndex: number;
+}
+
 export type SystemAction =
   | SearchSpotifyAction
   | SetSearchResultsAction

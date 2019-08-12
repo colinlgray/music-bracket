@@ -3,7 +3,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
 import { map } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
-
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   minHeight: 400
@@ -34,7 +33,10 @@ export class CompetitorSelection extends Component {
     }
 
     if (destination.droppableId === "selected") {
-      this.props.onAddCompetitor(this.props[source.droppableId][source.index]);
+      this.props.onAddCompetitor(
+        this.props[source.droppableId][source.index],
+        destination.index
+      );
     } else {
       this.props.onRemoveCompetitor(
         this.props[source.droppableId][source.index]

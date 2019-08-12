@@ -1,4 +1,4 @@
-import { without, sortBy } from "lodash";
+import { without } from "lodash";
 import { IState, initialState } from "./state";
 import {
   Action,
@@ -9,6 +9,7 @@ import {
 } from "./types";
 import { Bracket } from "../../models";
 
+// TODO: These should not inststantiate Brackets
 export function bracketReducer(
   state: IState = initialState,
   action: Action
@@ -28,14 +29,13 @@ export function bracketReducer(
         currentBracket: new Bracket({ ...state.currentBracket, competitors })
       };
     case ADD_COMPETITOR:
+      let clone = state.currentBracket.competitors.slice();
+      clone.splice(action.payload.index, 0, action.payload.competitor);
       return {
         ...state,
         currentBracket: new Bracket({
           ...state.currentBracket,
-          competitors: sortBy(
-            state.currentBracket.competitors.concat(action.payload),
-            ["index"]
-          )
+          competitors: clone
         })
       };
 

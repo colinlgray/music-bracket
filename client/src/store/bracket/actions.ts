@@ -11,19 +11,22 @@ import {
 } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import { sortBy } from "lodash";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
+  bracket.competitors = sortBy(bracket.competitors, ["index"]);
   return { type: SET_BRACKET, payload: bracket };
 };
 
 export const addCompetitor = (
   competitor: Competitor,
-  bracket: Bracket
+  bracket: Bracket,
+  index: number
 ): AddCompetitorAction => {
   // TODO: This needs to be a redux action
   competitor.bracketId = bracket.id;
   competitor.save();
-  return { type: ADD_COMPETITOR, payload: competitor };
+  return { type: ADD_COMPETITOR, payload: { competitor, index } };
 };
 
 export const removeCompetitor = (
