@@ -100,8 +100,6 @@ class Search extends React.Component<Props, State> {
         limit: this.state.step,
         offset: this.state.offset
       });
-
-      // this.setState({ loading: true });
     }
   };
 

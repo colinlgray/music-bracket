@@ -4,14 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import { map } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
 
-// const reorder = (list, startIndex, endIndex) => {
-//   const result = Array.from(list);
-//   const [removed] = result.splice(startIndex, 1);
-//   result.splice(endIndex, 0, removed);
-
-//   return result;
-// };
-
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   minHeight: 400
@@ -29,9 +21,12 @@ export class CompetitorSelection extends Component {
     if (!destination) {
       return;
     }
-    // TODO: reorder needs to be an action
     if (source.droppableId === destination.droppableId) {
-      console.log("reorder", source.droppableId);
+      this.props.onReorder({
+        listName: source.droppableId,
+        startIndex: source.index,
+        endIndex: destination.index
+      });
       if (destination.droppableId === "selected") {
         console.log("The indices need to be updated");
       }

@@ -13,7 +13,8 @@ import {
 } from "../store/bracket/actions";
 import {
   searchSpotify,
-  removeFromSearchResults
+  removeFromSearchResults,
+  reorderSearchResults
 } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
 import { Paper } from "@material-ui/core";
@@ -114,6 +115,20 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                 editable={currStep === 0}
                 selectable={props.searchResults}
                 selected={props.bracket.competitors}
+                onReorder={(params: {
+                  listName: string;
+                  startIndex: number;
+                  endIndex: number;
+                }) => {
+                  if (params.listName === "selectable") {
+                    dispatch(
+                      reorderSearchResults({
+                        startIndex: params.startIndex,
+                        endIndex: params.endIndex
+                      })
+                    );
+                  }
+                }}
                 onAddCompetitor={(c: Competitor) => {
                   dispatch(addCompetitor(c, props.bracket));
                   dispatch(removeFromSearchResults(c));

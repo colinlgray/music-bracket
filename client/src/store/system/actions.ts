@@ -1,9 +1,11 @@
 import {
   RemoveFromSearchResultsAction,
+  ReorderSearchResultsAction,
   SetSearchResultsAction,
   SetSearchingAction,
   SearchRequest,
   REMOVE_FROM_SEARCH_RESULTS,
+  REORDER_SEARCH_RESULTS,
   SET_SEARCH_RESULTS,
   SET_SEARCHING
 } from "./types";
@@ -55,6 +57,17 @@ export const removeFromSearchResults = (
   competitor: Competitor
 ): RemoveFromSearchResultsAction => {
   return { type: REMOVE_FROM_SEARCH_RESULTS, payload: competitor };
+};
+
+export interface ReorderSearchResultsParams {
+  startIndex: number;
+  endIndex: number;
+}
+
+export const reorderSearchResults = (
+  params: ReorderSearchResultsParams
+): ReorderSearchResultsAction => {
+  return { type: REORDER_SEARCH_RESULTS, payload: params };
 };
 
 export const searchSpotify = (

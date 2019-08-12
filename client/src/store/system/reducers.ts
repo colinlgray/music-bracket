@@ -3,15 +3,26 @@ import {
   SystemAction,
   SET_SEARCHING,
   SET_SEARCH_RESULTS,
-  REMOVE_FROM_SEARCH_RESULTS
+  REMOVE_FROM_SEARCH_RESULTS,
+  REORDER_SEARCH_RESULTS
 } from "./types";
 import { without } from "lodash";
+import { reorder } from "../../utils/reorder";
 
 export function systemReducer(
   state: SystemState = initialState,
   action: SystemAction
 ): SystemState {
   switch (action.type) {
+    case REORDER_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: reorder(
+          state.searchResults,
+          action.payload.startIndex,
+          action.payload.endIndex
+        )
+      };
     case SET_SEARCHING:
       return { ...state, isSearching: action.payload };
     case SET_SEARCH_RESULTS:
