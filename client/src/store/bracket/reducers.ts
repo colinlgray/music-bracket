@@ -56,7 +56,7 @@ export function bracketReducer(
         ...state,
         currentBracket: new Bracket({
           ...state.currentBracket,
-          competitors: clone
+          competitors: map(clone, updateIndices)
         })
       };
 
