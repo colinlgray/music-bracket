@@ -4,6 +4,7 @@ import {
   SET_SEARCHING,
   SET_SEARCH_RESULTS,
   ADD_SEARCH_RESULT,
+  SET_SAVING_MODEL,
   REMOVE_FROM_SEARCH_RESULTS,
   REORDER_SEARCH_RESULTS
 } from "./types";
@@ -24,6 +25,9 @@ export function systemReducer(
           action.payload.endIndex
         )
       };
+    case SET_SAVING_MODEL:
+      console.log("TODO: set ", action.model, "", action.isSaving);
+      return state;
     case SET_SEARCHING:
       return { ...state, isSearching: action.payload };
     case SET_SEARCH_RESULTS:

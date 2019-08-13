@@ -16,7 +16,8 @@ import {
   searchSpotify,
   removeFromSearchResults,
   addSearchResult,
-  reorderSearchResults
+  reorderSearchResults,
+  saveModel
 } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
 import { Paper } from "@material-ui/core";
