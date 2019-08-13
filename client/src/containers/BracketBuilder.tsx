@@ -15,12 +15,14 @@ import {
 import {
   searchSpotify,
   removeFromSearchResults,
+  addSearchResult,
   reorderSearchResults
 } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppState } from "../store";
+import { isNumber } from "lodash";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -141,7 +143,13 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                   dispatch(addCompetitor(c, props.bracket, index));
                   dispatch(removeFromSearchResults(c));
                 }}
-                onRemoveCompetitor={(c: Competitor) => {
+                onRemoveCompetitor={(
+                  c: Competitor,
+                  destinationIndex?: number
+                ) => {
+                  if (isNumber(destinationIndex)) {
+                    dispatch(addSearchResult(c, destinationIndex));
+                  }
                   dispatch(removeCompetitor(c));
                 }}
               />

@@ -3,6 +3,7 @@ import { Competitor } from "../../models";
 export const SEARCH_SPOTIFY = "SEARCH_SPOTIFY";
 export const SET_SEARCHING = "SET_SEARCHING";
 export const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS";
+export const ADD_SEARCH_RESULT = "ADD_SEARCH_RESULT";
 export const REORDER_SEARCH_RESULTS = "REORDER_SEARCH_RESULTS";
 export const REMOVE_FROM_SEARCH_RESULTS = "REMOVE_FROM_SEARCH_RESULTS";
 
@@ -24,6 +25,11 @@ export interface SetSearchResultsAction {
   type: "SET_SEARCH_RESULTS";
   payload: Array<Competitor>;
 }
+export interface AddSearchResultAction {
+  type: "ADD_SEARCH_RESULT";
+  payload: Competitor;
+  index: number;
+}
 export interface RemoveFromSearchResultsAction {
   type: "REMOVE_FROM_SEARCH_RESULTS";
   payload: Competitor;
@@ -41,6 +47,7 @@ export interface ReorderSearchResultsParams {
 export type SystemAction =
   | SearchSpotifyAction
   | SetSearchResultsAction
+  | AddSearchResultAction
   | RemoveFromSearchResultsAction
   | ReorderSearchResultsAction
   | SetSearchingAction;

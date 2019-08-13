@@ -17,7 +17,8 @@ export interface SetFetchingBracketAction {
 }
 export interface AddCompetitorAction {
   type: "ADD_COMPETITOR";
-  payload: { competitor: Competitor; index: number };
+  payload: Competitor;
+  index: number;
 }
 export interface RemoveCompetitorAction {
   type: "REMOVE_COMPETITOR";

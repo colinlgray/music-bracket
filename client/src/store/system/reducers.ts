@@ -3,6 +3,7 @@ import {
   SystemAction,
   SET_SEARCHING,
   SET_SEARCH_RESULTS,
+  ADD_SEARCH_RESULT,
   REMOVE_FROM_SEARCH_RESULTS,
   REORDER_SEARCH_RESULTS
 } from "./types";
@@ -27,6 +28,14 @@ export function systemReducer(
       return { ...state, isSearching: action.payload };
     case SET_SEARCH_RESULTS:
       return { ...state, searchResults: action.payload };
+    case ADD_SEARCH_RESULT:
+      let clone = state.searchResults.slice();
+      clone.splice(action.index, 0, action.payload);
+      return {
+        ...state,
+        searchResults: clone
+      };
+
     case REMOVE_FROM_SEARCH_RESULTS:
       return {
         ...state,

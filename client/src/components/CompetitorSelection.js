@@ -39,7 +39,8 @@ export class CompetitorSelection extends Component {
       );
     } else {
       this.props.onRemoveCompetitor(
-        this.props[source.droppableId][source.index]
+        this.props[source.droppableId][source.index],
+        destination.index
       );
     }
   };

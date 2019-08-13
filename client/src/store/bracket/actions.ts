@@ -29,7 +29,7 @@ export const addCompetitor = (
   // TODO: This needs to be a redux action
   competitor.bracketId = bracket.id;
   competitor.save();
-  return { type: ADD_COMPETITOR, payload: { competitor, index } };
+  return { type: ADD_COMPETITOR, payload: competitor, index };
 };
 
 export const removeCompetitor = (
