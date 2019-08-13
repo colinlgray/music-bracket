@@ -1,4 +1,4 @@
-import { without } from "lodash";
+import { without, map } from "lodash";
 import { IState, initialState } from "./state";
 import {
   BracketAction,
@@ -8,8 +8,13 @@ import {
   REORDER_COMPETITORS,
   ADD_COMPETITOR
 } from "./types";
-import { Bracket } from "../../models";
+import { Bracket, Competitor } from "../../models";
 import { reorder } from "../../utils/reorder";
+
+const updateIndices = (c: Competitor, i: number) => {
+  c.index = i;
+  return c;
+};
 
 // TODO: These should not inststantiate Brackets
 export function bracketReducer(
@@ -26,7 +31,10 @@ export function bracketReducer(
         ...state,
         currentBracket: new Bracket({
           ...state.currentBracket,
-          competitors: without(state.currentBracket.competitors, action.payload)
+          competitors: map(
+            without(state.currentBracket.competitors, action.payload),
+            updateIndices
+          )
         })
       };
     case REORDER_COMPETITORS:
@@ -38,12 +46,12 @@ export function bracketReducer(
             state.currentBracket.competitors,
             action.startIndex,
             action.endIndex
-          )
+          ).map(updateIndices)
         })
       };
     case ADD_COMPETITOR:
       let clone = state.currentBracket.competitors.slice();
-      clone.splice(action.index, 0, action.payload);
+      map(clone.splice(action.index, 0, action.payload), updateIndices);
       return {
         ...state,
         currentBracket: new Bracket({
