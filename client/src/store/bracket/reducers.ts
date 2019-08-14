@@ -6,7 +6,8 @@ import {
   SET_FETCHING_BRACKET,
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
-  ADD_COMPETITOR
+  ADD_COMPETITOR,
+  SET_SAVING_COMPETITOR
 } from "./types";
 import { Bracket, Competitor } from "../../models";
 import { reorder } from "../../utils/reorder";
@@ -59,7 +60,9 @@ export function bracketReducer(
           competitors: map(clone, updateIndices)
         })
       };
-
+    case SET_SAVING_COMPETITOR:
+      console.log("TODO: set ", action.index, "", action.isSaving);
+      return state;
     default:
       return state;
   }

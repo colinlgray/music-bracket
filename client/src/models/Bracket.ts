@@ -33,21 +33,6 @@ export class Bracket extends BaseModel implements BracketProperties {
     this.competitors = map(props.competitors, c => new Competitor(c));
   }
 
-  updateIndices(list: Array<Competitor>, startIndex: number, endIndex: number) {
-    this.competitors = list;
-    let start = startIndex;
-    let end = endIndex;
-    if (start > end) {
-      let tmp = start;
-      start = end;
-      end = tmp;
-    }
-    for (let index = start; index <= end; index++) {
-      this.competitors[index].index = index;
-      this.competitors[index].save();
-    }
-  }
-
   sortBy(value: string) {
     if (value === "popularity") {
       sortBy(this.competitors, [c => (c.track ? c.track.popularity : -1)]);

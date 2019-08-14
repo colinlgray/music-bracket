@@ -1,4 +1,4 @@
-import { Competitor, BaseModel } from "../../models";
+import { Competitor } from "../../models";
 
 export const SEARCH_SPOTIFY = "SEARCH_SPOTIFY";
 export const SET_SEARCHING = "SET_SEARCHING";
@@ -21,11 +21,6 @@ export interface SearchSpotifyAction {
 export interface SetSearchingAction {
   type: "SET_SEARCHING";
   payload: boolean;
-}
-export interface SetSavingModelAction {
-  type: "SET_SAVING_MODEL";
-  model: BaseModel;
-  isSaving: boolean;
 }
 export interface SetSearchResultsAction {
   type: "SET_SEARCH_RESULTS";
@@ -51,7 +46,6 @@ export interface ReorderSearchResultsParams {
 }
 
 export type SystemAction =
-  | SetSavingModelAction
   | SearchSpotifyAction
   | SetSearchResultsAction
   | AddSearchResultAction

@@ -16,8 +16,7 @@ import {
   searchSpotify,
   removeFromSearchResults,
   addSearchResult,
-  reorderSearchResults,
-  saveModel
+  reorderSearchResults
 } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
 import { Paper } from "@material-ui/core";
@@ -135,7 +134,8 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                     dispatch(
                       reorderCompetitors({
                         startIndex: params.startIndex,
-                        endIndex: params.endIndex
+                        endIndex: params.endIndex,
+                        competitors: props.bracket.competitors
                       })
                     );
                   }

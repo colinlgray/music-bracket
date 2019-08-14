@@ -10,13 +10,11 @@ import {
   REORDER_SEARCH_RESULTS,
   ADD_SEARCH_RESULT,
   SET_SEARCH_RESULTS,
-  SET_SEARCHING,
-  SET_SAVING_MODEL,
-  SetSavingModelAction
+  SET_SEARCHING
 } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { Track, Competitor, BaseModel } from "../../models";
+import { Track, Competitor } from "../../models";
 
 import uuid from "uuid/v4";
 // TODO: Move this into its own folder
@@ -48,35 +46,8 @@ const fetchSpotify = (request: SearchRequest) => {
     });
 };
 
-export const saveModel = (
-  model: BaseModel
-): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      dispatch(setSavingModel({ model, isSaving: true }));
-      model
-        .save()
-        .then(() => {
-          dispatch(setSavingModel({ model, isSaving: false }));
-          resolve();
-        })
-        .catch((e: Error) => {
-          dispatch(setSavingModel({ model, isSaving: false }));
-          reject(e);
-        });
-    });
-  };
-};
-
 export const setSearching = (isSearching: boolean): SetSearchingAction => {
   return { type: SET_SEARCHING, payload: isSearching };
-};
-
-export const setSavingModel = (params: {
-  model: BaseModel;
-  isSaving: boolean;
-}): SetSavingModelAction => {
-  return { type: SET_SAVING_MODEL, ...params };
 };
 
 // TODO: These need to be thunks that call:dispatch(saveModel(competitor));

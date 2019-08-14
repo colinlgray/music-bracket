@@ -6,6 +6,7 @@ export const ADD_COMPETITOR = "ADD_COMPETITOR";
 export const REMOVE_COMPETITOR = "REMOVE_COMPETITOR";
 export const REORDER_COMPETITORS = "REORDER_COMPETITORS";
 export const SET_FETCHING_BRACKET = "SET_FETCHING_BRACKET";
+export const SET_SAVING_COMPETITOR = "SET_SAVING_COMPETITOR";
 
 export interface SetBracketAction {
   type: "SET_BRACKET";
@@ -29,7 +30,13 @@ export interface ReorderCompetitorsAction {
   startIndex: number;
   endIndex: number;
 }
+export interface SetSavingCompetitorAction {
+  type: "SET_SAVING_COMPETITOR";
+  index: number;
+  isSaving: boolean;
+}
 export type BracketAction =
+  | SetSavingCompetitorAction
   | SetBracketAction
   | SetFetchingBracketAction
   | AddCompetitorAction
