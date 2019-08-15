@@ -141,7 +141,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                   }
                 }}
                 onAddCompetitor={(c: Competitor, index: number) => {
-                  dispatch(addCompetitor(c, props.bracket, index));
+                  dispatch(addCompetitor(c, index));
                   dispatch(removeFromSearchResults(c));
                 }}
                 onRemoveCompetitor={(

@@ -52,7 +52,17 @@ export function bracketReducer(
       };
     case ADD_COMPETITOR:
       let clone = state.currentBracket.competitors.slice();
-      map(clone.splice(action.index, 0, action.payload), updateIndices);
+      map(
+        clone.splice(
+          action.index,
+          0,
+          new Competitor({
+            ...action.payload,
+            bracketId: state.currentBracket.id
+          })
+        ),
+        updateIndices
+      );
       return {
         ...state,
         currentBracket: new Bracket({

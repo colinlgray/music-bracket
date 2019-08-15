@@ -23,23 +23,21 @@ export const setBracket = (bracket: Bracket): SetBracketAction => {
   return { type: SET_BRACKET, payload: bracket };
 };
 
+// TODO:
+// These need to be thunks that dispatch multiple actions
+// Use graphQL for purely remote things like removing/adding bracketId
+// Need to save these models and need a better system for remote communication
+// Look into apollo starter kit before more
 export const addCompetitor = (
   competitor: Competitor,
-  bracket: Bracket,
   index: number
 ): AddCompetitorAction => {
-  // TODO: This needs to be a redux action
-  competitor.bracketId = bracket.id;
-  competitor.save();
   return { type: ADD_COMPETITOR, payload: competitor, index };
 };
 
 export const removeCompetitor = (
   competitor: Competitor
 ): RemoveCompetitorAction => {
-  // TODO: This needs to be a redux action
-  competitor.bracketId = null;
-  competitor.save();
   return { type: REMOVE_COMPETITOR, payload: competitor };
 };
 
