@@ -71,7 +71,7 @@ export function bracketReducer(
         })
       };
     case SET_SAVING_COMPETITOR:
-      console.log("TODO: set ", action.index, "", action.isSaving);
+      // TODO: set value on model
       return state;
     default:
       return state;
