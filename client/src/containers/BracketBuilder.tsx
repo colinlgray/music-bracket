@@ -23,6 +23,7 @@ import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppState } from "../store";
 import { isNumber } from "lodash";
+import { save } from "../api";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -67,7 +68,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
     props.bracket.creationState = Object.keys(creationStateToStep)[
       step
     ] as CreationStates;
-    props.bracket.save().catch(err => {
+    save(Bracket, props.bracket).catch(err => {
       console.log("oh no! an error", err);
     });
   };

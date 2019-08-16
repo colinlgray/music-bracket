@@ -1,7 +1,6 @@
 import { BaseModel } from "./BaseModel";
-import { put } from "../utils/http";
 import { Competitor, CompetitorProperties } from "./Competitor";
-import { map, forEach, sortBy } from "lodash";
+import { map } from "lodash";
 
 export type CreationStates = "created" | "started" | "seeding";
 
@@ -31,29 +30,6 @@ export class Bracket extends BaseModel implements BracketProperties {
     this.description = props.description;
     this.creator = props.creator;
     this.competitors = map(props.competitors, c => new Competitor(c));
-  }
-
-  sortBy(value: string) {
-    if (value === "popularity") {
-      sortBy(this.competitors, [c => (c.track ? c.track.popularity : -1)]);
-      forEach(this.competitors, c => c.save());
-    }
-  }
-
-  get dbProps() {
-    let dbProps: { [index: string]: {} } = {};
-    Object.keys(this).forEach(key => {
-      dbProps[key] = this[key];
-    });
-    dbProps.competitors = map(this.competitors, c => c.id);
-    return dbProps;
-  }
-
-  async save() {
-    return await put(
-      `/api/${BaseModel.asUrl(this.constructor.name)}/${encodeURI(this.id)}`,
-      this.dbProps
-    );
   }
 }
 

@@ -1,4 +1,4 @@
-import { get } from "../utils/http";
+import { get, post, put } from "../utils/http";
 import pluralize from "pluralize";
 import { BaseModel } from "../models";
 
@@ -14,4 +14,24 @@ export async function fetch(model: typeof BaseModel, id: string) {
 
 export function asUrl(modelName: string): string {
   return pluralize.plural(modelName).toLowerCase();
+}
+
+export async function fetchOrCreate(model: typeof BaseModel, id?: string) {
+  if (!id) {
+    return create(model);
+  }
+  const { parsedBody } = await get(`/api/${asUrl(model.name)}/${id}`);
+  return new model(parsedBody);
+}
+
+export async function create(model: typeof BaseModel) {
+  const { parsedBody } = await post(`/api/${asUrl(model.name)}`, {});
+  return new model(parsedBody);
+}
+
+export async function save(model: typeof BaseModel, data: any) {
+  return await put(
+    `/api/${asUrl(model.name)}/${encodeURI(data.id)}`,
+    JSON.parse(JSON.stringify(data))
+  );
 }

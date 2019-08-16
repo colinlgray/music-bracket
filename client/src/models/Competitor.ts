@@ -21,10 +21,6 @@ export interface CompetitorProperties extends CompetitorProps {
   bracketId: string | null;
 }
 
-export function isTrack(props: Track | CompetitorProps): props is Track {
-  return (props as Track).save !== undefined;
-}
-
 export class Competitor extends BaseModel implements CompetitorProperties {
   [key: string]: any;
   id: string;

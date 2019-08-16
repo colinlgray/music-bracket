@@ -17,6 +17,7 @@ import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy } from "lodash";
+import { fetchOrCreate, save } from "../../api";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
   bracket.competitors = sortBy(bracket.competitors, ["index"]);
@@ -49,8 +50,7 @@ export const saveCompetitor = (
       dispatch(
         setSavingCompetitor({ index: competitor.index, isSaving: true })
       );
-      competitor
-        .save()
+      save(Competitor, competitor)
         .then(() => {
           dispatch(
             setSavingCompetitor({ index: competitor.index, isSaving: false })
@@ -129,7 +129,7 @@ export const getBracket = (
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       dispatch(setFetching(true));
-      Bracket.fetchOrCreate(id)
+      fetchOrCreate(Bracket, id)
         .then(bracket => {
           dispatch(setBracket(bracket as Bracket));
           dispatch(setFetching(false));
