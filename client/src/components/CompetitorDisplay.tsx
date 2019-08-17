@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const getSmallestImage = (competitor: Competitor) => {
-  return get(competitor, "model.album.images", []).reduce(
+  return get(competitor, "spotifyData.album.images", []).reduce(
     (memo: any, curr: { width: number; height: number; url: string }) => {
       if (!memo || curr.width < memo.width) {
         return curr;
@@ -44,7 +44,7 @@ const getSmallestImage = (competitor: Competitor) => {
 };
 
 const getDisplayName = (c: Competitor) => {
-  return get(c, "model.artists", []).reduce(
+  return get(c, "spotifyData.artists", []).reduce(
     (memo: string, val: Artist, idx: number, arr: Array<Artist>) => {
       if (idx !== 0) {
         memo = `${memo} `;
@@ -89,7 +89,7 @@ function CompetitorDisplay(props: Props) {
   const classes = useStyles();
   const displayName = getDisplayName(competitor);
   const [ctaClicked, setCtaClicked] = useState(false);
-  const title = get(competitor, "model.name", "loading");
+  const title = get(competitor, "spotifyData.name", "loading");
 
   const imageData = getSmallestImage(competitor);
 

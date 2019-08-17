@@ -32,7 +32,7 @@ const fetchSpotify = (request: SearchRequest) => {
           index: -1,
           type: "track",
           spotifyId: t.id,
-          model: t,
+          spotifyData: t,
           id: uuid()
         });
       });

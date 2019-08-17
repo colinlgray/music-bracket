@@ -1,5 +1,6 @@
-import { get, post, put } from "../utils/http";
 import pluralize from "pluralize";
+import { omit } from "lodash";
+import { get, post, put } from "../utils/http";
 import { BaseModel } from "../models";
 
 export async function fetchAll(model: typeof BaseModel) {
@@ -32,6 +33,6 @@ export async function create(model: typeof BaseModel) {
 export async function save(model: typeof BaseModel, data: any) {
   return await put(
     `/api/${asUrl(model.name)}/${encodeURI(data.id)}`,
-    JSON.parse(JSON.stringify(data))
+    JSON.parse(JSON.stringify(omit(data, ["spotifyData"])))
   );
 }
