@@ -12,9 +12,14 @@ import {
 import { Competitor } from "../../types";
 import { reorder } from "../../utils/reorder";
 
-const updateIndices = (c: Competitor, i: number) => {
-  c.index = i;
-  return c;
+const updateIndices = (params: {
+  competitors: Array<Competitor>;
+  start: number;
+  end: number;
+}) => {
+  for (let index = params.start; index <= params.end; index++) {
+    params.competitors[index].index = index;
+  }
 };
 
 // TODO: These should not inststantiate Brackets
@@ -28,42 +33,58 @@ export function bracketReducer(
     case SET_FETCHING_BRACKET:
       return { ...state, isLoadingBracket: action.payload };
     case REMOVE_COMPETITOR:
+      const arrWithoutItem = without(
+        state.currentBracket.competitors,
+        action.payload
+      );
+      updateIndices({
+        competitors: arrWithoutItem,
+        start: action.payload.index,
+        end: arrWithoutItem.length - 1
+      });
       return {
         ...state,
         currentBracket: {
           ...state.currentBracket,
-          competitors: map(
-            without(state.currentBracket.competitors, action.payload),
-            updateIndices
-          )
+          competitors: arrWithoutItem
         }
       };
     case REORDER_COMPETITORS:
+      const clone = reorder(
+        state.currentBracket.competitors,
+        action.startIndex,
+        action.endIndex
+      );
+      updateIndices({
+        competitors: clone,
+        start: action.startIndex,
+        end: action.endIndex
+      });
       return {
         ...state,
         currentBracket: {
           ...state.currentBracket,
-          competitors: reorder(
-            state.currentBracket.competitors,
-            action.startIndex,
-            action.endIndex
-          ).map(updateIndices)
+          competitors: clone
         }
       };
     case ADD_COMPETITOR:
-      let clone = state.currentBracket.competitors.slice();
-      map(
-        clone.splice(action.index, 0, {
-          ...action.payload,
-          bracketId: state.currentBracket.id
-        }),
-        updateIndices
-      );
+      const competitors = state.currentBracket.competitors;
+
+      const arrWithNewItem = [
+        ...competitors.slice(0, action.index),
+        { ...action.payload, bracketId: state.currentBracket.id },
+        ...competitors.slice(action.index)
+      ];
+      updateIndices({
+        competitors: arrWithNewItem,
+        start: action.index,
+        end: arrWithNewItem.length - 1
+      });
       return {
         ...state,
         currentBracket: {
           ...state.currentBracket,
-          competitors: map(clone, updateIndices)
+          competitors: arrWithNewItem as Array<Competitor>
         }
       };
     case SET_SAVING_COMPETITOR:

@@ -30,7 +30,7 @@ export function systemReducer(
       return { ...state, searchResults: action.payload };
     case ADD_SEARCH_RESULT:
       let clone = state.searchResults.slice();
-      clone.splice(action.index, 0, action.payload);
+      clone.splice(action.index, 0, { ...action.payload, bracketId: null });
       return {
         ...state,
         searchResults: clone
