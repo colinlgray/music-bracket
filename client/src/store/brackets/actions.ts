@@ -1,4 +1,4 @@
-import { Bracket } from "../../models";
+import { Bracket, ModelNames } from "../../types";
 import { fetchAll } from "../../api";
 import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
@@ -25,7 +25,7 @@ export const getBrackets = (): ThunkAction<
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       dispatch(setFetching(true));
-      fetchAll(Bracket)
+      fetchAll(ModelNames.Bracket)
         .then(brackets => {
           dispatch(setExistingBrackets(brackets as Array<Bracket>));
           dispatch(setFetching(false));

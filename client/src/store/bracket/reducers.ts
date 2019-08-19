@@ -9,7 +9,7 @@ import {
   ADD_COMPETITOR,
   SET_SAVING_COMPETITOR
 } from "./types";
-import { Bracket, Competitor } from "../../models";
+import { Competitor } from "../../types";
 import { reorder } from "../../utils/reorder";
 
 const updateIndices = (c: Competitor, i: number) => {
@@ -30,45 +30,41 @@ export function bracketReducer(
     case REMOVE_COMPETITOR:
       return {
         ...state,
-        currentBracket: new Bracket({
+        currentBracket: {
           ...state.currentBracket,
           competitors: map(
             without(state.currentBracket.competitors, action.payload),
             updateIndices
           )
-        })
+        }
       };
     case REORDER_COMPETITORS:
       return {
         ...state,
-        currentBracket: new Bracket({
+        currentBracket: {
           ...state.currentBracket,
           competitors: reorder(
             state.currentBracket.competitors,
             action.startIndex,
             action.endIndex
           ).map(updateIndices)
-        })
+        }
       };
     case ADD_COMPETITOR:
       let clone = state.currentBracket.competitors.slice();
       map(
-        clone.splice(
-          action.index,
-          0,
-          new Competitor({
-            ...action.payload,
-            bracketId: state.currentBracket.id
-          })
-        ),
+        clone.splice(action.index, 0, {
+          ...action.payload,
+          bracketId: state.currentBracket.id
+        }),
         updateIndices
       );
       return {
         ...state,
-        currentBracket: new Bracket({
+        currentBracket: {
           ...state.currentBracket,
           competitors: map(clone, updateIndices)
-        })
+        }
       };
     case SET_SAVING_COMPETITOR:
       // TODO: set value on model

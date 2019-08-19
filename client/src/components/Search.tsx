@@ -5,7 +5,7 @@ import { WithStyles } from "@material-ui/core";
 import { withStyles, Theme } from "@material-ui/core/styles";
 import TablePagination from "@material-ui/core/TablePagination";
 import { debounce } from "lodash";
-import Track from "../models/Track";
+import { Track } from "../types";
 import { SearchRequest } from "../store/system/types";
 
 const styles = (theme: Theme) => ({

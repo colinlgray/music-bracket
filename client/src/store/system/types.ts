@@ -1,4 +1,4 @@
-import { Competitor } from "../../models";
+import { Competitor } from "../../types";
 
 export const SEARCH_SPOTIFY = "SEARCH_SPOTIFY";
 export const SET_SEARCHING = "SET_SEARCHING";

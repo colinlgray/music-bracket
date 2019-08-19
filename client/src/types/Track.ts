@@ -20,5 +20,3 @@ export interface Track {
   artists: Array<Artist>;
   album: Album;
 }
-
-export default Track;

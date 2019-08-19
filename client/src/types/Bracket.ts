@@ -11,5 +11,3 @@ export interface Bracket {
   competitors: Array<Competitor>;
   creationState: CreationStates;
 }
-
-export default Bracket;

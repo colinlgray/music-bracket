@@ -1,4 +1,4 @@
-import { Bracket, Competitor } from "../../models";
+import { Bracket, Competitor } from "../../types";
 import {
   SetBracketAction,
   SetFetchingBracketAction,
@@ -18,6 +18,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy } from "lodash";
 import { fetchOrCreate, save } from "../../api";
+import { ModelNames } from "../../types";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
   bracket.competitors = sortBy(bracket.competitors, ["index"]);
@@ -50,7 +51,7 @@ export const saveCompetitor = (
       dispatch(
         setSavingCompetitor({ index: competitor.index, isSaving: true })
       );
-      save(Competitor, competitor)
+      save(ModelNames.Competitor, competitor)
         .then(() => {
           dispatch(
             setSavingCompetitor({ index: competitor.index, isSaving: false })
@@ -129,7 +130,7 @@ export const getBracket = (
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       dispatch(setFetching(true));
-      fetchOrCreate(Bracket, id)
+      fetchOrCreate(ModelNames.Bracket, id)
         .then(bracket => {
           dispatch(setBracket(bracket as Bracket));
           dispatch(setFetching(false));

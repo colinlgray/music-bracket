@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Search, CompetitorSelection, SeedingOptions } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Bracket, Competitor, CreationStates } from "../models";
+import { Bracket, Competitor, CreationStates, ModelNames } from "../types";
 import {
   getBracket,
   addCompetitor,
@@ -68,7 +68,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
     props.bracket.creationState = Object.keys(creationStateToStep)[
       step
     ] as CreationStates;
-    save(Bracket, props.bracket).catch(err => {
+    save(ModelNames.Bracket, props.bracket).catch(err => {
       console.log("oh no! an error", err);
     });
   };

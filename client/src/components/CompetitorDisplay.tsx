@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { get } from "lodash";
 import AddIcon from "@material-ui/icons/Add";
 import StarIcon from "@material-ui/icons/Star";
-import { Competitor, Artist } from "../models";
+import { Competitor, Artist } from "../types";
 
 const useStyles = makeStyles(theme => ({
   card: {

@@ -1,11 +1,5 @@
 import { app } from "../src";
-import { Bracket, Competitor, Track } from "../../client/src/models";
-import {
-  bracket,
-  trackSearchResponse,
-  getTrackResponse,
-  competitor
-} from "../../fixtures";
+import { trackSearchResponse, getTrackResponse } from "../../fixtures";
 import { db } from "./database";
 import request from "supertest";
 
@@ -45,13 +39,13 @@ test("GET /api/tracks/search", () => {
 });
 
 test("POST /api/competitors", () => {
-  const c = new Competitor({
+  const competitor = new {
     type: "track",
     spotifyId: trackSearchResponse[0].id,
     model: new Track(trackSearchResponse[0]),
     id: "testCompetitorId",
     index: 0
-  });
+  }();
   return request(app)
     .post("/api/competitors")
     .send(c.dbProps)
@@ -62,21 +56,13 @@ test("POST /api/competitors", () => {
 });
 
 test("PUT /api/brackets/:id", () => {
-  const c = new Competitor({
-    type: "track",
-    spotifyId: trackSearchResponse[0].id,
-    model: new Track(trackSearchResponse[0]),
-    id: "testCompetitorId",
-    index: 0
-  });
-
-  const b = new Bracket({
+  const bracket = {
     name: "my new bracket",
     creator: "my new bracket",
     competitors: [],
     description: "test",
     id: "testId"
-  });
+  };
 
   b.addCompetitor(c);
   const { id } = bracket;

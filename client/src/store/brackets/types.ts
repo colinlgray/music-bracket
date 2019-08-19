@@ -1,4 +1,4 @@
-import { Bracket } from "../../models";
+import { Bracket } from "../../types";
 
 export const GET_BRACKETS = "GET_BRACKETS";
 export const SET_BRACKETS = "SET_BRACKETS";

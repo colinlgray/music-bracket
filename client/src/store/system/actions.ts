@@ -14,7 +14,7 @@ import {
 } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { Track, Competitor } from "../../models";
+import { Competitor } from "../../types";
 
 import uuid from "uuid/v4";
 // TODO: Move this into its own folder
@@ -26,16 +26,17 @@ const fetchSpotify = (request: SearchRequest) => {
   )
     .then(res => res.json())
     .then(response => {
-      const items = response.items.map((serverResponse: any) => {
-        const t = new Track(serverResponse);
-        return new Competitor({
-          index: -1,
-          type: "track",
-          spotifyId: t.id,
-          spotifyData: t,
-          id: uuid()
-        });
-      });
+      const items: Array<Competitor> = response.items.map(
+        (serverResponse: any) => {
+          return {
+            index: -1,
+            type: "track",
+            spotifyId: serverResponse.id,
+            spotifyData: serverResponse,
+            id: uuid()
+          } as Competitor;
+        }
+      );
 
       const results = {
         items,

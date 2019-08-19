@@ -1,4 +1,4 @@
-import { Competitor } from "../../models";
+import { Competitor } from "../../types";
 
 export interface SystemState {
   searchResults: Array<Competitor>;

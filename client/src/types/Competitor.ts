@@ -8,4 +8,5 @@ export interface Competitor {
   spotifyData: Track | null;
   roundsWon: number;
   bracketId: string | null;
+  index: number;
 }
