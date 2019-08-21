@@ -1,4 +1,4 @@
-import { without, map } from "lodash";
+import { without } from "lodash";
 import { IState, initialState } from "./state";
 import {
   BracketAction,
@@ -55,10 +55,17 @@ export function bracketReducer(
         action.startIndex,
         action.endIndex
       );
+      let start = action.startIndex;
+      let end = action.endIndex;
+      if (start > end) {
+        let tmp = start;
+        start = end;
+        end = tmp;
+      }
       updateIndices({
         competitors: clone,
-        start: action.startIndex,
-        end: action.endIndex
+        start,
+        end
       });
       return {
         ...state,

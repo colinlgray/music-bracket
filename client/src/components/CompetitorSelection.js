@@ -26,9 +26,6 @@ export class CompetitorSelection extends Component {
         startIndex: source.index,
         endIndex: destination.index
       });
-      if (destination.droppableId === "selected") {
-        console.log("The indices need to be updated");
-      }
       return;
     }
 
