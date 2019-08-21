@@ -19,28 +19,60 @@ import { AnyAction } from "redux";
 import { sortBy } from "lodash";
 import { fetchOrCreate, save } from "../../api";
 import { ModelNames } from "../../types";
+import { AppState } from "../index";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
   bracket.competitors = sortBy(bracket.competitors, ["index"]);
   return { type: SET_BRACKET, payload: bracket };
 };
 
-// TODO:
-// These need to be thunks that dispatch multiple actions
-// Use graphQL for purely remote things like removing/adding bracketId
-// Need to save these models and need a better system for remote communication
-// Look into apollo starter kit before more
-export const addCompetitor = (
+export const addCompetitorToArray = (
   competitor: Competitor,
   index: number
 ): AddCompetitorAction => {
   return { type: ADD_COMPETITOR, payload: competitor, index };
 };
 
-export const removeCompetitor = (
+const getBracketFromState = (state: AppState) =>
+  state.bracket.currentBracket.competitors;
+
+export const addCompetitor = (
+  competitor: Competitor,
+  index: number
+): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: () => AppState
+  ): Promise<void> => {
+    dispatch(addCompetitorToArray(competitor, index));
+    const arr = getBracketFromState(getState());
+    for (let idx = index; idx < arr.length; idx++) {
+      dispatch(saveCompetitor(arr[idx]));
+    }
+  };
+};
+
+export const removeCompetitorFromArray = (
   competitor: Competitor
 ): RemoveCompetitorAction => {
   return { type: REMOVE_COMPETITOR, payload: competitor };
+};
+
+export const removeCompetitor = (
+  competitor: Competitor
+): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: () => AppState
+  ): Promise<void> => {
+    let idx = competitor.index;
+    dispatch(removeCompetitorFromArray(competitor));
+    const arr = getBracketFromState(getState());
+    for (; idx < arr.length; idx++) {
+      dispatch(saveCompetitor(arr[idx]));
+    }
+    dispatch(saveCompetitor({ ...competitor, bracketId: null }));
+  };
 };
 
 export const saveCompetitor = (

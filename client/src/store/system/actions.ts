@@ -51,7 +51,6 @@ export const setSearching = (isSearching: boolean): SetSearchingAction => {
   return { type: SET_SEARCHING, payload: isSearching };
 };
 
-// TODO: These need to be thunks that call:dispatch(saveModel(competitor));
 export const setSearchResults = (
   results: Array<Competitor>
 ): SetSearchResultsAction => {

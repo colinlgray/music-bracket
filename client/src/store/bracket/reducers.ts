@@ -22,7 +22,6 @@ const updateIndices = (params: {
   }
 };
 
-// TODO: These should not inststantiate Brackets
 export function bracketReducer(
   state: IState = initialState,
   action: BracketAction
