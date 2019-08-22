@@ -6,7 +6,9 @@ import {
   AddCompetitorAction,
   ReorderCompetitorsAction,
   SetSavingCompetitorAction,
+  SetCompetitorsAction,
   SET_BRACKET,
+  SET_COMPETITORS,
   ADD_COMPETITOR,
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
@@ -16,7 +18,7 @@ import {
 import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { sortBy } from "lodash";
+import { sortBy, get } from "lodash";
 import { fetchOrCreate, save } from "../../api";
 import { ModelNames } from "../../types";
 import { AppState } from "../index";
@@ -33,8 +35,7 @@ export const addCompetitorToArray = (
   return { type: ADD_COMPETITOR, payload: competitor, index };
 };
 
-const getBracketFromState = (state: AppState) =>
-  state.bracket.currentBracket.competitors;
+const competitorsLocation = "bracket.currentBracket.competitors";
 
 export const addCompetitor = (
   competitor: Competitor,
@@ -45,7 +46,7 @@ export const addCompetitor = (
     getState: () => AppState
   ): Promise<void> => {
     dispatch(addCompetitorToArray(competitor, index));
-    const arr = getBracketFromState(getState());
+    const arr = get(getState(), competitorsLocation, []);
     for (let idx = index; idx < arr.length; idx++) {
       dispatch(saveCompetitor(arr[idx]));
     }
@@ -67,7 +68,7 @@ export const removeCompetitor = (
   ): Promise<void> => {
     let idx = competitor.index;
     dispatch(removeCompetitorFromArray(competitor));
-    const arr = getBracketFromState(getState());
+    const arr = get(getState(), competitorsLocation, []);
     for (; idx < arr.length; idx++) {
       dispatch(saveCompetitor(arr[idx]));
     }
@@ -98,6 +99,12 @@ export const saveCompetitor = (
         });
     });
   };
+};
+
+export const setCompetitors = (
+  competitors: Array<Competitor>
+): SetCompetitorsAction => {
+  return { type: SET_COMPETITORS, payload: competitors };
 };
 
 export const setSavingCompetitor = (params: {
@@ -153,6 +160,22 @@ export const reorderCompetitors = (
       }
       resolve();
     });
+  };
+};
+
+export const reseedCompetitors = (
+  attributeName: "string"
+): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: () => AppState
+  ): Promise<void> => {
+    const competitors = get(getState(), competitorsLocation, []);
+    console.log("reseedCompetitors", attributeName);
+    // for (let idx=0; idx < competitors.length; idx++) {
+    //update indices
+    // }
+    dispatch(setCompetitors(competitors));
   };
 };
 
