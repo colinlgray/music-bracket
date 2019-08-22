@@ -3,10 +3,16 @@ import { Bracket, Competitor } from "../../types";
 export const GET_BRACKET = "GET_BRACKET";
 export const SET_BRACKET = "SET_BRACKET";
 export const ADD_COMPETITOR = "ADD_COMPETITOR";
+export const SET_COMPETITORS = "SET_COMPETITORS";
 export const REMOVE_COMPETITOR = "REMOVE_COMPETITOR";
 export const REORDER_COMPETITORS = "REORDER_COMPETITORS";
 export const SET_FETCHING_BRACKET = "SET_FETCHING_BRACKET";
 export const SET_SAVING_COMPETITOR = "SET_SAVING_COMPETITOR";
+
+export interface SetCompetitorsAction {
+  type: "SET_COMPETITORS";
+  payload: Array<Competitor>;
+}
 
 export interface SetBracketAction {
   type: "SET_BRACKET";

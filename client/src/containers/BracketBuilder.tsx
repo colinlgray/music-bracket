@@ -10,7 +10,8 @@ import {
   getBracket,
   addCompetitor,
   removeCompetitor,
-  reorderCompetitors
+  reorderCompetitors,
+  reseedCompetitors
 } from "../store/bracket/actions";
 import {
   searchSpotify,
@@ -107,7 +108,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
               {currStep === 1 && (
                 <SeedingOptions
                   onChange={(value: string) => {
-                    props.bracket.sortBy(value);
+                    dispatch(reseedCompetitors(value));
                   }}
                 />
               )}
