@@ -108,7 +108,9 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
               {currStep === 1 && (
                 <SeedingOptions
                   onChange={(value: string) => {
-                    dispatch(reseedCompetitors(value));
+                    if (value !== "custom") {
+                      dispatch(reseedCompetitors(value));
+                    }
                   }}
                 />
               )}

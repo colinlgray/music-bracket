@@ -42,6 +42,7 @@ export interface SetSavingCompetitorAction {
   isSaving: boolean;
 }
 export type BracketAction =
+  | SetCompetitorsAction
   | SetSavingCompetitorAction
   | SetBracketAction
   | SetFetchingBracketAction
