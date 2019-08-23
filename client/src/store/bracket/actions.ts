@@ -1,4 +1,4 @@
-import { Bracket, Competitor } from "../../types";
+import { Bracket, Competitor, Track } from "../../types";
 import {
   SetBracketAction,
   SetFetchingBracketAction,
@@ -164,17 +164,22 @@ export const reorderCompetitors = (
 };
 
 export const reseedCompetitors = (
-  attributeName: "string"
+  metric: keyof Track
 ): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     getState: () => AppState
   ): Promise<void> => {
-    const competitors = get(getState(), competitorsLocation, []);
-    console.log("reseedCompetitors", attributeName);
-    // for (let idx=0; idx < competitors.length; idx++) {
-    //update indices
-    // }
+    let competitors = get(getState(), competitorsLocation, []).slice();
+    competitors.sort((a: Competitor, b: Competitor) => {
+      return (
+        get(b, `spotifyData.${metric}`, 0) - get(a, `spotifyData.${metric}`, 0)
+      );
+    });
+    competitors.forEach((c: Competitor, idx: number) => {
+      c.index = idx;
+      dispatch(saveCompetitor(c));
+    });
     dispatch(setCompetitors(competitors));
   };
 };

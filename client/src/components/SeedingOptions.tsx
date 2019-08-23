@@ -17,6 +17,7 @@ const options = [
 ];
 export function SeedingOptions(props: { onChange: (val: string) => void }) {
   const classes = useStyles();
+  // TODO: Set this to custom after user change
   const [value, setValue] = React.useState(options[0].value);
 
   function handleChange(event: React.ChangeEvent<{ value: unknown }>) {
