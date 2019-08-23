@@ -118,7 +118,6 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
             <Grid item xs={12}>
               {props.isLoading && "Loading..."}
               <CompetitorSelection
-                bracket={props.bracket}
                 editable={currStep === 0}
                 selectable={props.searchResults}
                 selected={props.bracket.competitors}

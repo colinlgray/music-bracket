@@ -62,7 +62,7 @@ const getDisplayName = (c: Competitor) => {
 type Props = {
   competitor: Competitor;
   onClickCta: (competitor: Competitor) => any;
-  innerRef?: React.RefObject<any>;
+  innerRef?: (element?: HTMLElement | null | undefined) => any;
   displayedOn: "competition" | "selection";
   isDragging?: boolean;
 };

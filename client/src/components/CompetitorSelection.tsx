@@ -1,19 +1,44 @@
 import React, { Component } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
 import { map } from "lodash";
 import CompetitorDisplay from "./CompetitorDisplay";
-const getListStyle = isDraggingOver => ({
+import { Competitor } from "../types";
+const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   minHeight: 400
 });
 
-export class CompetitorSelection extends Component {
-  state = {
-    dragging: false
-  };
+type Props = {
+  [key: string]: any;
+  onReorder: (params: {
+    listName: string;
+    startIndex: number;
+    endIndex: number;
+  }) => void;
+  onAddCompetitor: (competitor: Competitor, index: number) => void;
+  onRemoveCompetitor: (competitor: Competitor, index: number) => void;
+  selected: Array<Competitor>;
+  selectable: Array<Competitor>;
+};
+type State = {
+  dragging: boolean;
+};
 
-  onDragEnd = result => {
+export class CompetitorSelection extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      dragging: false
+    };
+  }
+
+  onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     this.setState({ dragging: false });
     // dropped outside the list
@@ -77,7 +102,7 @@ export class CompetitorSelection extends Component {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           onClickCta={c => {
-                            this.props.onAddCompetitor(c);
+                            this.props.onAddCompetitor(c, 0);
                           }}
                         />
                       )}
@@ -107,7 +132,7 @@ export class CompetitorSelection extends Component {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         onClickCta={c => {
-                          this.props.onRemoveCompetitor(c);
+                          this.props.onRemoveCompetitor(c, 0);
                         }}
                       />
                     )}
