@@ -3,9 +3,13 @@ import { omit } from "lodash";
 import { get, post, put } from "../utils/http";
 import { ModelName } from "../types";
 
+// TODO: Move this to graphql
+// follow tutorial here: https://www.apollographql.com/docs/react/essentials/get-started/#create-a-client
 export async function fetchAll(modelName: ModelName) {
-  const { parsedBody } = await get(`/api/${asUrl(modelName)}`);
-  return parsedBody;
+  const result = await get(`/graphql`);
+  console.error("Not Implemented, but here is result");
+  console.log("Returned", result);
+  return [];
 }
 
 export async function fetch(modelName: ModelName, id: string) {
