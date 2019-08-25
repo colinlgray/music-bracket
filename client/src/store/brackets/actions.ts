@@ -1,5 +1,5 @@
 import { Bracket, ModelNames } from "../../types";
-import { fetchAll } from "../../api";
+import { fetchAll } from "../../api/graphql";
 import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
