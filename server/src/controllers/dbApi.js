@@ -12,7 +12,7 @@ const makePutById = type => body => {
 };
 
 const makeGetterAll = type => () => {
-  return db.sequelize.sync().then(() => db[pluralize.singular(type)].findAll());
+  return db[pluralize.singular(type)].findAll();
 };
 
 const makeCreator = type => params => {

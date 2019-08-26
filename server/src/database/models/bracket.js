@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: false
       },
-      name: DataTypes.STRING,
+      name: { type: DataTypes.STRING, defaultValue: "Untitled Bracket" },
       description: DataTypes.STRING,
       creator: DataTypes.STRING,
       creationState: DataTypes.STRING

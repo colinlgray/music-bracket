@@ -7,7 +7,7 @@ import List from "@material-ui/core/List";
 import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import { map, filter } from "lodash";
+import { map } from "lodash";
 import { getBrackets } from "../store/brackets/actions";
 
 const useStyles = makeStyles(theme => ({
@@ -22,10 +22,6 @@ const useStyles = makeStyles(theme => ({
 function BracketList(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const startedBrackets = filter(
-    props.brackets,
-    m => m.creationState === "started"
-  );
 
   useEffect(() => {
     dispatch(getBrackets());
@@ -51,7 +47,7 @@ function BracketList(props) {
       </Typography>
       {props.isLoading && <div>Loading...</div>}
       <List>
-        {map(startedBrackets, m => (
+        {map(props.brackets, m => (
           <ListItem key={m.id}>
             <Card className={classes.card}>
               <Link href={`/bracket/${m.id}`}>
