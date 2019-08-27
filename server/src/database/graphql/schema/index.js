@@ -1,6 +1,5 @@
 export default `
     type Query {
-       hello: String
        startedBrackets: [Bracket]
     }
 

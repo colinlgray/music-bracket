@@ -1,8 +1,23 @@
-import { Bracket, ModelNames } from "../../types";
-import { fetchAll } from "../../api/graphql";
+import { Bracket } from "../../types";
+import { query } from "../../api/graphql";
 import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import { get } from "lodash";
+
+async function fetchStartedBrackets() {
+  const result = await query(
+    `
+      {
+        startedBrackets {
+          id
+          name
+        }
+      }
+    `
+  );
+  return get(result, "data.startedBrackets");
+}
 
 export const setExistingBrackets = (
   existingBrackets: Array<Bracket>
@@ -25,7 +40,7 @@ export const getBrackets = (): ThunkAction<
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       dispatch(setFetching(true));
-      fetchAll(ModelNames.Bracket)
+      fetchStartedBrackets()
         .then(brackets => {
           dispatch(setExistingBrackets(brackets as Array<Bracket>));
           dispatch(setFetching(false));
