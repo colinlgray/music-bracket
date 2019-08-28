@@ -19,7 +19,8 @@ import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy, get } from "lodash";
-import { fetchOrCreate, save } from "../../api";
+import { save, fetchOrCreate } from "../../api";
+import { query } from "../../api/graphql";
 import { ModelNames } from "../../types";
 import { AppState } from "../index";
 
@@ -184,13 +185,35 @@ export const reseedCompetitors = (
   };
 };
 
+async function fetchBracket(id?: string) {
+  const result = await query(
+    `
+      {
+        getBracket(id: "${id}") {
+          id
+          name
+        }
+      }
+    `
+  );
+  return get(result, "data.getBracket");
+}
+
+async function createBracket() {
+  return fetchOrCreate(ModelNames.Bracket);
+}
+
+async function fetchOrCreateBracket(id?: string) {
+  return id ? fetchBracket(id) : createBracket();
+}
+
 export const getBracket = (
   id?: string
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       dispatch(setFetching(true));
-      fetchOrCreate(ModelNames.Bracket, id)
+      fetchOrCreateBracket(id)
         .then(bracket => {
           dispatch(setBracket(bracket as Bracket));
           dispatch(setFetching(false));
