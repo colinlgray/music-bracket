@@ -1,6 +1,6 @@
 export default `
     type Query {
-       startedBrackets: [Bracket]
+       getBrackets(creationState: String): [Bracket]
     }
 
     type Competitor {

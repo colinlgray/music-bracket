@@ -1,22 +1,23 @@
 import { Bracket } from "../../types";
-import { query } from "../../api/graphql";
-import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { get } from "lodash";
+import { query } from "../../api/graphql";
+import { SetBracketsAction, SetFetchingBracketsAction } from "./types";
+import { bracketStates } from "../../types";
 
 async function fetchStartedBrackets() {
   const result = await query(
     `
       {
-        startedBrackets {
+        getBrackets(creationState: "${bracketStates.started}") {
           id
           name
         }
       }
     `
   );
-  return get(result, "data.startedBrackets");
+  return get(result, "data.getBrackets");
 }
 
 export const setExistingBrackets = (
