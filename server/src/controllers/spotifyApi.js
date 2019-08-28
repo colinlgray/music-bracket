@@ -102,5 +102,6 @@ const getType = type => id => {
 
 module.exports = {
   searchForType,
-  getType
+  getType,
+  getTrack: getType("Tracks")
 };

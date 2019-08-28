@@ -1,8 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { map, forEach } from "lodash";
-import { searchForType, getType } from "./controllers/spotifyApi";
+import { map } from "lodash";
+import { searchForType, getTrack } from "./controllers/spotifyApi";
+import { attachSpotify } from "./utils";
 import {
   makeGetterById,
   makeGetterAll,
@@ -16,7 +17,6 @@ import apolloServer from "./controllers/apolloServer";
 const router = express.Router();
 const app = express();
 const searchSongs = searchForType("Tracks");
-const getTrack = getType("Tracks");
 
 app.use(bodyParser.json());
 
@@ -85,12 +85,6 @@ map(dbRoutes, key => {
       .catch(errorHandler(res));
   });
 });
-
-const attachSpotify = c =>
-  getTrack(c.spotifyId).then(t => {
-    c.spotifyData = t;
-    return c;
-  });
 
 // Brackets
 router.get(`/${dbRoutes[0]}/:id`, (req, res) => {

@@ -4,6 +4,43 @@ export default `
        getBracket(id: String): Bracket
     }
 
+    type Album {
+        id: ID
+        album_type: String
+        href: String
+        name: String
+        release_date: String
+        release_date_precision: String
+        total_tracks: Int
+        type: String
+        uri: String
+        images: [Image]
+    }
+
+    type Image {
+        url: String
+        width: Int
+        height: Int
+    }
+
+    type Track {
+        duration: Int
+        explicit: Boolean
+        href: String
+        popularity: Int
+        preview_url: String
+        type: String
+        uri: String
+        id: String
+        disc_number: Int
+        duration_ms: Int
+        is_local: String
+        is_playable: Boolean
+        name: String
+        track_number: Int
+        album: Album
+    }
+
     type Competitor {
         id: ID!
         spotifyId: String!
@@ -11,6 +48,7 @@ export default `
         roundsWon: Int!
         bracketId: String
         index: Int!
+        spotifyData: Track
     }
 
     type Bracket {

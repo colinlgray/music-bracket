@@ -192,6 +192,21 @@ async function fetchBracket(id?: string) {
         getBracket(id: "${id}") {
           id
           name
+          competitors {
+            id
+            index
+            spotifyId
+            spotifyData {
+              name
+              album {
+                images {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
         }
       }
     `
