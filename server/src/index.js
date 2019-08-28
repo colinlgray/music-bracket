@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import { map } from "lodash";
 import { searchForType, getTrack } from "./controllers/spotifyApi";
-import { attachSpotify } from "./database/utils";
+import { attachSpotify } from "./utils";
 import {
   makeGetterById,
   makeGetterAll,

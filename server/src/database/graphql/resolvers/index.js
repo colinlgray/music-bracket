@@ -1,6 +1,6 @@
 import { db } from "../../index";
 import { map } from "lodash";
-import { attachSpotify } from "../../utils";
+import { attachSpotify } from "../../../utils";
 
 const resolvers = {
   Query: {

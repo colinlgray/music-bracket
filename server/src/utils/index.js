@@ -1,4 +1,4 @@
-import { getTrack } from "../../../controllers/spotifyApi";
+import { getTrack } from "../controllers/spotifyApi";
 
 export const attachSpotify = c =>
   getTrack(c.spotifyId).then(t => {
