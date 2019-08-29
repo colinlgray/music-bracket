@@ -22,6 +22,9 @@ const resolvers = {
         .then(([bracket]) => {
           return Promise.resolve(bracket);
         });
+    },
+    newBracket: () => {
+      return db.Bracket.create();
     }
   }
 };

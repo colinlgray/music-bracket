@@ -2,6 +2,7 @@ export default `
     type Query {
        getBrackets(creationState: String): [Bracket]
        getBracket(id: String): Bracket
+       newBracket: Bracket
     }
 
     type Album {

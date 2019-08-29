@@ -19,7 +19,7 @@ import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy, get } from "lodash";
-import { save, fetchOrCreate } from "../../api";
+import { save } from "../../api";
 import { query } from "../../api/graphql";
 import { ModelNames } from "../../types";
 import { AppState } from "../index";
@@ -215,7 +215,16 @@ async function fetchBracket(id?: string) {
 }
 
 async function createBracket() {
-  return fetchOrCreate(ModelNames.Bracket);
+  const result = await query(
+    `
+      {
+        newBracket {
+          id
+        }
+      }
+    `
+  );
+  return get(result, "data.newBracket");
 }
 
 async function fetchOrCreateBracket(id?: string) {
