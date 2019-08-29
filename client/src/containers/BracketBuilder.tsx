@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Search, CompetitorSelection, SeedingOptions } from "../components";
 import Grid from "@material-ui/core/Grid";
-import { Bracket, Competitor, CreationStates, ModelNames } from "../types";
+import { Bracket, Competitor, CreationStates } from "../types";
 import {
   getBracket,
   addCompetitor,
   removeCompetitor,
   reorderCompetitors,
-  reseedCompetitors
+  reseedCompetitors,
+  updateBracket
 } from "../store/bracket/actions";
 import {
   searchSpotify,
@@ -24,7 +25,6 @@ import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppState } from "../store";
 import { isNumber } from "lodash";
-import { save } from "../api";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -62,18 +62,18 @@ type Props = {
 
 function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
   const classes = useStyles();
-  const [currStep, setStep] = useState<number>(
-    creationStateToStep[props.bracket.creationState] || 0
-  );
+  const currStep = creationStateToStep[props.bracket.creationState] || 0;
+
   const updateCreationStateForStep = (step: number) => {
     props.bracket.creationState = Object.keys(creationStateToStep)[
       step
     ] as CreationStates;
-    save(ModelNames.Bracket, props.bracket).catch(err => {
-      console.log("oh no! an error", err);
-    });
+    dispatch(
+      updateBracket({
+        creationState: Object.keys(creationStateToStep)[step] as CreationStates
+      })
+    );
   };
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -168,7 +168,6 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
             onClick={() => {
               const newStep = currStep - 1;
               updateCreationStateForStep(newStep);
-              setStep(newStep);
             }}
             className={classes.button}
           >
@@ -184,7 +183,6 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
               }
               const newStep = currStep + 1;
               updateCreationStateForStep(newStep);
-              setStep(newStep);
             }}
             className={classes.button}
           >

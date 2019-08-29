@@ -1,5 +1,6 @@
 import { Bracket, Competitor } from "../../types";
 
+export const UPDATE_BRACKET = "UPDATE_BRACKET";
 export const GET_BRACKET = "GET_BRACKET";
 export const SET_BRACKET = "SET_BRACKET";
 export const ADD_COMPETITOR = "ADD_COMPETITOR";
@@ -13,10 +14,13 @@ export interface SetCompetitorsAction {
   type: "SET_COMPETITORS";
   payload: Array<Competitor>;
 }
-
 export interface SetBracketAction {
   type: "SET_BRACKET";
   payload: Bracket;
+}
+export interface UpdateBracketAction {
+  type: "UPDATE_BRACKET";
+  payload: any;
 }
 export interface SetFetchingBracketAction {
   type: "SET_FETCHING_BRACKET";
@@ -42,6 +46,7 @@ export interface SetSavingCompetitorAction {
   isSaving: boolean;
 }
 export type BracketAction =
+  | UpdateBracketAction
   | SetCompetitorsAction
   | SetSavingCompetitorAction
   | SetBracketAction

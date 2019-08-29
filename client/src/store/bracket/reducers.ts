@@ -8,7 +8,8 @@ import {
   REORDER_COMPETITORS,
   ADD_COMPETITOR,
   SET_SAVING_COMPETITOR,
-  SET_COMPETITORS
+  SET_COMPETITORS,
+  UPDATE_BRACKET
 } from "./types";
 import { Competitor } from "../../types";
 import { reorder } from "../../utils/reorder";
@@ -100,6 +101,14 @@ export function bracketReducer(
         currentBracket: {
           ...state.currentBracket,
           competitors: action.payload
+        }
+      };
+    case UPDATE_BRACKET:
+      return {
+        ...state,
+        currentBracket: {
+          ...state.currentBracket,
+          ...action.payload
         }
       };
     case SET_SAVING_COMPETITOR:

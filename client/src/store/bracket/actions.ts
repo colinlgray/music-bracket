@@ -7,13 +7,15 @@ import {
   ReorderCompetitorsAction,
   SetSavingCompetitorAction,
   SetCompetitorsAction,
+  UpdateBracketAction,
   SET_BRACKET,
   SET_COMPETITORS,
   ADD_COMPETITOR,
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
   SET_SAVING_COMPETITOR,
-  SET_FETCHING_BRACKET
+  SET_FETCHING_BRACKET,
+  UPDATE_BRACKET
 } from "./types";
 import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
@@ -85,6 +87,7 @@ export const saveCompetitor = (
       dispatch(
         setSavingCompetitor({ index: competitor.index, isSaving: true })
       );
+      // TODO: Move to graphql
       save(ModelNames.Competitor, competitor)
         .then(() => {
           dispatch(
@@ -142,25 +145,22 @@ export const reorderCompetitors = (
   params: ReorderSearchResultsParams & { competitors: Array<Competitor> }
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      dispatch(
-        reorderCompetitorsArray({
-          startIndex: params.startIndex,
-          endIndex: params.endIndex
-        })
-      );
-      let start = params.startIndex;
-      let end = params.endIndex;
-      if (start > end) {
-        let tmp = start;
-        start = end;
-        end = tmp;
-      }
-      for (let index = start; index <= end; index++) {
-        dispatch(saveCompetitor(params.competitors[index]));
-      }
-      resolve();
-    });
+    dispatch(
+      reorderCompetitorsArray({
+        startIndex: params.startIndex,
+        endIndex: params.endIndex
+      })
+    );
+    let start = params.startIndex;
+    let end = params.endIndex;
+    if (start > end) {
+      let tmp = start;
+      start = end;
+      end = tmp;
+    }
+    for (let index = start; index <= end; index++) {
+      dispatch(saveCompetitor(params.competitors[index]));
+    }
   };
 };
 
@@ -192,6 +192,7 @@ async function fetchBracket(id?: string) {
         getBracket(id: "${id}") {
           id
           name
+          creationState
           competitors {
             id
             index
@@ -247,5 +248,22 @@ export const getBracket = (
           reject(e);
         });
     });
+  };
+};
+
+const updateBracketAttribute = (payload: any): UpdateBracketAction => {
+  return { type: UPDATE_BRACKET, payload };
+};
+
+export const updateBracket = (
+  payload: any
+): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: () => AppState
+  ): Promise<void> => {
+    dispatch(updateBracketAttribute(payload));
+    // TODO: Move to graphql
+    save(ModelNames.Bracket, get(getState(), "bracket.currentBracket", {}));
   };
 };
