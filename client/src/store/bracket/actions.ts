@@ -20,9 +20,9 @@ import {
 import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { sortBy, get } from "lodash";
+import { sortBy, get, omit } from "lodash";
 import { save } from "../../api";
-import { query } from "../../api/graphql";
+import { query, mutate } from "../../api/graphql";
 import { ModelNames } from "../../types";
 import { AppState } from "../index";
 
@@ -79,6 +79,31 @@ export const removeCompetitor = (
   };
 };
 
+const toQueryObject = (c: Competitor) => {
+  return JSON.stringify(omit(c, ["spotifyData", "__typename"])).replace(
+    /"([^(")"]+)":/g,
+    "$1:"
+  );
+};
+
+// TODO: Make save call first and let the response from this go to the reducer
+async function makeCompetitorSaveRequest(competitor: Competitor) {
+  console.log(toQueryObject(competitor));
+  const result = await mutate(
+    `
+    mutation {
+      updateCompetitor(update: ${toQueryObject(competitor)})
+      {
+        id
+        index
+        spotifyId
+        bracketId
+      }
+    }    `
+  );
+  return get(result, "data.updateCompetitor");
+}
+
 export const saveCompetitor = (
   competitor: Competitor
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
@@ -88,7 +113,7 @@ export const saveCompetitor = (
         setSavingCompetitor({ index: competitor.index, isSaving: true })
       );
       // TODO: Move to graphql
-      save(ModelNames.Competitor, competitor)
+      makeCompetitorSaveRequest(competitor)
         .then(() => {
           dispatch(
             setSavingCompetitor({ index: competitor.index, isSaving: false })
@@ -197,6 +222,7 @@ async function fetchBracket(id?: string) {
             id
             index
             spotifyId
+            bracketId
             spotifyData {
               name
               album {

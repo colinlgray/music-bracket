@@ -5,6 +5,10 @@ export default `
        newBracket: Bracket
     }
 
+    type Mutation {
+        updateCompetitor(update: CompetitorUpdate): Competitor
+    }
+
     type Album {
         id: ID
         album_type: String
@@ -40,6 +44,15 @@ export default `
         name: String
         track_number: Int
         album: Album
+    }
+
+    input CompetitorUpdate {
+        id: ID!
+        spotifyId: String
+        type: String
+        roundsWon: Int
+        bracketId: String
+        index: Int
     }
 
     type Competitor {
