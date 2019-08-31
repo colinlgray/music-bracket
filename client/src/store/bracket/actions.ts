@@ -21,9 +21,7 @@ import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { sortBy, get, omit } from "lodash";
-import { save } from "../../api";
 import { query, mutate } from "../../api/graphql";
-import { ModelNames } from "../../types";
 import { AppState } from "../index";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
@@ -79,16 +77,14 @@ export const removeCompetitor = (
   };
 };
 
-const toQueryObject = (c: Competitor) => {
-  return JSON.stringify(omit(c, ["spotifyData", "__typename"])).replace(
-    /"([^(")"]+)":/g,
-    "$1:"
-  );
+const toQueryObject = (o: Competitor | Bracket) => {
+  return JSON.stringify(
+    omit(o, ["spotifyData", "__typename", "competitors"])
+  ).replace(/"([^(")"]+)":/g, "$1:");
 };
 
 // TODO: Make save call first and let the response from this go to the reducer
 async function makeCompetitorSaveRequest(competitor: Competitor) {
-  console.log(toQueryObject(competitor));
   const result = await mutate(
     `
     mutation {
@@ -104,6 +100,21 @@ async function makeCompetitorSaveRequest(competitor: Competitor) {
   return get(result, "data.updateCompetitor");
 }
 
+async function makeBracketSaveRequest(bracket: Bracket) {
+  const result = await mutate(
+    `
+    mutation {
+      updateBracket(update: ${toQueryObject(bracket)})
+      {
+        id
+        name
+        creationState
+      }
+    }    `
+  );
+  return get(result, "data.updateBracket");
+}
+
 export const saveCompetitor = (
   competitor: Competitor
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
@@ -112,7 +123,6 @@ export const saveCompetitor = (
       dispatch(
         setSavingCompetitor({ index: competitor.index, isSaving: true })
       );
-      // TODO: Move to graphql
       makeCompetitorSaveRequest(competitor)
         .then(() => {
           dispatch(
@@ -289,7 +299,6 @@ export const updateBracket = (
     getState: () => AppState
   ): Promise<void> => {
     dispatch(updateBracketAttribute(payload));
-    // TODO: Move to graphql
-    save(ModelNames.Bracket, get(getState(), "bracket.currentBracket", {}));
+    makeBracketSaveRequest(get(getState(), "bracket.currentBracket", {}));
   };
 };
