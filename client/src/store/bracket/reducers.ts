@@ -7,7 +7,6 @@ import {
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
   ADD_COMPETITOR,
-  SET_SAVING_COMPETITOR,
   SET_COMPETITORS,
   UPDATE_BRACKET
 } from "./types";
@@ -111,9 +110,6 @@ export function bracketReducer(
           ...action.payload
         }
       };
-    case SET_SAVING_COMPETITOR:
-      // TODO: set value on model
-      return state;
     default:
       return state;
   }

@@ -5,7 +5,6 @@ import {
   RemoveCompetitorAction,
   AddCompetitorAction,
   ReorderCompetitorsAction,
-  SetSavingCompetitorAction,
   SetCompetitorsAction,
   UpdateBracketAction,
   SET_BRACKET,
@@ -13,7 +12,6 @@ import {
   ADD_COMPETITOR,
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
-  SET_SAVING_COMPETITOR,
   SET_FETCHING_BRACKET,
   UPDATE_BRACKET
 } from "./types";
@@ -83,60 +81,23 @@ const toQueryObject = (o: Competitor | Bracket) => {
   ).replace(/"([^(")"]+)":/g, "$1:");
 };
 
-// TODO: Make save call first and let the response from this go to the reducer
-async function makeCompetitorSaveRequest(competitor: Competitor) {
-  const result = await mutate(
-    `
-    mutation {
-      updateCompetitor(update: ${toQueryObject(competitor)})
-      {
-        id
-        index
-        spotifyId
-        bracketId
-      }
-    }    `
-  );
-  return get(result, "data.updateCompetitor");
-}
-
-async function makeBracketSaveRequest(bracket: Bracket) {
-  const result = await mutate(
-    `
-    mutation {
-      updateBracket(update: ${toQueryObject(bracket)})
-      {
-        id
-        name
-        creationState
-      }
-    }    `
-  );
-  return get(result, "data.updateBracket");
-}
-
 export const saveCompetitor = (
   competitor: Competitor
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      dispatch(
-        setSavingCompetitor({ index: competitor.index, isSaving: true })
-      );
-      makeCompetitorSaveRequest(competitor)
-        .then(() => {
-          dispatch(
-            setSavingCompetitor({ index: competitor.index, isSaving: false })
-          );
-          resolve();
-        })
-        .catch((e: Error) => {
-          dispatch(
-            setSavingCompetitor({ index: competitor.index, isSaving: false })
-          );
-          reject(e);
-        });
-    });
+  return async (): Promise<void> => {
+    await mutate(
+      `
+      mutation {
+        updateCompetitor(update: ${toQueryObject(competitor)})
+        {
+          id
+          index
+          spotifyId
+          bracketId
+        }
+      }
+      `
+    );
   };
 };
 
@@ -144,13 +105,6 @@ export const setCompetitors = (
   competitors: Array<Competitor>
 ): SetCompetitorsAction => {
   return { type: SET_COMPETITORS, payload: competitors };
-};
-
-export const setSavingCompetitor = (params: {
-  index: number;
-  isSaving: boolean;
-}): SetSavingCompetitorAction => {
-  return { type: SET_SAVING_COMPETITOR, ...params };
 };
 
 export const setFetching = (setFetching: boolean): SetFetchingBracketAction => {
@@ -299,6 +253,20 @@ export const updateBracket = (
     getState: () => AppState
   ): Promise<void> => {
     dispatch(updateBracketAttribute(payload));
-    makeBracketSaveRequest(get(getState(), "bracket.currentBracket", {}));
+    const result = await mutate(
+      `
+      mutation {
+        updateBracket(update: ${toQueryObject(
+          get(getState(), "bracket.currentBracket", {})
+        )})
+        {
+          id
+          name
+          creationState
+        }
+      }
+    `
+    );
+    return get(result, "data.updateBracket");
   };
 };
