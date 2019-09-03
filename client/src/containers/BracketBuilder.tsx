@@ -57,6 +57,7 @@ type RouteParams = { id: string };
 type Props = {
   bracket: Bracket;
   searchResults: Array<Competitor>;
+  totalResults: number;
   isLoading: boolean;
 };
 
@@ -103,6 +104,7 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
                   onChange={(request: SearchRequest) =>
                     dispatch(searchSpotify(request))
                   }
+                  totalResults={props.totalResults}
                 />
               )}
               {currStep === 1 && (
@@ -198,7 +200,8 @@ function mapStateToProps(state: AppState) {
   return {
     bracket: state.bracket.currentBracket,
     isLoading: state.bracket.isLoadingBracket,
-    searchResults: state.system.searchResults
+    searchResults: state.system.searchResults,
+    totalResults: state.system.totalSearchResults
   };
 }
 export default connect(mapStateToProps)(BracketBuilder);

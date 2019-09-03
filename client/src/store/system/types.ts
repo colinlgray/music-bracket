@@ -14,6 +14,11 @@ export type SearchRequest = {
   offset: number;
 };
 
+export type SearchResults = {
+  items: Array<Competitor>;
+  totalResults: number;
+};
+
 export interface SearchSpotifyAction {
   type: "SEARCH_SPOTIFY";
   payload: SearchRequest;
@@ -24,7 +29,7 @@ export interface SetSearchingAction {
 }
 export interface SetSearchResultsAction {
   type: "SET_SEARCH_RESULTS";
-  payload: Array<Competitor>;
+  payload: SearchResults;
 }
 export interface AddSearchResultAction {
   type: "ADD_SEARCH_RESULT";
