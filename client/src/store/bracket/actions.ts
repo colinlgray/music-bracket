@@ -21,6 +21,7 @@ import { AnyAction } from "redux";
 import { sortBy, get, omit } from "lodash";
 import { query, mutate } from "../../api/graphql";
 import { AppState } from "../index";
+import history from "../../utils/history";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
   bracket.competitors = sortBy(bracket.competitors, ["index"]);
@@ -230,8 +231,12 @@ export const getBracket = (
       dispatch(setFetching(true));
       fetchOrCreateBracket(id)
         .then(bracket => {
-          dispatch(setBracket(bracket as Bracket));
           dispatch(setFetching(false));
+          if (bracket) {
+            dispatch(setBracket(bracket as Bracket));
+          } else {
+            history.replace("/404");
+          }
         })
         .catch((e: Error) => {
           dispatch(setFetching(false));

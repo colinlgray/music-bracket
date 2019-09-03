@@ -10,17 +10,20 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import {
   BracketCompetition,
   BracketBuilder,
   BracketList,
-  Home
+  Home,
+  FourOhFour
 } from "./containers";
 import ListItemLink from "./components/ListItemLink";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import useStyles from "./app.css";
+import history from "./utils/history";
+
 function App() {
   const [open, setOpen] = useState(false);
 
@@ -28,7 +31,7 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <Router>
+      <Router history={history}>
         <CssBaseline />
         <AppBar
           position="absolute"
@@ -88,6 +91,7 @@ function App() {
 
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
+          <Route path="/404" exact component={FourOhFour} />
           <Route path="/" exact component={Home} />
           <Route
             path="/build/:id?"
