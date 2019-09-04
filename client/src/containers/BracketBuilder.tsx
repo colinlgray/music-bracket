@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   },
   cardHeader: {
     height: theme.spacing(10)
+  },
+  card: {
+    display: "inline-block"
   }
 }));
 
@@ -95,70 +98,63 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
         <Typography component="h5" variant="h5" color="inherit" gutterBottom>
           {headerText[currStep]}
         </Typography>
-        <Paper>
-          <Grid container direction="row">
-            <Grid container className={classes.cardHeader} alignItems="center">
-              {currStep === 0 && (
-                <Search
-                  onChange={(request: SearchRequest) =>
-                    dispatch(searchSpotify(request))
+        <Paper className={classes.card}>
+          <Grid container className={classes.cardHeader} alignItems="center">
+            {currStep === 0 && (
+              <Search
+                onChange={(request: SearchRequest) =>
+                  dispatch(searchSpotify(request))
+                }
+              />
+            )}
+            {currStep === 1 && (
+              <SeedingOptions
+                onChange={(value: string) => {
+                  if (value !== "custom") {
+                    dispatch(reseedCompetitors(value));
                   }
-                />
-              )}
-              {currStep === 1 && (
-                <SeedingOptions
-                  onChange={(value: string) => {
-                    if (value !== "custom") {
-                      dispatch(reseedCompetitors(value));
-                    }
-                  }}
-                />
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              {props.isLoading && "Loading..."}
-              <CompetitorSelection
-                editable={currStep === 0}
-                selectable={props.searchResults}
-                selected={props.bracket.competitors}
-                onReorder={(params: {
-                  listName: string;
-                  startIndex: number;
-                  endIndex: number;
-                }) => {
-                  if (params.listName === "selectable") {
-                    dispatch(
-                      reorderSearchResults({
-                        startIndex: params.startIndex,
-                        endIndex: params.endIndex
-                      })
-                    );
-                  } else {
-                    dispatch(
-                      reorderCompetitors({
-                        startIndex: params.startIndex,
-                        endIndex: params.endIndex,
-                        competitors: props.bracket.competitors
-                      })
-                    );
-                  }
-                }}
-                onAddCompetitor={(c: Competitor, index: number) => {
-                  dispatch(addCompetitor(c, index));
-                  dispatch(removeFromSearchResults(c));
-                }}
-                onRemoveCompetitor={(
-                  c: Competitor,
-                  destinationIndex?: number
-                ) => {
-                  if (isNumber(destinationIndex)) {
-                    dispatch(addSearchResult(c, destinationIndex));
-                  }
-                  dispatch(removeCompetitor(c));
                 }}
               />
-            </Grid>
+            )}
           </Grid>
+          {props.isLoading && "Loading..."}
+          <CompetitorSelection
+            editable={currStep === 0}
+            selectable={props.searchResults}
+            selected={props.bracket.competitors}
+            onReorder={(params: {
+              listName: string;
+              startIndex: number;
+              endIndex: number;
+            }) => {
+              if (params.listName === "selectable") {
+                dispatch(
+                  reorderSearchResults({
+                    startIndex: params.startIndex,
+                    endIndex: params.endIndex
+                  })
+                );
+              } else {
+                dispatch(
+                  reorderCompetitors({
+                    startIndex: params.startIndex,
+                    endIndex: params.endIndex,
+                    competitors: props.bracket.competitors
+                  })
+                );
+              }
+            }}
+            onAddCompetitor={(c: Competitor, index: number) => {
+              dispatch(addCompetitor(c, index));
+              dispatch(removeFromSearchResults(c));
+            }}
+            onRemoveCompetitor={(c: Competitor, destinationIndex?: number) => {
+              if (isNumber(destinationIndex)) {
+                dispatch(addSearchResult(c, destinationIndex));
+              }
+              dispatch(removeCompetitor(c));
+            }}
+          />
         </Paper>
         <Grid container className={classes.buttons}>
           <Button
