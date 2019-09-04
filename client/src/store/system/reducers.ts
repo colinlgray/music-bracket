@@ -27,7 +27,11 @@ export function systemReducer(
     case SET_SEARCHING:
       return { ...state, isSearching: action.payload };
     case SET_SEARCH_RESULTS:
-      return { ...state, searchResults: action.payload };
+      return {
+        ...state,
+        searchResults: action.payload.items,
+        totalSearchResults: action.payload.totalResults
+      };
     case ADD_SEARCH_RESULT:
       let clone = state.searchResults.slice();
       clone.splice(action.index, 0, { ...action.payload, bracketId: null });

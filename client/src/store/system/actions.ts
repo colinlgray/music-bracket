@@ -5,6 +5,7 @@ import {
   SetSearchResultsAction,
   SetSearchingAction,
   SearchRequest,
+  SearchResults,
   ReorderSearchResultsParams,
   REMOVE_FROM_SEARCH_RESULTS,
   REORDER_SEARCH_RESULTS,
@@ -52,9 +53,9 @@ export const setSearching = (isSearching: boolean): SetSearchingAction => {
 };
 
 export const setSearchResults = (
-  results: Array<Competitor>
+  response: SearchResults
 ): SetSearchResultsAction => {
-  return { type: SET_SEARCH_RESULTS, payload: results };
+  return { type: SET_SEARCH_RESULTS, payload: response };
 };
 export const addSearchResult = (
   payload: Competitor,
@@ -83,7 +84,7 @@ export const searchSpotify = (
       fetchSpotify(request)
         .then(results => {
           dispatch(setSearching(false));
-          dispatch(setSearchResults(results.items));
+          dispatch(setSearchResults(results));
         })
         .catch((e: Error) => {
           dispatch(setSearching(false));

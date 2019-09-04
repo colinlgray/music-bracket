@@ -28,7 +28,6 @@ const resolvers = {
     }
   },
   Mutation: {
-    // TODO: Seems to be breaking bracket after save
     updateCompetitor: (parent, args) => {
       return db.Competitor.upsert(args.update).then(r => args.update);
     },
