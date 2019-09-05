@@ -1,4 +1,4 @@
-import { Bracket, CreationStates } from "../../types";
+import { Bracket, CreationStates, bracketStates } from "../../types";
 
 export interface IState {
   currentBracket: Bracket;
@@ -10,7 +10,7 @@ export const initialState = {
     id: "",
     name: "loading",
     description: "",
-    creationState: "created" as CreationStates,
+    creationState: bracketStates.initial as CreationStates,
     creator: "",
     competitors: []
   },

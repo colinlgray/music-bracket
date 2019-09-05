@@ -14,8 +14,10 @@ type Props = { bracket: Bracket; isLoading: boolean };
 function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBracket(props.match.params.id));
-  }, [dispatch, props.match.params.id]);
+    if (props.bracket.id !== props.match.params.id) {
+      dispatch(getBracket(props.match.params.id));
+    }
+  }, [dispatch, props.match.params.id, props.bracket.id]);
 
   return (
     <>

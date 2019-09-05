@@ -2,6 +2,12 @@ export default `
     type Query {
        getBrackets(creationState: String): [Bracket]
        getBracket(id: String): Bracket
+       newBracket: Bracket
+    }
+
+    type Mutation {
+        updateCompetitor(update: CompetitorUpdate): Competitor
+        updateBracket(update: BracketUpdate): Bracket
     }
 
     type Album {
@@ -41,6 +47,15 @@ export default `
         album: Album
     }
 
+    input CompetitorUpdate {
+        id: ID!
+        spotifyId: String
+        type: String
+        roundsWon: Int
+        bracketId: String
+        index: Int
+    }
+
     type Competitor {
         id: ID!
         spotifyId: String!
@@ -51,6 +66,13 @@ export default `
         spotifyData: Track
     }
 
+    input BracketUpdate {
+        id: ID!
+        name: String
+        description: String
+        creator: String
+        creationState: String
+    }
     type Bracket {
         id: ID!
         name: String!

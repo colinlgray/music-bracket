@@ -11,7 +11,8 @@ import CompetitorDisplay from "./CompetitorDisplay";
 import { Competitor } from "../types";
 const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
-  minHeight: 400
+  minHeight: 400,
+  minWidth: 400
 });
 
 type Props = {
@@ -77,7 +78,7 @@ export class CompetitorSelection extends Component<Props, State> {
         onDragStart={this.onDragStart}
         onDragEnd={this.onDragEnd}
       >
-        <Grid container>
+        <Grid wrap={"nowrap"} container>
           {this.props.editable && (
             <Droppable droppableId="selectable">
               {(provided, snapshot) => (

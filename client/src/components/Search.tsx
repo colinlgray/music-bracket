@@ -27,6 +27,7 @@ const styles = (theme: Theme) => ({
 
 interface Props extends WithStyles<typeof styles> {
   onChange: (request: SearchRequest) => any;
+  totalResults: number;
 }
 
 interface State {
@@ -37,7 +38,6 @@ interface State {
   searchError: any;
   offset: number;
   hasHiddenSearchError: boolean;
-  totalResults: number;
   step: number;
 }
 
@@ -57,7 +57,6 @@ class Search extends React.Component<Props, State> {
     searchError: null,
     offset: 0,
     hasHiddenSearchError: false,
-    totalResults: 0,
     step: 5
   };
   componentDidMount() {
@@ -91,8 +90,7 @@ class Search extends React.Component<Props, State> {
     if (!this.state.query.trim().length) {
       this.setState({
         loading: false,
-        searchResults: [],
-        totalResults: 0
+        searchResults: []
       });
     } else {
       this.props.onChange({
@@ -102,17 +100,6 @@ class Search extends React.Component<Props, State> {
       });
     }
   };
-
-  displayText() {
-    if (this.state.loading) {
-      return "loading";
-    } else if (this.state.searchResults.length) {
-      return `${this.state.offset + 1}/${this.state.offset + 10} out of ${
-        this.state.totalResults
-      }`;
-    }
-    return "";
-  }
 
   handleChangePage(event: unknown, newPage: number) {
     this.setState({ offset: newPage * this.state.step }, this.lookupSongs);
@@ -143,7 +130,7 @@ class Search extends React.Component<Props, State> {
           <TablePagination
             rowsPerPageOptions={[5, 10]}
             component="div"
-            count={this.state.totalResults}
+            count={this.props.totalResults}
             rowsPerPage={this.state.step}
             page={this.state.offset / this.state.step}
             backIconButtonProps={{

@@ -5,24 +5,23 @@ import {
   RemoveCompetitorAction,
   AddCompetitorAction,
   ReorderCompetitorsAction,
-  SetSavingCompetitorAction,
   SetCompetitorsAction,
+  UpdateBracketAction,
   SET_BRACKET,
   SET_COMPETITORS,
   ADD_COMPETITOR,
   REMOVE_COMPETITOR,
   REORDER_COMPETITORS,
-  SET_SAVING_COMPETITOR,
-  SET_FETCHING_BRACKET
+  SET_FETCHING_BRACKET,
+  UPDATE_BRACKET
 } from "./types";
 import { ReorderSearchResultsParams } from "../system/types";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { sortBy, get } from "lodash";
-import { save, fetchOrCreate } from "../../api";
-import { query } from "../../api/graphql";
-import { ModelNames } from "../../types";
+import { sortBy, get, omit } from "lodash";
+import { query, mutate } from "../../api/graphql";
 import { AppState } from "../index";
+import history from "../../utils/history";
 
 export const setBracket = (bracket: Bracket): SetBracketAction => {
   bracket.competitors = sortBy(bracket.competitors, ["index"]);
@@ -77,28 +76,29 @@ export const removeCompetitor = (
   };
 };
 
+const toQueryObject = (o: Competitor | Bracket) => {
+  return JSON.stringify(
+    omit(o, ["spotifyData", "__typename", "competitors"])
+  ).replace(/"([^(")"]+)":/g, "$1:");
+};
+
 export const saveCompetitor = (
   competitor: Competitor
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      dispatch(
-        setSavingCompetitor({ index: competitor.index, isSaving: true })
-      );
-      save(ModelNames.Competitor, competitor)
-        .then(() => {
-          dispatch(
-            setSavingCompetitor({ index: competitor.index, isSaving: false })
-          );
-          resolve();
-        })
-        .catch((e: Error) => {
-          dispatch(
-            setSavingCompetitor({ index: competitor.index, isSaving: false })
-          );
-          reject(e);
-        });
-    });
+  return async (): Promise<void> => {
+    await mutate(
+      `
+      mutation {
+        updateCompetitor(update: ${toQueryObject(competitor)})
+        {
+          id
+          index
+          spotifyId
+          bracketId
+        }
+      }
+      `
+    );
   };
 };
 
@@ -106,13 +106,6 @@ export const setCompetitors = (
   competitors: Array<Competitor>
 ): SetCompetitorsAction => {
   return { type: SET_COMPETITORS, payload: competitors };
-};
-
-export const setSavingCompetitor = (params: {
-  index: number;
-  isSaving: boolean;
-}): SetSavingCompetitorAction => {
-  return { type: SET_SAVING_COMPETITOR, ...params };
 };
 
 export const setFetching = (setFetching: boolean): SetFetchingBracketAction => {
@@ -142,25 +135,22 @@ export const reorderCompetitors = (
   params: ReorderSearchResultsParams & { competitors: Array<Competitor> }
 ): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      dispatch(
-        reorderCompetitorsArray({
-          startIndex: params.startIndex,
-          endIndex: params.endIndex
-        })
-      );
-      let start = params.startIndex;
-      let end = params.endIndex;
-      if (start > end) {
-        let tmp = start;
-        start = end;
-        end = tmp;
-      }
-      for (let index = start; index <= end; index++) {
-        dispatch(saveCompetitor(params.competitors[index]));
-      }
-      resolve();
-    });
+    dispatch(
+      reorderCompetitorsArray({
+        startIndex: params.startIndex,
+        endIndex: params.endIndex
+      })
+    );
+    let start = params.startIndex;
+    let end = params.endIndex;
+    if (start > end) {
+      let tmp = start;
+      start = end;
+      end = tmp;
+    }
+    for (let index = start; index <= end; index++) {
+      dispatch(saveCompetitor(params.competitors[index]));
+    }
   };
 };
 
@@ -192,10 +182,12 @@ async function fetchBracket(id?: string) {
         getBracket(id: "${id}") {
           id
           name
+          creationState
           competitors {
             id
             index
             spotifyId
+            bracketId
             spotifyData {
               name
               album {
@@ -215,7 +207,16 @@ async function fetchBracket(id?: string) {
 }
 
 async function createBracket() {
-  return fetchOrCreate(ModelNames.Bracket);
+  const result = await query(
+    `
+      {
+        newBracket {
+          id
+        }
+      }
+    `
+  );
+  return get(result, "data.newBracket");
 }
 
 async function fetchOrCreateBracket(id?: string) {
@@ -230,13 +231,47 @@ export const getBracket = (
       dispatch(setFetching(true));
       fetchOrCreateBracket(id)
         .then(bracket => {
-          dispatch(setBracket(bracket as Bracket));
           dispatch(setFetching(false));
+          if (bracket) {
+            dispatch(setBracket(bracket as Bracket));
+          } else {
+            history.replace("/404");
+          }
         })
         .catch((e: Error) => {
           dispatch(setFetching(false));
           reject(e);
         });
     });
+  };
+};
+
+const updateBracketAttribute = (payload: any): UpdateBracketAction => {
+  return { type: UPDATE_BRACKET, payload };
+};
+
+export const updateBracket = (
+  payload: any
+): ThunkAction<Promise<void>, AppState, {}, AnyAction> => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: () => AppState
+  ): Promise<void> => {
+    dispatch(updateBracketAttribute(payload));
+    const result = await mutate(
+      `
+      mutation {
+        updateBracket(update: ${toQueryObject(
+          get(getState(), "bracket.currentBracket", {})
+        )})
+        {
+          id
+          name
+          creationState
+        }
+      }
+    `
+    );
+    return get(result, "data.updateBracket");
   };
 };

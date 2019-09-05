@@ -22,6 +22,17 @@ const resolvers = {
         .then(([bracket]) => {
           return Promise.resolve(bracket);
         });
+    },
+    newBracket: () => {
+      return db.Bracket.create();
+    }
+  },
+  Mutation: {
+    updateCompetitor: (parent, args) => {
+      return db.Competitor.upsert(args.update).then(r => args.update);
+    },
+    updateBracket: (parent, args) => {
+      return db.Bracket.upsert(args.update).then(r => args.update);
     }
   }
 };

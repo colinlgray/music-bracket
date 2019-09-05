@@ -1,11 +1,12 @@
 import { Competitor } from "./Competitor";
 
-export type CreationStates = "created" | "started" | "seeding";
+export type CreationStates = "initial" | "created" | "started" | "seeding";
 
 export const bracketStates = {
   created: "created",
   started: "started",
-  seeding: "seeding"
+  seeding: "seeding",
+  initial: "initial"
 };
 
 export interface Bracket {

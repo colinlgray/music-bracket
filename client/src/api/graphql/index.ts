@@ -5,3 +5,8 @@ export function query(query: string) {
     query: gql(query)
   });
 }
+export function mutate(query: string) {
+  return client.mutate({
+    mutation: gql(query)
+  });
+}
