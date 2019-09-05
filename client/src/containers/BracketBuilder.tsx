@@ -3,8 +3,12 @@ import { connect, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { RouteComponentProps, Redirect } from "react-router-dom";
-import { Search, CompetitorSelection, SeedingOptions } from "../components";
 import Grid from "@material-ui/core/Grid";
+import { Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { isNumber } from "lodash";
+import clsx from "clsx";
+import { Search, CompetitorSelection, SeedingOptions } from "../components";
 import { Bracket, Competitor, CreationStates } from "../types";
 import {
   getBracket,
@@ -21,10 +25,7 @@ import {
   reorderSearchResults
 } from "../store/system/actions";
 import { SearchRequest } from "../store/system/types";
-import { Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { AppState } from "../store";
-import { isNumber } from "lodash";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -40,6 +41,14 @@ const useStyles = makeStyles(theme => ({
   },
   shrink: {
     display: "inline-block"
+  },
+  paper: {
+    display: "inline-block",
+    width: theme.spacing(100),
+    transition: "width 500ms ease"
+  },
+  paperSmall: {
+    width: theme.spacing(50)
   }
 }));
 
@@ -100,7 +109,11 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
           {headerText[currStep]}
         </Typography>
         <div className={classes.shrink}>
-          <Paper className={classes.shrink}>
+          <Paper
+            className={clsx(classes.shrink, classes.paper, {
+              [classes.paperSmall]: currStep === 1
+            })}
+          >
             <Grid container className={classes.cardHeader} alignItems="center">
               {currStep === 0 && (
                 <Search
