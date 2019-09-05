@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   cardHeader: {
     height: theme.spacing(10)
   },
-  card: {
+  shrink: {
     display: "inline-block"
   }
 }));
@@ -99,94 +99,101 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
         <Typography component="h5" variant="h5" color="inherit" gutterBottom>
           {headerText[currStep]}
         </Typography>
-        <Paper className={classes.card}>
-          <Grid container className={classes.cardHeader} alignItems="center">
-            {currStep === 0 && (
-              <Search
-                onChange={(request: SearchRequest) =>
-                  dispatch(searchSpotify(request))
-                }
-                totalResults={props.totalResults}
-              />
-            )}
-            {currStep === 1 && (
-              <SeedingOptions
-                onChange={(value: string) => {
-                  if (value !== "custom") {
-                    dispatch(reseedCompetitors(value));
+        <div className={classes.shrink}>
+          <Paper className={classes.shrink}>
+            <Grid container className={classes.cardHeader} alignItems="center">
+              {currStep === 0 && (
+                <Search
+                  onChange={(request: SearchRequest) =>
+                    dispatch(searchSpotify(request))
                   }
-                }}
-              />
-            )}
+                  totalResults={props.totalResults}
+                />
+              )}
+              {currStep === 1 && (
+                <SeedingOptions
+                  onChange={(value: string) => {
+                    if (value !== "custom") {
+                      dispatch(reseedCompetitors(value));
+                    }
+                  }}
+                />
+              )}
+            </Grid>
+            {props.isLoading && "Loading..."}
+            <CompetitorSelection
+              editable={currStep === 0}
+              selectable={props.searchResults}
+              selected={props.bracket.competitors}
+              onReorder={(params: {
+                listName: string;
+                startIndex: number;
+                endIndex: number;
+              }) => {
+                if (params.listName === "selectable") {
+                  dispatch(
+                    reorderSearchResults({
+                      startIndex: params.startIndex,
+                      endIndex: params.endIndex
+                    })
+                  );
+                } else {
+                  dispatch(
+                    reorderCompetitors({
+                      startIndex: params.startIndex,
+                      endIndex: params.endIndex,
+                      competitors: props.bracket.competitors
+                    })
+                  );
+                }
+              }}
+              onAddCompetitor={(c: Competitor, index: number) => {
+                dispatch(addCompetitor(c, index));
+                dispatch(removeFromSearchResults(c));
+              }}
+              onRemoveCompetitor={(
+                c: Competitor,
+                destinationIndex?: number
+              ) => {
+                if (isNumber(destinationIndex)) {
+                  dispatch(addSearchResult(c, destinationIndex));
+                }
+                dispatch(removeCompetitor(c));
+              }}
+            />
+          </Paper>
+          <Grid container className={classes.buttons}>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={currStep <= 0}
+              onClick={() => {
+                const newStep = currStep - 1;
+                updateCreationStateForStep(newStep);
+              }}
+              className={classes.button}
+            >
+              Prev
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={
+                currStep > MAX_STEP || !props.bracket.competitors.length
+              }
+              onClick={() => {
+                if (currStep === MAX_STEP) {
+                  makeBracket();
+                }
+                const newStep = currStep + 1;
+                updateCreationStateForStep(newStep);
+              }}
+              className={classes.button}
+            >
+              Next
+            </Button>
           </Grid>
-          {props.isLoading && "Loading..."}
-          <CompetitorSelection
-            editable={currStep === 0}
-            selectable={props.searchResults}
-            selected={props.bracket.competitors}
-            onReorder={(params: {
-              listName: string;
-              startIndex: number;
-              endIndex: number;
-            }) => {
-              if (params.listName === "selectable") {
-                dispatch(
-                  reorderSearchResults({
-                    startIndex: params.startIndex,
-                    endIndex: params.endIndex
-                  })
-                );
-              } else {
-                dispatch(
-                  reorderCompetitors({
-                    startIndex: params.startIndex,
-                    endIndex: params.endIndex,
-                    competitors: props.bracket.competitors
-                  })
-                );
-              }
-            }}
-            onAddCompetitor={(c: Competitor, index: number) => {
-              dispatch(addCompetitor(c, index));
-              dispatch(removeFromSearchResults(c));
-            }}
-            onRemoveCompetitor={(c: Competitor, destinationIndex?: number) => {
-              if (isNumber(destinationIndex)) {
-                dispatch(addSearchResult(c, destinationIndex));
-              }
-              dispatch(removeCompetitor(c));
-            }}
-          />
-        </Paper>
-        <Grid container className={classes.buttons}>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={currStep <= 0}
-            onClick={() => {
-              const newStep = currStep - 1;
-              updateCreationStateForStep(newStep);
-            }}
-            className={classes.button}
-          >
-            Prev
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={currStep > MAX_STEP || !props.bracket.competitors.length}
-            onClick={() => {
-              if (currStep === MAX_STEP) {
-                makeBracket();
-              }
-              const newStep = currStep + 1;
-              updateCreationStateForStep(newStep);
-            }}
-            className={classes.button}
-          >
-            Next
-          </Button>
-        </Grid>
+        </div>
       </>
     )
   );

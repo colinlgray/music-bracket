@@ -78,7 +78,7 @@ export class CompetitorSelection extends Component<Props, State> {
         onDragStart={this.onDragStart}
         onDragEnd={this.onDragEnd}
       >
-        <Grid container>
+        <Grid wrap={"nowrap"} container>
           {this.props.editable && (
             <Droppable droppableId="selectable">
               {(provided, snapshot) => (
