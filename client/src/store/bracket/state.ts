@@ -8,11 +8,12 @@ export interface IState {
 export const initialState = {
   currentBracket: {
     id: "",
-    name: "loading",
+    name: "",
     description: "",
     creationState: bracketStates.initial as CreationStates,
     creator: "",
-    competitors: []
+    competitors: [],
+    challongeUrl: null
   },
   isLoadingBracket: false
 };

@@ -219,6 +219,21 @@ async function createBracket() {
   return get(result, "data.newBracket");
 }
 
+// TODO: This needs to create a challonge tournement
+// Call this at the end of current bracket creation
+// Update Bracket to do much less, lean on challonge
+async function createTournament() {
+  const result = await query(
+    `
+      {
+        newTournament {
+          id
+        }
+      }
+    `
+  );
+  return get(result, "data.newTournament");
+}
 async function fetchOrCreateBracket(id?: string) {
   return id ? fetchBracket(id) : createBracket();
 }

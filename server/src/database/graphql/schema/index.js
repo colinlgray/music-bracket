@@ -3,6 +3,7 @@ export default `
        getBrackets(creationState: String): [Bracket]
        getBracket(id: String): Bracket
        newBracket: Bracket
+       newTournament: Bracket
     }
 
     type Mutation {

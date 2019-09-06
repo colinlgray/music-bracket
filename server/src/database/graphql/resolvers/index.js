@@ -25,6 +25,10 @@ const resolvers = {
     },
     newBracket: () => {
       return db.Bracket.create();
+    },
+    newTournament: () => {
+      console.error("Not implemented");
+      return null;
     }
   },
   Mutation: {
