@@ -34,7 +34,8 @@ const resolvers = {
     updateBracket: (parent, args) => {
       return db.Bracket.upsert(args.update).then(r => args.update);
     },
-    newTournament: () => {
+    newTournament: (parent, args) => {
+      console.log("args", args.update);
       return db.Bracket.findByPk("bracketFixture", {
         include: [{ all: true }]
       });

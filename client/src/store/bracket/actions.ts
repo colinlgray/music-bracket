@@ -223,7 +223,7 @@ async function createTournament() {
   const result = await mutate(
     `
       mutation {
-        newTournament(update: {name: "test"} )
+        newTournament(update: {name: "test", id: "bracketFixture"} )
         {
           id
           name
@@ -231,7 +231,6 @@ async function createTournament() {
       }
     `
   );
-
   return get(result, "data.newTournament");
 }
 async function fetchOrCreateBracket(id?: string) {
