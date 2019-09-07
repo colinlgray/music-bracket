@@ -25,10 +25,6 @@ const resolvers = {
     },
     newBracket: () => {
       return db.Bracket.create();
-    },
-    newTournament: () => {
-      console.error("Not implemented");
-      return null;
     }
   },
   Mutation: {
@@ -37,6 +33,11 @@ const resolvers = {
     },
     updateBracket: (parent, args) => {
       return db.Bracket.upsert(args.update).then(r => args.update);
+    },
+    newTournament: () => {
+      return db.Bracket.findByPk("bracketFixture", {
+        include: [{ all: true }]
+      });
     }
   }
 };

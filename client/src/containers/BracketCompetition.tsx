@@ -6,7 +6,10 @@ import { RouteComponentProps } from "react-router-dom";
 import { Bracket } from "../types";
 import Fab from "@material-ui/core/Fab";
 import { AppState } from "../store";
-import { getBracket } from "../store/bracket/actions";
+import {
+  getBracket,
+  createTournamentFromBracket
+} from "../store/bracket/actions";
 import useStyles from "../app.css";
 
 type RouteParams = { id: string };
@@ -16,6 +19,7 @@ const InnerContent = (props: {
   loading: boolean;
   showErrorMessage: boolean;
   challongeUrl: string | null;
+  onCreate: () => any;
 }) => {
   const classes = useStyles();
   if (props.loading) {
@@ -44,9 +48,7 @@ const InnerContent = (props: {
         <Fab
           color="primary"
           variant="extended"
-          onClick={() => {
-            console.log("!!!");
-          }}
+          onClick={props.onCreate}
           aria-label="Try again"
         >
           Try Again
@@ -76,6 +78,9 @@ function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
           showErrorMessage={showErrorMessage}
           challongeUrl={props.bracket.challongeUrl}
           loading={props.isLoading}
+          onCreate={() => {
+            dispatch(createTournamentFromBracket());
+          }}
         />
       </Grid>
     </>
