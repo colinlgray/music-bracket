@@ -1,6 +1,6 @@
-const moment = require("moment");
-const request = require("request");
-const pluralize = require("pluralize");
+import moment from "moment";
+import request from "request";
+import pluralize from "pluralize";
 
 const clientId = process.env.MUSIC_BRACKET_CLIENT_ID;
 const clientSecret = process.env.MUSIC_BRACKET_CLIENT_SECRET;
@@ -67,7 +67,7 @@ const getApiToken = () => {
   });
 };
 
-const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
+export const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   if (!query) {
     return Promise.resolve([{ total: 0, items: [], offset }]);
   }
@@ -90,7 +90,7 @@ const searchForType = type => ({ query, offset = 0, limit = 10 }) => {
   });
 };
 
-const getType = type => id => {
+export const getType = type => id => {
   if (!id) {
     return null;
   }
@@ -100,8 +100,4 @@ const getType = type => id => {
   return makeRequest(url);
 };
 
-module.exports = {
-  searchForType,
-  getType,
-  getTrack: getType("Tracks")
-};
+export const getTrack = getType("Tracks");

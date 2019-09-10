@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { searchForType } from "./controllers/spotifyApi";
+import { searchForType } from "./controllers/spotify";
 import { startDb } from "./database";
 import apolloServer from "./controllers/apolloServer";
 
