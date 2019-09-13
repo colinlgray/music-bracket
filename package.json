@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run build && node dist/server/src/index.js",
+    "start": "npm run build && node dist/server/index.js",
     "build": "tsc",
     "test": "jest",
     "reset-db": "yarn run sequelize db:drop && yarn run sequelize db:create && yarn run sequelize db:migrate",

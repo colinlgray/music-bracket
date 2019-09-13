@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       name: { type: DataTypes.STRING, defaultValue: "Untitled Bracket" },
       description: DataTypes.STRING,
       creator: DataTypes.STRING,
-      creationState: DataTypes.STRING
+      creationState: DataTypes.STRING,
+      challongeUrl: DataTypes.STRING
     },
     {
       name: {

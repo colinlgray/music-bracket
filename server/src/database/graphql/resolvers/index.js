@@ -1,6 +1,7 @@
-import { db } from "../../index";
 import { map } from "lodash";
+import { db } from "../../index";
 import { attachSpotify } from "../../../utils";
+import { newTournament } from "../../../controllers/challonge";
 
 const resolvers = {
   Query: {
@@ -33,6 +34,9 @@ const resolvers = {
     },
     updateBracket: (parent, args) => {
       return db.Bracket.upsert(args.update).then(r => args.update);
+    },
+    newTournament: (parent, args) => {
+      return newTournament(args.update);
     }
   }
 };

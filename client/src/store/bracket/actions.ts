@@ -219,6 +219,20 @@ async function createBracket() {
   return get(result, "data.newBracket");
 }
 
+async function createTournament() {
+  const result = await mutate(
+    `
+      mutation {
+        newTournament(update: {name: "test", id: "bracketFixture"} )
+        {
+          id
+          name
+        }
+      }
+    `
+  );
+  return get(result, "data.newTournament");
+}
 async function fetchOrCreateBracket(id?: string) {
   return id ? fetchBracket(id) : createBracket();
 }
@@ -237,6 +251,28 @@ export const getBracket = (
           } else {
             history.replace("/404");
           }
+        })
+        .catch((e: Error) => {
+          dispatch(setFetching(false));
+          reject(e);
+        });
+    });
+  };
+};
+
+export const createTournamentFromBracket = (): ThunkAction<
+  Promise<void>,
+  {},
+  {},
+  AnyAction
+> => {
+  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      dispatch(setFetching(true));
+      createTournament()
+        .then(res => {
+          dispatch(setFetching(false));
+          console.log("got response", res);
         })
         .catch((e: Error) => {
           dispatch(setFetching(false));

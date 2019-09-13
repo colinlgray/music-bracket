@@ -8,6 +8,7 @@ export default `
     type Mutation {
         updateCompetitor(update: CompetitorUpdate): Competitor
         updateBracket(update: BracketUpdate): Bracket
+        newTournament(update: BracketUpdate): Bracket
     }
 
     type Album {

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import { Paper } from "@material-ui/core";
@@ -54,15 +55,15 @@ const useStyles = makeStyles(theme => ({
 
 const headerText: { [step: number]: string } = {
   0: "Select Tracks",
-  1: "Select Seeding",
-  2: "Creating"
+  1: "Select Seeding"
 };
 
-const MAX_STEP = 1;
+const MAX_STEP = 2;
 const creationStateToStep: { [creationState: string]: number } = {
   created: 0,
   seeding: 1,
-  started: 2
+  naming: 2,
+  started: 3
 };
 
 type RouteParams = { id: string };
@@ -88,12 +89,17 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
     );
   };
   const dispatch = useDispatch();
-
+  const [name, setName] = useState("");
   useEffect(() => {
     dispatch(getBracket(props.match.params.id));
   }, [dispatch, props.match.params.id]);
 
   const makeBracket = () => {
+    dispatch(
+      updateBracket({
+        name
+      })
+    );
     props.history.push(`/bracket/${props.bracket.id}`);
   };
 
@@ -109,72 +115,89 @@ function BracketBuilder(props: RouteComponentProps<RouteParams> & Props) {
           {headerText[currStep]}
         </Typography>
         <div className={classes.shrink}>
-          <Paper
-            className={clsx(classes.shrink, classes.paper, {
-              [classes.paperSmall]: currStep === 1
-            })}
-          >
-            <Grid container className={classes.cardHeader} alignItems="center">
-              {currStep === 0 && (
-                <Search
-                  onChange={(request: SearchRequest) =>
-                    dispatch(searchSpotify(request))
-                  }
-                  totalResults={props.totalResults}
-                />
-              )}
-              {currStep === 1 && (
-                <SeedingOptions
-                  onChange={(value: string) => {
-                    if (value !== "custom") {
-                      dispatch(reseedCompetitors(value));
+          {currStep < 2 && (
+            <Paper
+              className={clsx(classes.shrink, classes.paper, {
+                [classes.paperSmall]: currStep === 1
+              })}
+            >
+              <Grid
+                container
+                className={classes.cardHeader}
+                alignItems="center"
+              >
+                {currStep === 0 && (
+                  <Search
+                    onChange={(request: SearchRequest) =>
+                      dispatch(searchSpotify(request))
                     }
-                  }}
-                />
-              )}
-            </Grid>
-            {props.isLoading && "Loading..."}
-            <CompetitorSelection
-              editable={currStep === 0}
-              selectable={props.searchResults}
-              selected={props.bracket.competitors}
-              onReorder={(params: {
-                listName: string;
-                startIndex: number;
-                endIndex: number;
-              }) => {
-                if (params.listName === "selectable") {
-                  dispatch(
-                    reorderSearchResults({
-                      startIndex: params.startIndex,
-                      endIndex: params.endIndex
-                    })
-                  );
-                } else {
-                  dispatch(
-                    reorderCompetitors({
-                      startIndex: params.startIndex,
-                      endIndex: params.endIndex,
-                      competitors: props.bracket.competitors
-                    })
-                  );
-                }
+                    totalResults={props.totalResults}
+                  />
+                )}
+                {currStep === 1 && (
+                  <SeedingOptions
+                    onChange={(value: string) => {
+                      if (value !== "custom") {
+                        dispatch(reseedCompetitors(value));
+                      }
+                    }}
+                  />
+                )}
+              </Grid>
+              {props.isLoading && "Loading..."}
+
+              <CompetitorSelection
+                editable={currStep === 0}
+                selectable={props.searchResults}
+                selected={props.bracket.competitors}
+                onReorder={(params: {
+                  listName: string;
+                  startIndex: number;
+                  endIndex: number;
+                }) => {
+                  if (params.listName === "selectable") {
+                    dispatch(
+                      reorderSearchResults({
+                        startIndex: params.startIndex,
+                        endIndex: params.endIndex
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      reorderCompetitors({
+                        startIndex: params.startIndex,
+                        endIndex: params.endIndex,
+                        competitors: props.bracket.competitors
+                      })
+                    );
+                  }
+                }}
+                onAddCompetitor={(c: Competitor, index: number) => {
+                  dispatch(addCompetitor(c, index));
+                  dispatch(removeFromSearchResults(c));
+                }}
+                onRemoveCompetitor={(
+                  c: Competitor,
+                  destinationIndex?: number
+                ) => {
+                  if (isNumber(destinationIndex)) {
+                    dispatch(addSearchResult(c, destinationIndex));
+                  }
+                  dispatch(removeCompetitor(c));
+                }}
+              />
+            </Paper>
+          )}
+          {currStep === 2 && (
+            <TextField
+              label="Enter name"
+              value={name}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setName(e.target.value);
               }}
-              onAddCompetitor={(c: Competitor, index: number) => {
-                dispatch(addCompetitor(c, index));
-                dispatch(removeFromSearchResults(c));
-              }}
-              onRemoveCompetitor={(
-                c: Competitor,
-                destinationIndex?: number
-              ) => {
-                if (isNumber(destinationIndex)) {
-                  dispatch(addSearchResult(c, destinationIndex));
-                }
-                dispatch(removeCompetitor(c));
-              }}
+              margin="normal"
             />
-          </Paper>
+          )}
           <Grid container className={classes.buttons}>
             <Button
               variant="contained"
