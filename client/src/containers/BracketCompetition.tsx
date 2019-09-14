@@ -42,7 +42,7 @@ const InnerContent = (props: {
           color="inherit"
           className={classes.bodyText}
         >
-          Sorry, something has gone wrong
+          Not Implemented
         </Typography>
 
         <Fab
