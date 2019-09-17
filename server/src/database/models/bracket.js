@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.STRING,
       creator: DataTypes.STRING,
       creationState: DataTypes.STRING,
-      challongeUrl: DataTypes.STRING
+      challongeUrl: DataTypes.STRING,
+      challongeId: DataTypes.INTEGER
     },
     {
       name: {

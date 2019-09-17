@@ -36,7 +36,18 @@ const resolvers = {
       return db.Bracket.upsert(args.update).then(r => args.update);
     },
     newTournament: (parent, args) => {
-      return newTournament(args.update);
+      return newTournament(args.update)
+        .then(({ tournament }) => {
+          const update = {
+            ...args.update,
+            challongeUrl: tournament.url,
+            challongeId: tournament.id
+          };
+          return Promise.all([db.Bracket.upsert(update), update]);
+        })
+        .then(([_, update]) => {
+          return update;
+        });
     }
   }
 };

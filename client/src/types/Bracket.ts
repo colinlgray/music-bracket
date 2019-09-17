@@ -18,4 +18,5 @@ export interface Bracket {
   competitors: Array<Competitor>;
   creationState: CreationStates;
   challongeUrl: string | null;
+  challongeId: number | null;
 }

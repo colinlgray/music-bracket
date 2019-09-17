@@ -1,8 +1,8 @@
 import request from "request";
-console.log(
-  process.env.CHALLONGE_USERNAME + ":" + process.env.CHALLONGE_API_KEY
-);
-const authOptions = {
+import uuid from "uuid/v4";
+import { cloneDeep } from "lodash";
+
+const authDefaults = {
   url: "https://api.challonge.com/v1/tournaments.json",
   headers: {
     Authorization:
@@ -11,13 +11,22 @@ const authOptions = {
         process.env.CHALLONGE_USERNAME + ":" + process.env.CHALLONGE_API_KEY
       ).toString("base64")
   },
-  body: { tournament: { name: "AHH!!!", url: "test_url_1" } },
+  body: {
+    tournament: {
+      name: "AHH!!!"
+    }
+  },
   json: true
 };
 
 export async function newTournament() {
   return new Promise((resolve, reject) => {
-    request.post(authOptions, (error, response, body) => {
+    const authParams = cloneDeep(authDefaults);
+    authParams.body.tournament.url = uuid()
+      .split("-")
+      .join("");
+
+    request.post(authParams, (error, response, body) => {
       if (error) {
         console.error(error);
         reject(error);
