@@ -183,6 +183,8 @@ async function fetchBracket(id?: string) {
           id
           name
           creationState
+          challongeUrl
+          challongeId
           competitors {
             id
             index
@@ -227,6 +229,8 @@ async function createTournament() {
         {
           id
           name
+          challongeId
+          challongeUrl
         }
       }
     `
@@ -272,7 +276,6 @@ export const createTournamentFromBracket = (): ThunkAction<
       createTournament()
         .then(res => {
           dispatch(setFetching(false));
-          console.log("got response", res);
         })
         .catch((e: Error) => {
           dispatch(setFetching(false));
@@ -304,6 +307,8 @@ export const updateBracket = (
           id
           name
           creationState
+          challongeUrl
+          challongeId
         }
       }
     `

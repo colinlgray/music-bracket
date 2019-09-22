@@ -81,6 +81,8 @@ export default `
         creator: String!
         competitors: [Competitor!]
         creationState: String!
+        challongeUrl: String
+        challongeId: Int
     }
 
 `;

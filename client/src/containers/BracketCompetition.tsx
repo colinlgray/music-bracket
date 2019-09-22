@@ -42,7 +42,7 @@ const InnerContent = (props: {
           color="inherit"
           className={classes.bodyText}
         >
-          Sorry, something has gone wrong
+          Not Implemented
         </Typography>
 
         <Fab
@@ -56,7 +56,7 @@ const InnerContent = (props: {
       </div>
     );
   }
-  return <div>"import bracket here {props.challongeUrl}</div>;
+  return <div>Will import from url: {props.challongeUrl}</div>;
 };
 
 function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
@@ -70,9 +70,11 @@ function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
 
   return (
     <>
-      <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-        {!showErrorMessage && props.bracket.name}
-      </Typography>
+      {!showErrorMessage && (
+        <Typography component="h3" variant="h3" color="inherit" gutterBottom>
+          Bracket Name: props.bracket.name
+        </Typography>
+      )}
       <Grid container direction="column">
         <InnerContent
           showErrorMessage={showErrorMessage}

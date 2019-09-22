@@ -13,7 +13,8 @@ export const initialState = {
     creationState: bracketStates.initial as CreationStates,
     creator: "",
     competitors: [],
-    challongeUrl: null
+    challongeUrl: null,
+    challongeId: null
   },
   isLoadingBracket: false
 };
