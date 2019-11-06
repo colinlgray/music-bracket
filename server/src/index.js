@@ -11,7 +11,7 @@ const searchSongs = searchForType("Tracks");
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "..", "..", "dist", "static")));
+app.use(express.static(path.join(__dirname, "..", "..", "dist", "client")));
 
 apolloServer.applyMiddleware({ app });
 
