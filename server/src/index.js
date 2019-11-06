@@ -36,7 +36,9 @@ router.get("/tracks/search", (req, res) =>
 app.use("/api", router);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
+  res.sendFile(
+    path.join(__dirname, "..", "..", "dist", "client", "index.html")
+  );
 });
 
 startDb().then(() => {
