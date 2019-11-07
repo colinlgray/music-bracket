@@ -55,10 +55,12 @@ const getAndRefreshTokenIfNeeded = () => {
 
 const getApiToken = () => {
   return new Promise((resolve, reject) => {
+    console.log(authOptions);
     request.post(authOptions, (error, response, body) => {
       if (error) {
         reject(error);
       } else if (response.statusCode >= 400) {
+        console.log("body", body);
         reject(new Error(response.statusMessage));
       } else {
         resolve(body);
