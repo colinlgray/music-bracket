@@ -70,9 +70,9 @@ function BracketCompetition(props: RouteComponentProps<RouteParams> & Props) {
 
   return (
     <>
-      {!showErrorMessage && (
+      {!showErrorMessage && !props.isLoading && (
         <Typography component="h3" variant="h3" color="inherit" gutterBottom>
-          Bracket Name: props.bracket.name
+          Bracket Name: {props.bracket.name}
         </Typography>
       )}
       <Grid container direction="column">
