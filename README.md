@@ -4,6 +4,8 @@ This project is a web app can construct a tournament bracket of tracks from the 
 
 This project is not meant to be a functional product, it is meant more as a playground where I can test out various libraries and patterns.
 
+A deployed version of this application can be found at [https://music-bracket.herokuapp.com/](https://music-bracket.herokuapp.com/)
+
 ## Project Structure
 
 The project is split into two main parts: The server and the client. The server is located in the root directory and client within the client directory.
