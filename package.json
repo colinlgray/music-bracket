@@ -16,7 +16,7 @@
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "graphql": "^14.3.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "pluralize": "^7.0.0",
