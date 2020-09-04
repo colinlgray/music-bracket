@@ -52,7 +52,7 @@
     "jest-resolve": "24.7.1",
     "jest-watch-typeahead": "0.3.0",
     "lodash": "^4.17.13",
-    "markdown-to-jsx": "^6.9.4",
+    "markdown-to-jsx": "^6.11.4",
     "mini-css-extract-plugin": "0.5.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pluralize": "^8.0.0",
